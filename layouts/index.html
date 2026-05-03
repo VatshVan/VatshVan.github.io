@@ -150,7 +150,7 @@
 document.addEventListener("DOMContentLoaded", function() {
   const dpr = window.devicePixelRatio || 1;
 
-  // --- Profile Simulation: Lorenz Attractor (Chaos / Control Theory) ---
+  // --- Profile Simulation: Dense Network Mesh (AI/Data Science) ---
   const profileCanvas = document.getElementById("sim-profile");
   if(profileCanvas) {
     const ctx = profileCanvas.getContext("2d");
@@ -164,46 +164,48 @@ document.addEventListener("DOMContentLoaded", function() {
       height = profileCanvas.height = parent.clientHeight * dpr;
     });
 
-    let x = 0.01, y = 0, z = 0;
-    const sigma = 10, rho = 28, beta = 8/3;
-    const dt = 0.01;
-    const points = [];
+    const particles = [];
+    const numParticles = 90; // Extremely dense lines
+    for(let i=0; i<numParticles; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.5 * dpr,
+        vy: (Math.random() - 0.5) * 1.5 * dpr
+      });
+    }
     
-    function drawLorenz() {
-      for(let i=0; i<4; i++) { 
-        let dx = (sigma * (y - x)) * dt;
-        let dy = (x * (rho - z) - y) * dt;
-        let dz = (x * y - beta * z) * dt;
-        x += dx; y += dy; z += dz;
-        points.push({x, y, z});
-        if(points.length > 180) points.shift();
-      }
-
+    function drawMesh() {
       ctx.fillStyle = '#050a15';
       ctx.fillRect(0, 0, width, height);
 
-      const cx = width / 2;
-      const cy = height / 2 + 50 * dpr;
-      const scale = 4.5 * dpr;
+      for(let i=0; i<numParticles; i++) {
+        let p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0 || p.x > width) p.vx *= -1;
+        if(p.y < 0 || p.y > height) p.vy *= -1;
 
-      ctx.beginPath();
-      for(let i=0; i<points.length; i++) {
-        const p = points[i];
-        const px = cx + p.x * scale;
-        const py = cy - p.z * scale; 
-        if(i===0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
+        for(let j=i+1; j<numParticles; j++) {
+          let p2 = particles[j];
+          let dx = p.x - p2.x, dy = p.y - p2.y;
+          let distSq = dx*dx + dy*dy;
+          let maxDistSq = 8000 * dpr;
+          if(distSq < maxDistSq) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.4 * (1 - distSq/maxDistSq)})`;
+            ctx.lineWidth = 0.8 * dpr;
+            ctx.stroke();
+          }
+        }
       }
-      ctx.strokeStyle = 'rgba(56, 189, 248, 0.8)';
-      ctx.lineWidth = 1.5 * dpr;
-      ctx.stroke();
-
-      requestAnimationFrame(drawLorenz);
+      requestAnimationFrame(drawMesh);
     }
-    drawLorenz();
+    drawMesh();
   }
 
-  // --- Experience Simulations: Quant (Order Book) vs Autonomous (LiDAR Point Cloud) ---
+  // --- Experience Simulations: Quant (Order Book) vs Autonomous (Cart-Pole PID Control) ---
   const quantCanvases = document.querySelectorAll(".timeline-sim");
   const simStates = [];
 
@@ -224,12 +226,12 @@ document.addEventListener("DOMContentLoaded", function() {
       state.orderBook = Array.from({length: 25}, () => Math.random() * 60);
       state.time = 0;
     } else {
+      // Cart-Pole Control System state
+      state.targetX = parent.clientWidth / 2;
+      state.cx = parent.clientWidth / 2;
+      state.cv = 0;
       state.angle = 0;
-      state.points = Array.from({length: 80}, () => ({
-        x: Math.random() * parent.clientWidth,
-        y: Math.random() * parent.clientHeight,
-        life: 0
-      }));
+      state.av = 0;
     }
     simStates.push(state);
   });
@@ -290,41 +292,67 @@ document.addEventListener("DOMContentLoaded", function() {
           ctx.fill();
         }
       } else {
-        // High-Resolution LiDAR Sweep
-        const cx = cw/2, cy = ch/2;
-        const radius = Math.max(cw, ch) * 1.2;
+        // High-End Cart-Pole Balancing (PID / Optimal Control)
+        if(Math.random() < 0.015) s.targetX = cw*0.2 + Math.random()*cw*0.6;
         
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, radius, s.angle, s.angle + 0.3);
-        ctx.lineTo(cx, cy);
-        ctx.fillStyle = 'rgba(129, 140, 248, 0.08)';
-        ctx.fill();
+        let errX = s.targetX - s.cx;
+        s.cv += errX * 0.001 - s.cv * 0.05;
+        s.cx += s.cv;
         
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + Math.cos(s.angle)*radius, cy + Math.sin(s.angle)*radius);
-        ctx.strokeStyle = 'rgba(129, 140, 248, 0.8)';
+        let cartAcc = errX * 0.001;
+        s.av += -cartAcc * 0.08; 
+        s.av += -s.angle * 0.06 - s.av * 0.1;
+        s.angle += s.av;
+        
+        if(Math.random() < 0.05) s.av += (Math.random()-0.5)*0.03; // disturbances
+
+        // Draw background grid
+        ctx.strokeStyle = 'rgba(255,255,255,0.02)';
         ctx.lineWidth = 1;
+        ctx.beginPath();
+        for(let x=0; x<cw; x+=40) { ctx.moveTo(x, 0); ctx.lineTo(x, ch); }
+        for(let y=0; y<ch; y+=40) { ctx.moveTo(0, y); ctx.lineTo(cw, y); }
         ctx.stroke();
 
-        s.points.forEach(p => {
-          let pAngle = Math.atan2(p.y - cy, p.x - cx);
-          let diff = (s.angle + 0.15) - pAngle;
-          while(diff < -Math.PI) diff += Math.PI*2;
-          while(diff > Math.PI) diff -= Math.PI*2;
-          
-          if(diff > 0 && diff < 0.3) p.life = 1.0;
+        // Draw track
+        let trackY = ch * 0.8;
+        ctx.beginPath();
+        ctx.moveTo(20, trackY);
+        ctx.lineTo(cw - 20, trackY);
+        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+        ctx.lineWidth = 3;
+        ctx.stroke();
 
-          if(p.life > 0) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 2, 0, Math.PI*2);
-            ctx.fillStyle = `rgba(129, 140, 248, ${p.life})`;
-            ctx.fill();
-            p.life -= 0.03;
-          }
-        });
-        s.angle += 0.06;
+        // Target indicator
+        ctx.beginPath();
+        ctx.moveTo(s.targetX, trackY - 10);
+        ctx.lineTo(s.targetX, trackY + 10);
+        ctx.strokeStyle = 'rgba(129, 140, 248, 0.4)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw Cart
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.8)';
+        ctx.fillRect(s.cx - 20, trackY - 10, 40, 20);
+
+        // Draw Pole
+        let poleLen = ch * 0.45;
+        let px = s.cx + Math.sin(s.angle) * poleLen;
+        let py = trackY - 10 - Math.cos(s.angle) * poleLen;
+        
+        ctx.beginPath();
+        ctx.moveTo(s.cx, trackY - 10);
+        ctx.lineTo(px, py);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        
+        // Pole mass (glowing)
+        ctx.beginPath();
+        ctx.arc(px, py, 6, 0, Math.PI*2);
+        ctx.fillStyle = '#818cf8'; 
+        ctx.fill();
+        ctx.shadowBlur = 10; ctx.shadowColor = '#818cf8'; ctx.fill(); ctx.shadowBlur = 0;
       }
       ctx.restore();
     });
