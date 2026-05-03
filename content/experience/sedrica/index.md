@@ -4,9 +4,9 @@ organization: Unmesh Mashruwala Innovation Cell (UMIC) - SeDriCa
 date: 2025-09
 draft: false
 image:
-	filename: images.jpg
-	focal_point: Smart
-	preview_only: false
+  filename: images.jpg
+  focal_point: Smart
+  preview_only: false
 ---
 
 SeDriCa, UMIC is IIT Bombay’s autonomous vehicle tech team, focusing on perception, planning, and control to enable autonomous navigation. SeDriCa participates in international competitions, pushing the boundaries of robotics, and intelligent transportation.

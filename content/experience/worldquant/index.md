@@ -7,9 +7,9 @@ date: 2025-02-01
 date_end: ''
 draft: false
 image:
-	filename: featured.svg
-	focal_point: Smart
-	preview_only: false
+  filename: featured.svg
+  focal_point: Smart
+  preview_only: false
 ---
 
 Master Consultant (Top 10%) with an IR of 2.39, validating signal robustness across market regimes.
