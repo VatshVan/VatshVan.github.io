@@ -1,6 +1,5 @@
 ---
 title: Quant Alley
-summary: Chicago Quant Alley crypto strategy optimizer with a mid-frequency Bitcoin options simulator and Walk-Forward Analysis.
 tags:
   - Quant
   - Python
@@ -12,4 +11,4 @@ image:
   preview_only: false
 ---
 
-Chicago Quant Alley crypto strategy optimizer. It includes a mid-frequency Bitcoin options simulator and Walk-Forward Analysis.
+Chicago Quant Alley crypto strategy optimizer with a mid-frequency Bitcoin options simulator and Walk-Forward Analysis.

@@ -1,6 +1,5 @@
 ---
 title: SSMphony
-summary: AI voice generation using Mamba and State Space Models, emphasizing linear scaling relative to quadratic attention.
 tags:
   - ML
   - Time-Series
@@ -12,4 +11,4 @@ image:
   preview_only: false
 ---
 
-AI voice generation using Mamba and State Space Models. The core design highlights the linear scaling of State Space Models versus the quadratic cost of attention.
+AI voice generation using Mamba and State Space Models, emphasizing linear scaling relative to quadratic attention.
