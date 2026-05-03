@@ -8,3 +8,4 @@ module:
 minifyOutput: true
 minify:
   disableXML: true
+menus: []
