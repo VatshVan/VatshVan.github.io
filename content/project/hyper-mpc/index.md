@@ -6,7 +6,10 @@ tags:
   - ROS 2
 date: 2025-01-02
 draft: false
-image: featured.svg
+image:
+  filename: featured.svg
+  focal_point: Smart
+  preview_only: false
 ---
 
 Spatial Hyper-MPC with Neural Acceleration. This project uses a hybrid 6-DOF control framework combining MPC and JEKF.

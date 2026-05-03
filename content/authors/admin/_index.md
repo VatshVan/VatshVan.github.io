@@ -1,7 +1,6 @@
 ---
 title: Vatsh Van
 role: Second-Year Undergraduate Researcher
-avatar_filename: avatar.svg
 
 # Social Networking Links
 social:

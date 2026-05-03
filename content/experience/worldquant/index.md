@@ -3,7 +3,10 @@ title: Research Consultant (Master Consultant - Top 10%)
 organization: WorldQuant BRAIN
 date: 2025-02-01
 draft: false
-image: featured.svg
+image:
+	filename: featured.svg
+	focal_point: Smart
+	preview_only: false
 summary: Produced 450+ alpha factors utilizing mean-reversion; optimized throughput via vectorized Python pipelines; deployed Genetic Algorithms, CNNs and Agentic workflows.
 ---
 
