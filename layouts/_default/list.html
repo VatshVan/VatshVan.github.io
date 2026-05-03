@@ -1,0 +1,21 @@
+{{ define "title" }}{{ .Title }} | {{ site.Title }}{{ end }}
+{{ define "main" }}
+  <section class="page-hero">
+    <p class="eyebrow">{{ .Section }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Content }}<div class="page-intro">{{ . }}</div>{{ end }}
+  </section>
+  <section class="panel">
+    <div class="grid-2">
+      {{ range sort .RegularPages "Date" "desc" }}
+        <article class="project-card">
+          {{ with .Resources.GetMatch "featured.*" }}<img class="project-image" src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration">{{ end }}
+          <div class="project-body">
+            <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+            <p>{{ .Summary }}</p>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

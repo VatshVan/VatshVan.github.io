@@ -1,0 +1,132 @@
+{{ define "title" }}{{ site.Title }}{{ end }}
+{{ define "main" }}
+  {{ $author := site.GetPage "authors/admin" }}
+  {{ $avatar := false }}
+  {{ with $author }}
+    {{ $avatar = .Resources.GetMatch "avatar.*" }}
+  {{ end }}
+  <section class="hero" id="about">
+    <div class="hero-copy">
+      <p class="eyebrow">{{ with $author.Params.role }}{{ . }}{{ end }}</p>
+      <h1>Systems, markets, and machines.</h1>
+      <p class="lede">{{ with $author }}{{ .Content | plainify }}{{ end }}</p>
+      <div class="chip-row">
+        <span class="chip">IIT Bombay</span>
+        <span class="chip">WorldQuant BRAIN</span>
+        <span class="chip">SeDriCa</span>
+        <span class="chip">LaTeX ready</span>
+      </div>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#projects">View projects</a>
+        <a class="button button-secondary" href="#experience">View experience</a>
+      </div>
+    </div>
+    <aside class="profile-card">
+      {{ if $avatar }}<img class="avatar" src="{{ $avatar.RelPermalink }}" alt="Vatsh Van portrait">{{ end }}
+      <div>
+        <p class="card-kicker">Profile</p>
+        <h2>Vatsh Van</h2>
+        <p>Second-Year Undergraduate Researcher</p>
+      </div>
+      <div class="mini-grid">
+        <div>
+          <span>Education</span>
+          <strong>Mechanical Engineering + AI & Data Science</strong>
+        </div>
+        <div>
+          <span>Focus</span>
+          <strong>Quant Finance and Autonomous Control</strong>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <p class="eyebrow">About</p>
+      <h2>Competency matrix</h2>
+    </div>
+    <div class="grid-3">
+      {{ with $author }}
+      {{ range .Params.skills }}
+        <article class="skill-card">
+          <h3>{{ .name }}</h3>
+          <ul>
+            {{ range .items }}<li>{{ . }}</li>{{ end }}
+          </ul>
+        </article>
+      {{ end }}
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="panel" id="experience">
+    <div class="section-heading split">
+      <div>
+        <p class="eyebrow">Experience</p>
+        <h2>Chronological operating layer</h2>
+      </div>
+      <p class="section-note">Add a markdown file under content/experience and it appears automatically.</p>
+    </div>
+    <div class="stack">
+      {{ range first 10 (sort (where site.RegularPages "Section" "experience") "Date" "desc") }}
+        <article class="timeline-card">
+          <div class="timeline-media">
+            {{ with .Resources.GetMatch "featured.*" }}<img src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration">{{ end }}
+          </div>
+          <div class="timeline-copy">
+            <div class="meta-row">
+              <h3>{{ .Title }}</h3>
+              {{ with .Params.organization }}<span>{{ . }}</span>{{ end }}
+            </div>
+            <p class="date">{{ .Date.Format "Jan 2006" }} - Present</p>
+            <p>{{ .Summary }}</p>
+            <div class="bullet-list">
+              {{ .Content }}
+            </div>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="panel" id="projects">
+    <div class="section-heading split">
+      <div>
+        <p class="eyebrow">Projects</p>
+        <h2>Portfolio matrix</h2>
+      </div>
+      <p class="section-note">Each project lives in its own folder, so you can drop assets next to the markdown.</p>
+    </div>
+    <div class="grid-2">
+      {{ range first 20 (sort (where site.RegularPages "Section" "project") "Date" "desc") }}
+        <article class="project-card">
+          {{ with .Resources.GetMatch "featured.*" }}<img class="project-image" src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration">{{ end }}
+          <div class="project-body">
+            <div class="meta-row">
+              <h3>{{ .Title }}</h3>
+              <span>{{ .Summary }}</span>
+            </div>
+            <div class="tag-row">
+              {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+            </div>
+            <p>{{ .Content | plainify }}</p>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="panel" id="publications">
+    <div class="section-heading split">
+      <div>
+        <p class="eyebrow">Publications</p>
+        <h2>Research-ready, drop-in structure</h2>
+      </div>
+      <p class="section-note">Add one markdown file per publication inside content/publications.</p>
+    </div>
+    <div class="publications-card">
+      <p>Publications are wired as a content section already. Add new Markdown files and they will appear here without changing config.</p>
+    </div>
+  </section>
+{{ end }}

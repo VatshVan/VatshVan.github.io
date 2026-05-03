@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Quant Alley illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1625"/>
+      <stop offset="100%" stop-color="#090f18"/>
+    </linearGradient>
+    <linearGradient id="up" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f7b500"/>
+      <stop offset="100%" stop-color="#61dafb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" rx="70" fill="url(#bg)"/>
+  <circle cx="340" cy="310" r="270" fill="#f7b500" fill-opacity="0.12"/>
+  <circle cx="1210" cy="690" r="310" fill="#61dafb" fill-opacity="0.12"/>
+  <path d="M160 720h240l130-220 120 120 120-150 140 250 120-70h180" fill="none" stroke="url(#up)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="120" y="160" font-family="Space Grotesk, sans-serif" font-size="74" fill="#f4f1ea">Quant Alley</text>
+  <text x="120" y="245" font-family="Fraunces, serif" font-size="118" fill="#f4f1ea">Strategy optimizer</text>
+</svg>

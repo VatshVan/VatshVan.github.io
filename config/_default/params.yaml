@@ -1,0 +1,7 @@
+params:
+  theme:
+    color: minimal
+    font: minimal
+    mode: system
+  extensions:
+    math: true

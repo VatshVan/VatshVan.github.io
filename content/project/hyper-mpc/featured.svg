@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Hyper-MPC illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101725"/>
+      <stop offset="100%" stop-color="#08101c"/>
+    </linearGradient>
+    <linearGradient id="arc" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#61dafb"/>
+      <stop offset="100%" stop-color="#f7b500"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" rx="70" fill="url(#bg)"/>
+  <circle cx="380" cy="720" r="290" fill="#61dafb" fill-opacity="0.12"/>
+  <circle cx="1230" cy="320" r="260" fill="#f7b500" fill-opacity="0.13"/>
+  <path d="M160 720C360 560 470 520 650 520s290 70 410 170 220 150 380 120" fill="none" stroke="url(#arc)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M570 470h230v150H570z" fill="#f4f1ea" fill-opacity="0.08" stroke="#f4f1ea" stroke-opacity="0.18" rx="28"/>
+  <text x="120" y="160" font-family="Space Grotesk, sans-serif" font-size="74" fill="#f4f1ea">Hyper-MPC</text>
+  <text x="120" y="245" font-family="Fraunces, serif" font-size="118" fill="#f4f1ea">6-DOF control</text>
+</svg>
