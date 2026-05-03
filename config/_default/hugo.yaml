@@ -1,6 +1,8 @@
 baseURL: 'https://vatshvan.github.io/'
 title: 'Vatsh Van | Quantitative Research & Autonomous Systems'
 theme: ['github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap/v5']
+ignoreFiles: ["featured\\.svg$"]
+
 
 menu:
   main:
