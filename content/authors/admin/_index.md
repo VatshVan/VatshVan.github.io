@@ -1,6 +1,6 @@
 ---
 title: Vatsh Van
-role: Second-Year Undergraduate Researcher
+role: Second-Year Undergraduate (B.Tech Mechanical Engineering)
 
 # Social Networking Links
 social:
