@@ -1,7 +1,7 @@
 ---
 title: Junior Controls Engineer
 organization: Unmesh Mashruwala Innovation Cell (UMIC) - SeDriCa
-date: 2025-09
+date: 2025-09-01
 draft: false
 image:
   filename: images.jpg
