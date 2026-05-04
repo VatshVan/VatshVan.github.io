@@ -8,7 +8,7 @@ tags:
 organization: Web and Coding CLub (Seasons of Code Program)
 date: 2025-01-05
 date_end: 2025-01-07
-draft: true
+draft: false
 # image:
 #   filename: featured.svg
 #   focal_point: Smart

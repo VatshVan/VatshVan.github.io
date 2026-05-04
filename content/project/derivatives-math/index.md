@@ -7,7 +7,7 @@ tags:
 date: 2025-01-24
 date_end: 2025-01-07
 organization: Mathematics and Physics Club (Summer of Science Program)
-draft: true
+draft: false
 # image:
 #   filename: featured.svg
 #   focal_point: Smart
