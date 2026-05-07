@@ -1,0 +1,15 @@
+{{ define "main" }}
+<section class="panel" id="projects">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">Projects</p>
+      <h2>Technical Projects</h2>
+    </div>
+  </div>
+  <div class="grid-2">
+    {{ range sort .Pages "Date" "desc" }}
+      {{ partial "project_card.html" . }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}

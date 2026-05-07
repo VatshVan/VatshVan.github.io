@@ -1,0 +1,119 @@
+{{ define "main" }}
+{{ $author := site.GetPage "authors/admin" }}
+{{ $avatar := false }}
+{{ with $author }}
+{{ $avatar = .Resources.GetMatch "avatar.*" }}
+{{ end }}
+<section class="hero" id="about">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ with $author.Params.role }}{{ . }}{{ end }}</p>
+    <h1>Hi, I'm Vatsh</h1>
+    <p class="lede">{{ with $author }}{{ .Content | plainify }}{{ end }}</p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="{{ "projects/" | relURL }}">View projects</a>
+      <a class="button button-secondary" href="{{ "experience/" | relURL }}">View experience</a>
+    </div>
+  </div>
+  <aside class="profile-card">
+    {{ if $avatar }}<img class="avatar" src="{{ $avatar.RelPermalink }}" alt="Vatsh Van portrait">{{ end }}
+    <div>
+      <p class="card-kicker">Profile</p>
+      <h2>Vatsh Van</h2>
+      <p>Undergraduate (B.Tech Mechanical Engineering)</p>
+    </div>
+    <div style="flex-grow: 1; min-height: 160px; position: relative; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); background: #050a15; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
+      <canvas id="sim-profile" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
+    </div>
+    <div class="mini-grid">
+      <div>
+        <span>Education</span>
+        <strong>Major in Mechanical Engineering <br /> Minor in AI & Data Science</strong>
+      </div>
+      <div>
+        <span>Focus</span>
+        <strong>Quant Finance <br /> and Autonomous Control</strong>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<section class="panel">
+  <div class="section-heading">
+    <p class="eyebrow">About</p>
+    <h2>Competency matrix</h2>
+  </div>
+  <div class="grid-3">
+    {{ with $author }}
+    {{ range .Params.skills }}
+    <article class="skill-card">
+      <h3>{{ .name }}</h3>
+      <ul>
+        {{ range .items }}<li>{{ . }}</li>{{ end }}
+      </ul>
+    </article>
+    {{ end }}
+    {{ end }}
+  </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const dpr = window.devicePixelRatio || 1;
+
+  // --- Profile Simulation: Dense Network Mesh (AI/Data Science) ---
+  const profileCanvas = document.getElementById("sim-profile");
+  if(profileCanvas) {
+    const ctx = profileCanvas.getContext("2d");
+    const parent = profileCanvas.parentElement;
+    
+    let width = profileCanvas.width = parent.clientWidth * dpr;
+    let height = profileCanvas.height = parent.clientHeight * dpr;
+    
+    window.addEventListener('resize', () => {
+      width = profileCanvas.width = parent.clientWidth * dpr;
+      height = profileCanvas.height = parent.clientHeight * dpr;
+    });
+
+    const particles = [];
+    const numParticles = 90; // Extremely dense lines
+    for(let i=0; i<numParticles; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 1.5 * dpr,
+        vy: (Math.random() - 0.5) * 1.5 * dpr
+      });
+    }
+    
+    function drawMesh() {
+      ctx.fillStyle = '#050a15';
+      ctx.fillRect(0, 0, width, height);
+
+      for(let i=0; i<numParticles; i++) {
+        let p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0 || p.x > width) p.vx *= -1;
+        if(p.y < 0 || p.y > height) p.vy *= -1;
+
+        for(let j=i+1; j<numParticles; j++) {
+          let p2 = particles[j];
+          let dx = p.x - p2.x, dy = p.y - p2.y;
+          let distSq = dx*dx + dy*dy;
+          let maxDistSq = 8000 * dpr;
+          if(distSq < maxDistSq) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${0.4 * (1 - distSq/maxDistSq)})`;
+            ctx.lineWidth = 0.8 * dpr;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawMesh);
+    }
+    drawMesh();
+  }
+});
+</script>
+{{ end }}

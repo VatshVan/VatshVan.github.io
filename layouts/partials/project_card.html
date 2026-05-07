@@ -1,0 +1,14 @@
+<article class="project-card">
+  {{ with .Resources.GetMatch "featured.*" }}<img class="project-image" src="{{ .RelPermalink }}"
+    alt="{{ $.Title }} illustration">{{ end }}
+  <div class="project-body">
+    <div class="meta-row">
+      <h3>{{ .Title }}</h3>
+      <span>{{ .Summary }}</span>
+    </div>
+    <div class="tag-row">
+      {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+    </div>
+    <p>{{ .Content | plainify }}</p>
+  </div>
+</article>

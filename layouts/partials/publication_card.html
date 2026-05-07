@@ -1,0 +1,9 @@
+<div class="publications-card">
+  <h3>{{ .Title }}</h3>
+  <span>{{ .Summary }}</span>
+  <div class="tag-row">
+    {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
+  </div>
+  <p>{{ .Content | plainify }}</p>
+  {{ with .Params.url_pdf }}<a href="{{ . }}" class="button button-secondary" target="_blank" rel="noopener">PDF</a>{{ end }}
+</div>

@@ -1,365 +1,69 @@
-{{ define "title" }}{{ site.Title }}{{ end }}
 {{ define "main" }}
-{{ $author := site.GetPage "authors/admin" }}
-{{ $avatar := false }}
-{{ with $author }}
-{{ $avatar = .Resources.GetMatch "avatar.*" }}
-{{ end }}
-<section class="hero" id="about">
-  <div class="hero-copy">
-    <p class="eyebrow">{{ with $author.Params.role }}{{ . }}{{ end }}</p>
-    <h1>Hi, I'm Vatsh</h1>
-    <p class="lede">{{ with $author }}{{ .Content | plainify }}{{ end }}</p>
-    <!-- <div class="chip-row"> -->
-    <!-- <span class="chip">IIT Bombay</span>
-      <span class="chip">WorldQuant BRAIN</span>
-      <span class="chip">SeDriCa</span>
-      <span class="chip">LaTeX ready</span> -->
-    <!-- </div> -->
-    <div class="hero-actions">
-      <a class="button button-primary" href="#projects">View projects</a>
-      <a class="button button-secondary" href="#experience">View experience</a>
-      <!-- <a class="button button-secondary" href="#publications">View publications</a> -->
-    </div>
-  </div>
-  <aside class="profile-card">
-    {{ if $avatar }}<img class="avatar" src="{{ $avatar.RelPermalink }}" alt="Vatsh Van portrait">{{ end }}
-    <div>
-      <p class="card-kicker">Profile</p>
-      <h2>Vatsh Van</h2>
-      <p>Undergraduate (B.Tech Mechanical Engineering)</p>
-    </div>
-    <div style="flex-grow: 1; min-height: 160px; position: relative; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); background: #050a15; box-shadow: inset 0 0 20px rgba(0,0,0,0.5);">
-      <canvas id="sim-profile" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
-    </div>
-    <div class="mini-grid">
-      <div>
-        <span>Education</span>
-        <strong>Major in Mechanical Engineering <br /> Minor in AI & Data Science</strong>
-      </div>
-      <div>
-        <span>Focus</span>
-        <strong>Quant Finance <br /> and Autonomous Control</strong>
-      </div>
-    </div>
-  </aside>
-</section>
-
-<section class="panel">
-  <div class="section-heading">
-    <p class="eyebrow">About</p>
-    <h2>Competency matrix</h2>
-  </div>
-  <div class="grid-3">
-    {{ with $author }}
-    {{ range .Params.skills }}
-    <article class="skill-card">
-      <h3>{{ .name }}</h3>
-      <ul>
-        {{ range .items }}<li>{{ . }}</li>{{ end }}
-      </ul>
-    </article>
-    {{ end }}
-    {{ end }}
-  </div>
-</section>
-
-<section class="panel" id="experience">
-  <div class="section-heading split">
-    <div>
-      <p class="eyebrow">Experience</p>
-      <h2>Research & Industrial Experience</h2>
-    </div>
-    <!-- <p class="section-note">Add a markdown file under content/experience and it appears automatically.</p> -->
-  </div>
-  <div class="stack">
-    {{ range first 10 (sort (where site.RegularPages "Section" "experience") "Date" "desc") }}
-    <article class="timeline-card">
-      <div class="timeline-media" style="position: relative; min-height: 260px; width: 100%; background: #0a0f1d; border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden;">
-        {{ with .Resources.GetMatch "featured.*" }}
-        <img src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
-        {{ else }}
-        <canvas class="timeline-sim" data-title="{{ .Title | lower }}" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas>
-        {{ end }}
-      </div>
-      <div class="timeline-copy">
-        <div class="meta-row">
-          <h3>{{ .Title }}</h3>
-          {{ with .Params.organization }}<span>{{ . }}</span>{{ end }}
-        </div>
-        <p class="date">{{ .Date.Format "Jan 2006" }} - Present</p>
-        <p>{{ .Summary }}</p>
-        <div class="bullet-list">
-          {{ .Content }}
-        </div>
-      </div>
-    </article>
-    {{ end }}
-  </div>
-</section>
-
-<section class="panel" id="projects">
-  <div class="section-heading split">
-    <div>
-      <p class="eyebrow">Projects</p>
-      <h2>Technical Projects</h2>
-    </div>
-    <!-- <p class="section-note">Each project lives in its own folder, so you can drop assets next to the markdown.</p> -->
-  </div>
-  <div class="grid-2">
-    {{ range first 20 (sort (where site.RegularPages "Section" "project") "Date" "desc") }}
-    <article class="project-card">
-      {{ with .Resources.GetMatch "featured.*" }}<img class="project-image" src="{{ .RelPermalink }}"
-        alt="{{ $.Title }} illustration">{{ end }}
-      <div class="project-body">
-        <div class="meta-row">
-          <h3>{{ .Title }}</h3>
-          <span>{{ .Summary }}</span>
-        </div>
-        <div class="tag-row">
-          {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
-        </div>
-        <p>{{ .Content | plainify }}</p>
-      </div>
-    </article>
-    {{ end }}
-  </div>
-</section>
-
-<section class="panel" id="publications">
-  <div class="section-heading split">
-    <div>
-      <p class="eyebrow">Publications</p>
-      <h2>Research & Publications</h2>
-    </div>
-    <p class="section-note">Will be added soon!!!</p>
-  </div>
-  <div class="publications-card">
-    {{ range first 20 (sort (where site.RegularPages "Section" "publication") "Date" "desc") }}
-    <h3>{{ .Title }}</h3>
-    <span>{{ .Summary }}</span>
-    <div class="tag-row">
-      {{ range .Params.tags }}<span class="tag">{{ . }}</span>{{ end }}
-    </div>
-    <p>{{ .Content | plainify }}</p>
-  </div>
-  {{ end }}
-</section>
+<div id="terminal-entry" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #050a15; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem; font-family: 'Space Grotesk', monospace; color: #38bdf8; overflow: hidden;">
+  <div id="terminal-content" style="max-width: 800px; margin: 0 auto; width: 100%;"></div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const dpr = window.devicePixelRatio || 1;
-
-  // --- Profile Simulation: Dense Network Mesh (AI/Data Science) ---
-  const profileCanvas = document.getElementById("sim-profile");
-  if(profileCanvas) {
-    const ctx = profileCanvas.getContext("2d");
-    const parent = profileCanvas.parentElement;
-    
-    let width = profileCanvas.width = parent.clientWidth * dpr;
-    let height = profileCanvas.height = parent.clientHeight * dpr;
-    
-    window.addEventListener('resize', () => {
-      width = profileCanvas.width = parent.clientWidth * dpr;
-      height = profileCanvas.height = parent.clientHeight * dpr;
-    });
-
-    const particles = [];
-    const numParticles = 90; // Extremely dense lines
-    for(let i=0; i<numParticles; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 1.5 * dpr,
-        vy: (Math.random() - 0.5) * 1.5 * dpr
-      });
-    }
-    
-    function drawMesh() {
-      ctx.fillStyle = '#050a15';
-      ctx.fillRect(0, 0, width, height);
-
-      for(let i=0; i<numParticles; i++) {
-        let p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if(p.x < 0 || p.x > width) p.vx *= -1;
-        if(p.y < 0 || p.y > height) p.vy *= -1;
-
-        for(let j=i+1; j<numParticles; j++) {
-          let p2 = particles[j];
-          let dx = p.x - p2.x, dy = p.y - p2.y;
-          let distSq = dx*dx + dy*dy;
-          let maxDistSq = 8000 * dpr;
-          if(distSq < maxDistSq) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(56, 189, 248, ${0.4 * (1 - distSq/maxDistSq)})`;
-            ctx.lineWidth = 0.8 * dpr;
-            ctx.stroke();
-          }
-        }
-      }
-      requestAnimationFrame(drawMesh);
-    }
-    drawMesh();
+  const terminalEntry = document.getElementById("terminal-entry");
+  const terminalContent = document.getElementById("terminal-content");
+  
+  // Check if we already played the animation in this session
+  if (sessionStorage.getItem("entryAnimationPlayed")) {
+    window.location.replace("{{ "home/" | relURL }}");
+    return;
   }
+  
+  // Hide topbar and footer from baseof if they exist
+  const topbar = document.querySelector(".topbar");
+  const footer = document.querySelector(".footer");
+  if (topbar) topbar.style.display = "none";
+  if (footer) footer.style.display = "none";
 
-  // --- Experience Simulations: Quant (Order Book) vs Autonomous (Cart-Pole PID Control) ---
-  const quantCanvases = document.querySelectorAll(".timeline-sim");
-  const simStates = [];
+  const lines = [
+    "INITIALIZING SYSTEM ARCHITECTURE...",
+    "LOADING DEPENDENCIES: [QUANTITATIVE_FINANCE, AUTONOMOUS_CONTROL, MACHINE_LEARNING]",
+    "ESTABLISHING SECURE CONNECTION...",
+    "VERIFYING CREDENTIALS: VATSH VAN",
+    "ACCESS GRANTED.",
+    "ROUTING TO MAIN INTERFACE..."
+  ];
 
-  quantCanvases.forEach(canvas => {
-    const ctx = canvas.getContext("2d", { alpha: false });
-    const title = canvas.getAttribute('data-title') || '';
-    const isQuant = title.includes('quant') || title.includes('research') || title.includes('consultant') || title.includes('finance');
-    
-    const parent = canvas.parentElement;
-    canvas.width = parent.clientWidth * dpr;
-    canvas.height = parent.clientHeight * dpr;
-    
-    const state = { canvas, ctx, parent, isQuant };
+  let lineIndex = 0;
+  let charIndex = 0;
+  let currentLineElement = null;
 
-    if(isQuant) {
-      state.price = parent.clientHeight / 2;
-      state.history = [];
-      state.orderBook = Array.from({length: 25}, () => Math.random() * 60);
-      state.time = 0;
-    } else {
-      // Cart-Pole Control System state
-      state.targetX = parent.clientWidth / 2;
-      state.cx = parent.clientWidth / 2;
-      state.cv = 0;
-      state.angle = 0;
-      state.av = 0;
-    }
-    simStates.push(state);
-  });
+  function typeWriter() {
+    if (lineIndex < lines.length) {
+      if (!currentLineElement) {
+        currentLineElement = document.createElement("p");
+        currentLineElement.style.margin = "0.5rem 0";
+        currentLineElement.style.fontWeight = "500";
+        terminalContent.appendChild(currentLineElement);
+      }
 
-  window.addEventListener('resize', () => {
-    simStates.forEach(s => {
-      s.canvas.width = s.parent.clientWidth * dpr;
-      s.canvas.height = s.parent.clientHeight * dpr;
-      if(s.isQuant) s.price = s.parent.clientHeight / 2;
-    });
-  });
-
-  function drawTimelines() {
-    simStates.forEach(s => {
-      const { ctx, canvas, isQuant } = s;
-      const w = canvas.width;
-      const h = canvas.height;
-      const cw = s.parent.clientWidth;
-      const ch = s.parent.clientHeight;
-      
-      ctx.save();
-      ctx.scale(dpr, dpr);
-      
-      ctx.fillStyle = '#0a0f1d';
-      ctx.fillRect(0, 0, cw, ch);
-
-      if(isQuant) {
-        // Limit Order Book (Right Side)
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
-        for(let i=0; i<25; i++) {
-          let y = (ch / 25) * i;
-          s.orderBook[i] += (Math.random() - 0.5) * 8;
-          s.orderBook[i] = Math.max(5, Math.min(80, s.orderBook[i]));
-          ctx.fillRect(cw - s.orderBook[i], y, s.orderBook[i], ch/25 - 2);
-        }
-
-        // Geometric Brownian Motion Path
-        s.price += (Math.random() - 0.5) * 6;
-        s.price = Math.max(20, Math.min(ch-20, s.price));
-        s.history.push(s.price);
-        if(s.history.length > cw - 100) s.history.shift();
-
-        ctx.beginPath();
-        ctx.strokeStyle = '#38bdf8';
-        ctx.lineWidth = 2;
-        for(let i=0; i<s.history.length; i++) {
-          let px = i;
-          let py = s.history[i];
-          if(i===0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-
-        if(s.history.length > 0) {
-          ctx.beginPath();
-          ctx.arc(s.history.length-1, s.price, 4, 0, Math.PI*2);
-          ctx.fillStyle = '#fff';
-          ctx.fill();
-        }
+      if (charIndex < lines[lineIndex].length) {
+        currentLineElement.innerHTML += lines[lineIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, Math.random() * 30 + 20); // typing speed
       } else {
-        // High-End Cart-Pole Balancing (PID / Optimal Control)
-        if(Math.random() < 0.015) s.targetX = cw*0.2 + Math.random()*cw*0.6;
-        
-        let errX = s.targetX - s.cx;
-        s.cv += errX * 0.001 - s.cv * 0.05;
-        s.cx += s.cv;
-        
-        let cartAcc = errX * 0.001;
-        s.av += -cartAcc * 0.08; 
-        s.av += -s.angle * 0.06 - s.av * 0.1;
-        s.angle += s.av;
-        
-        if(Math.random() < 0.05) s.av += (Math.random()-0.5)*0.03; // disturbances
-
-        // Draw background grid
-        ctx.strokeStyle = 'rgba(255,255,255,0.02)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for(let x=0; x<cw; x+=40) { ctx.moveTo(x, 0); ctx.lineTo(x, ch); }
-        for(let y=0; y<ch; y+=40) { ctx.moveTo(0, y); ctx.lineTo(cw, y); }
-        ctx.stroke();
-
-        // Draw track
-        let trackY = ch * 0.8;
-        ctx.beginPath();
-        ctx.moveTo(20, trackY);
-        ctx.lineTo(cw - 20, trackY);
-        ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        // Target indicator
-        ctx.beginPath();
-        ctx.moveTo(s.targetX, trackY - 10);
-        ctx.lineTo(s.targetX, trackY + 10);
-        ctx.strokeStyle = 'rgba(129, 140, 248, 0.4)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Draw Cart
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.8)';
-        ctx.fillRect(s.cx - 20, trackY - 10, 40, 20);
-
-        // Draw Pole
-        let poleLen = ch * 0.45;
-        let px = s.cx + Math.sin(s.angle) * poleLen;
-        let py = trackY - 10 - Math.cos(s.angle) * poleLen;
-        
-        ctx.beginPath();
-        ctx.moveTo(s.cx, trackY - 10);
-        ctx.lineTo(px, py);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 4;
-        ctx.stroke();
-        
-        // Pole mass (glowing)
-        ctx.beginPath();
-        ctx.arc(px, py, 6, 0, Math.PI*2);
-        ctx.fillStyle = '#818cf8'; 
-        ctx.fill();
-        ctx.shadowBlur = 10; ctx.shadowColor = '#818cf8'; ctx.fill(); ctx.shadowBlur = 0;
+        currentLineElement.innerHTML += "<br>";
+        lineIndex++;
+        charIndex = 0;
+        currentLineElement = null;
+        setTimeout(typeWriter, 300); // delay between lines
       }
-      ctx.restore();
-    });
-    
-    if(simStates.length > 0) requestAnimationFrame(drawTimelines);
+    } else {
+      // Animation complete
+      sessionStorage.setItem("entryAnimationPlayed", "true");
+      setTimeout(() => {
+        window.location.replace("{{ "home/" | relURL }}");
+      }, 500);
+    }
   }
-  if(simStates.length > 0) drawTimelines();
+
+  // Start typing
+  setTimeout(typeWriter, 500);
 });
 </script>
 {{ end }}

@@ -1,0 +1,70 @@
+{{ define "main" }}
+<section class="panel" id="resume">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">Digital CV</p>
+      <h2>Curriculum Vitae</h2>
+    </div>
+    <div class="resume-actions">
+      <a class="button button-primary" href="{{ "uploads/Vatsh_Van_Resume.pdf" | relURL }}" target="_blank" rel="noopener">
+        Download PDF
+      </a>
+    </div>
+  </div>
+
+  <div class="resume-container" style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 2.5rem; color: var(--text);">
+    <header style="border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+      <h1 style="font-size: 2.5rem; margin: 0; color: var(--text-heading);">Vatsh Van</h1>
+      <p style="margin: 0.5rem 0 0; color: var(--text-muted); font-size: 1.1rem;">
+        Undergraduate (B.Tech Mechanical Engineering)<br>
+        Minor in Artificial Intelligence and Data Science @ IIT Bombay
+      </p>
+    </header>
+
+    <section style="margin-bottom: 2rem;">
+      <h3 style="color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Professional Experience</h3>
+      
+      <div style="margin-top: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <strong>WorldQuant BRAIN</strong>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Remote</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+          <span style="font-style: italic;">Master Consultant (Top 10%)</span>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Feb 2025 – Present</span>
+        </div>
+        <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-muted); font-size: 0.95rem;">
+          <li>Produced 450+ alpha factors utilizing mean-reversion to extract stochastic signals.</li>
+          <li>Deployed Genetic Algorithms & CNNs for systematic alpha evolution.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+          <strong>SeDriCa Autonomous Vehicle</strong>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Mumbai, India</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem;">
+          <span style="font-style: italic;">Controls Engineer</span>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">Present</span>
+        </div>
+        <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-muted); font-size: 0.95rem;">
+          <li>Integrated Model Predictive Control (MPC) algorithms for path tracking.</li>
+          <li>Designed sensor fusion architectures for state estimation in noisy environments.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section style="margin-bottom: 2rem;">
+      <h3 style="color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem;">Algorithmic Performance & Leadership</h3>
+      <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;">
+        <ul style="margin: 0; padding-left: 1.2rem;">
+          <li><strong>Competitive Programming:</strong> Achieved a baseline algorithmic performance rating of 1490, demonstrating strong proficiency in data structures, graph theory, and dynamic programming optimization.</li>
+          <li><strong>Technical Leadership (CodeWars):</strong> Spearheaded mentorship initiatives for junior developers in competitive programming and system design, successfully guiding a team to secure a first-place finish in the annual CodeWars hackathon.</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</section>
+{{ end }}
