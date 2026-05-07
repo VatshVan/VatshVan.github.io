@@ -2,13 +2,13 @@
 <section class="panel" id="experience">
   <div class="section-heading split">
     <div>
-      <p class="eyebrow">Experience</p>
-      <h2>Research & Industrial Experience</h2>
+      <p class="eyebrow">SYS_LOG: Experience</p>
+      <h2>Professional Engagements</h2>
     </div>
   </div>
   <div class="stack">
     {{ range sort .Pages "Date" "desc" }}
-      {{ partial "experience_card.html" . }}
+      {{ partial "unified_card.html" . }}
     {{ end }}
   </div>
 </section>

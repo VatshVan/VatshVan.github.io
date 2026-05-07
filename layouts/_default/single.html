@@ -1,10 +1,37 @@
-{{ define "title" }}{{ .Title }} | {{ site.Title }}{{ end }}
 {{ define "main" }}
-  <article class="panel single-page">
-    <p class="eyebrow">{{ .Section }}</p>
-    <h1>{{ .Title }}</h1>
-    {{ with .Params.organization }}<p class="section-note">{{ . }}</p>{{ end }}
-    {{ with .Resources.GetMatch "featured.*" }}<img class="single-image" src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration">{{ end }}
-    <div class="single-content">{{ .Content }}</div>
-  </article>
+<article class="single-page" style="margin-top: 2rem;">
+  <div style="margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;">
+    <a href="{{ .Parent.RelPermalink }}" style="color: var(--accent-3); font-family: var(--mono); text-decoration: none; font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; transition: var(--transition);">
+      < BACK_TO_ROOT
+    </a>
+    <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-top: 1rem; color: var(--accent);">{{ .Title }}</h1>
+    <div style="display: flex; gap: 1rem; margin-top: 1rem; color: var(--muted); font-family: var(--mono); flex-wrap: wrap;">
+      {{ if .Date }}<span style="color: var(--accent-2);">>_ TS: {{ .Date.Format "2006.01.02" }}</span>{{ end }}
+      {{ with .Params.organization }}<span style="color: var(--accent-2);">// ORG: {{ . }}</span>{{ end }}
+    </div>
+  </div>
+
+  <div class="single-image" style="background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 3rem; overflow: hidden; position: relative; aspect-ratio: 16/7;">
+    {{ with .Resources.GetMatch "featured.*" }}
+      <img src="{{ .RelPermalink }}" alt="{{ $.Title }}" style="width: 100%; height: 100%; object-fit: cover;">
+    {{ else }}
+      <!-- Responsive Bounding Box for High-Res Asset Injection -->
+      <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); color: var(--accent-glow); background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(0,255,255,0.02) 20px, rgba(0,255,255,0.02) 40px);">
+        [ PRE-ALLOCATED_ASSET_BOUNDING_BOX ]
+      </div>
+    {{ end }}
+  </div>
+
+  <div class="single-content" style="max-width: 800px; margin: 0 auto; color: var(--text);">
+    {{ .Content }}
+  </div>
+
+  {{ if .Params.url_pdf }}
+  <div style="margin-top: 4rem; text-align: center;">
+    <a href="{{ .Params.url_pdf }}" target="_blank" rel="noopener" class="button button-primary" style="display: inline-block;">
+      EXECUTE_DOWNLOAD(PDF)
+    </a>
+  </div>
+  {{ end }}
+</article>
 {{ end }}

@@ -2,13 +2,13 @@
 <section class="panel" id="projects">
   <div class="section-heading split">
     <div>
-      <p class="eyebrow">Projects</p>
-      <h2>Technical Projects</h2>
+      <p class="eyebrow">SYS_LOG: Projects</p>
+      <h2>Technical Implementations</h2>
     </div>
   </div>
-  <div class="grid-2">
+  <div class="stack">
     {{ range sort .Pages "Date" "desc" }}
-      {{ partial "project_card.html" . }}
+      {{ partial "unified_card.html" . }}
     {{ end }}
   </div>
 </section>

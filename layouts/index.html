@@ -1,5 +1,5 @@
 {{ define "main" }}
-<div id="terminal-entry" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #050a15; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem; font-family: 'Space Grotesk', monospace; color: #38bdf8; overflow: hidden;">
+<div id="terminal-entry" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0b0c10; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem; font-family: 'Fira Code', monospace; color: #00ffff; overflow: hidden; background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px); background-size: 30px 30px;">
   <div id="terminal-content" style="max-width: 800px; margin: 0 auto; width: 100%;"></div>
 </div>
 
@@ -21,12 +21,12 @@ document.addEventListener("DOMContentLoaded", function() {
   if (footer) footer.style.display = "none";
 
   const lines = [
-    "INITIALIZING SYSTEM ARCHITECTURE...",
-    "LOADING DEPENDENCIES: [QUANTITATIVE_FINANCE, AUTONOMOUS_CONTROL, MACHINE_LEARNING]",
-    "ESTABLISHING SECURE CONNECTION...",
-    "VERIFYING CREDENTIALS: VATSH VAN",
-    "ACCESS GRANTED.",
-    "ROUTING TO MAIN INTERFACE..."
+    "> INITIALIZING SYSTEM ARCHITECTURE...",
+    "> LOADING DEPENDENCIES: [QUANT_FINANCE, AUTONOMOUS_CONTROL, MACHINE_LEARNING]",
+    "> ESTABLISHING SECURE CONNECTION...",
+    "> VERIFYING CREDENTIALS: VATSH VAN",
+    "> STATUS: ACCESS GRANTED.",
+    "> ROUTING TO MAIN INTERFACE..."
   ];
 
   let lineIndex = 0;
@@ -45,25 +45,25 @@ document.addEventListener("DOMContentLoaded", function() {
       if (charIndex < lines[lineIndex].length) {
         currentLineElement.innerHTML += lines[lineIndex].charAt(charIndex);
         charIndex++;
-        setTimeout(typeWriter, Math.random() * 30 + 20); // typing speed
+        setTimeout(typeWriter, Math.random() * 20 + 10); // typing speed (faster for quant feel)
       } else {
         currentLineElement.innerHTML += "<br>";
         lineIndex++;
         charIndex = 0;
         currentLineElement = null;
-        setTimeout(typeWriter, 300); // delay between lines
+        setTimeout(typeWriter, 150); // delay between lines
       }
     } else {
       // Animation complete
       sessionStorage.setItem("entryAnimationPlayed", "true");
       setTimeout(() => {
         window.location.replace("{{ "home/" | relURL }}");
-      }, 500);
+      }, 400);
     }
   }
 
   // Start typing
-  setTimeout(typeWriter, 500);
+  setTimeout(typeWriter, 400);
 });
 </script>
 {{ end }}
