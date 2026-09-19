@@ -1,13 +1,13 @@
 {{ $app := site.Data.site_content.appearance }}
 {{ $fontPair := $app.font_pair | default "fraunces_space" }}
-{{ $accentTheme := $app.accent_theme | default "jane_street" }}
+{{ $accentTheme := $app.accent_theme | default "pitch_black" }}
 {{ $gridStyle := $app.grid_style | default "coordinate" }}
 <!DOCTYPE html>
 <html lang="en" data-font="{{ $fontPair }}" data-theme="{{ $accentTheme }}" data-grid="{{ $gridStyle }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#070b14">
+    <meta name="theme-color" content="#000000">
     <title>{{ block "title" . }}{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}{{ end }}</title>
     {{ if .Description }}<meta name="description" content="{{ .Description }}">{{ end }}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+    <script>
+      (function() {
+        const savedTheme = localStorage.getItem("site_theme");
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        }
+      })();
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
     {{ block "head" . }}{{ end }}
@@ -32,9 +40,14 @@
             <a href="{{ .URL }}" class="{{ if eq $.RelPermalink .URL }}active{{ end }}">{{ .Name }}</a>
           {{ end }}
         </nav>
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          <span class="status-text">SYS: ACTIVE</span>
+        <div style="display: flex; align-items: center; gap: 0.65rem;">
+          <button id="theme-toggle-btn" class="button button-outline" style="padding: 0.25rem 0.65rem; font-size: 0.72rem; border-radius: 999px;" onclick="toggleSiteTheme()" title="Toggle Black / White Mode">
+            <span id="theme-toggle-text">WHITE</span>
+          </button>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            <span class="status-text">SYS: ACTIVE</span>
+          </div>
         </div>
       </header>
       <main>
@@ -48,10 +61,30 @@
         <div class="footer-links">
           <a href="https://github.com/VatshVan" target="_blank" rel="noopener">GitHub</a>
           <a href="https://www.linkedin.com/in/vatsh-van-iit-bombay/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196" target="_blank" rel="noopener">SSRN Profile</a>
+          <a href="https://orcid.org/0009-0001-7236-8213" target="_blank" rel="noopener">ORCID</a>
           <a href="mailto:24b2259@iitb.ac.in">Contact</a>
           <a href="{{ "resume/" | relURL }}">Curriculum Vitae</a>
         </div>
       </footer>
     </div>
+    <script>
+      function toggleSiteTheme() {
+        const current = document.documentElement.getAttribute("data-theme") || "pitch_black";
+        const next = (current === "white" || current === "light") ? "pitch_black" : "white";
+        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem("site_theme", next);
+        updateThemeBtnText();
+      }
+
+      function updateThemeBtnText() {
+        const btn = document.getElementById("theme-toggle-text");
+        if (!btn) return;
+        const current = document.documentElement.getAttribute("data-theme") || "pitch_black";
+        btn.textContent = (current === "white" || current === "light") ? "BLACK" : "WHITE";
+      }
+
+      document.addEventListener("DOMContentLoaded", updateThemeBtnText);
+    </script>
   </body>
 </html>

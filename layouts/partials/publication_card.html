@@ -1,7 +1,11 @@
 <article class="featured-card" style="margin-bottom: 1.5rem;">
   <div class="featured-card-header">
     <div>
-      <span class="card-badge badge-green">TECHNICAL REPORT / PAPER</span>
+      {{ if .Params.url_ssrn }}
+        <span class="card-badge badge-cyan">SSRN PRE-PRINT (ID: {{ .Params.ssrn_id }})</span>
+      {{ else }}
+        <span class="card-badge badge-green">TECHNICAL REPORT / PAPER</span>
+      {{ end }}
       <h3 style="margin-top: 0.5rem;"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
       {{ with .Params.publication }}
         <p class="role-title" style="margin-top: 0.25rem;">{{ . }}</p>
@@ -22,14 +26,21 @@
     </div>
   {{ end }}
 
-  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
     <a href="{{ .RelPermalink }}" class="link-arrow">
       <span>READ FULL WRITEUP</span> &rarr;
     </a>
-    {{ with .Params.url_pdf }}
-      <a href="{{ . }}" target="_blank" rel="noopener" class="button button-secondary" style="padding: 0.4rem 0.9rem; font-size: 0.75rem;">
-        <span>DOWNLOAD PDF</span>
-      </a>
-    {{ end }}
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      {{ with .Params.url_ssrn }}
+        <a href="{{ . }}" target="_blank" rel="noopener" class="button button-primary" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;">
+          <span>SSRN PAPER</span> &rarr;
+        </a>
+      {{ end }}
+      {{ with .Params.url_pdf }}
+        <a href="{{ . }}" target="_blank" rel="noopener" class="button button-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;">
+          <span>DOWNLOAD PDF</span>
+        </a>
+      {{ end }}
+    </div>
   </div>
 </article>

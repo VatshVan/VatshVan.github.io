@@ -36,12 +36,28 @@
     {{ .Content }}
   </div>
 
-  {{ if .Params.url_pdf }}
-    <div style="margin-top: 4rem; text-align: center;">
-      <a href="{{ .Params.url_pdf }}" target="_blank" rel="noopener" class="button button-primary">
-        <span>DOWNLOAD DOCUMENTATION (PDF)</span>
+  <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+    {{ with .Params.url_ssrn }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="button button-primary">
+        <span>VIEW SSRN PRE-PRINT (ID: {{ $.Params.ssrn_id }})</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 0.35rem;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
       </a>
-    </div>
-  {{ end }}
+    {{ end }}
+    {{ with .Params.url_pdf }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="button button-secondary">
+        <span>DOWNLOAD TECHNICAL REPORT (PDF)</span>
+      </a>
+    {{ end }}
+    {{ with .Params.author_ssrn }}
+      <a href="{{ . }}" target="_blank" rel="noopener" class="button button-outline">
+        <span>SSRN AUTHOR PROFILE</span>
+      </a>
+    {{ end }}
+    {{ with .Params.orcid }}
+      <a href="https://orcid.org/{{ . }}" target="_blank" rel="noopener" class="button button-outline">
+        <span>ORCID: {{ . }}</span>
+      </a>
+    {{ end }}
+  </div>
 </article>
 {{ end }}

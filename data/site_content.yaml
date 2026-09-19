@@ -1,6 +1,6 @@
 appearance:
   font_pair: "fraunces_space"
-  accent_theme: "jane_street"
+  accent_theme: "pitch_black"
   grid_style: "coordinate"
 
 hero:
