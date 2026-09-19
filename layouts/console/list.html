@@ -17,14 +17,21 @@
 
         <div class="form-group">
           <label for="admin-pass">SECURITY KEY (PASSWORD)</label>
-          <input type="password" id="admin-pass" placeholder="Enter password" required autocomplete="current-password">
+          <input type="password" id="admin-pass" value="quant2028" placeholder="Enter password" required autocomplete="current-password">
           <span class="form-help">Default pass: <code>quant2028</code></span>
         </div>
 
         <div class="form-group">
           <label for="github-token">GITHUB PERSONAL ACCESS TOKEN (PAT)</label>
-          <input type="password" id="github-token" placeholder="ghp_... (Fine-grained token with repo write scope)" autocomplete="off">
-          <span class="form-help">Required to commit & deploy changes directly to GitHub Pages. Stored locally in session only.</span>
+          <input type="password" id="github-token" placeholder="ghp_... (Saved permanently on this device)" autocomplete="off">
+          <span class="form-help">Generate at <strong>github.com/settings/tokens</strong> with <code>repo</code> scope.</span>
+        </div>
+
+        <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="remember-me" checked style="width: auto; cursor: pointer;">
+          <label for="remember-me" style="font-size: 0.8rem; color: var(--text-subtle); cursor: pointer; margin: 0;">
+            Remember login & PAT permanently on this device
+          </label>
         </div>
 
         <div id="auth-error" class="auth-error-msg" style="display: none;"></div>
@@ -55,6 +62,25 @@
         <button class="button button-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="handleLogout()">
           LOGOUT
         </button>
+      </div>
+    </div>
+
+    <!-- Permanent PAT & Credentials Banner -->
+    <div class="pat-banner" id="pat-banner">
+      <div class="pat-info">
+        <span class="spec-label">GITHUB INTEGRATION (PERMANENT PAT)</span>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.35rem;">
+          <input type="password" id="permanent-pat-input" placeholder="Paste your GitHub PAT (ghp_...) here to save permanently" style="flex: 1; min-width: 280px; padding: 0.45rem 0.75rem; font-size: 0.8rem;">
+          <button class="button button-primary" style="padding: 0.45rem 0.9rem; font-size: 0.75rem;" onclick="savePermanentPAT()">
+            SAVE PAT PERMANENTLY
+          </button>
+          <button class="button button-outline" style="padding: 0.45rem 0.75rem; font-size: 0.75rem;" onclick="testPATConnection()">
+            TEST CONNECTION
+          </button>
+        </div>
+        <span class="form-help" id="pat-status-text" style="margin-top: 0.35rem; display: block;">
+          Saved securely in your browser's local storage. Will never expire until cleared.
+        </span>
       </div>
     </div>
 
@@ -528,6 +554,14 @@
   border-radius: 999px;
 }
 
+.pat-banner {
+  padding: 1.25rem 1.5rem;
+  background: rgba(0, 229, 255, 0.04);
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem;
+}
+
 .console-tabs {
   display: flex;
   gap: 0.5rem;
@@ -662,83 +696,117 @@
 </style>
 
 <script>
-// Authentication & Cryptographic State
-// Pre-computed SHA-256 for default pass "quant2028": 
-// 08e2f89bbd8b8a07cceb5514f777c5885c3e41ce998c366e60b2ebcf043232c7
-const DEFAULT_PASS_HASH = "08e2f89bbd8b8a07cceb5514f777c5885c3e41ce998c366e60b2ebcf043232c7";
 const REPO_OWNER = "VatshVan";
 const REPO_NAME = "vatshvan.github.io";
 
-async function sha256(message) {
-  const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-async function handleLogin(e) {
-  e.preventDefault();
-  const id = document.getElementById("admin-id").value.trim();
-  const pass = document.getElementById("admin-pass").value;
+// Login handler: accepts 'vatshvan' and 'quant2028' (or saved password)
+function handleLogin(e) {
+  if (e) e.preventDefault();
+  const id = document.getElementById("admin-id").value.trim().toLowerCase();
+  const pass = document.getElementById("admin-pass").value.trim();
   const token = document.getElementById("github-token").value.trim();
+  const remember = document.getElementById("remember-me").checked;
   const errBox = document.getElementById("auth-error");
 
-  const hash = await sha256(pass);
-  if (id === "vatshvan" && hash === DEFAULT_PASS_HASH) {
-    sessionStorage.setItem("console_auth", "true");
-    if (token) {
-      sessionStorage.setItem("gh_pat", token);
+  const validPass = localStorage.getItem("custom_admin_pass") || "quant2028";
+
+  if (id === "vatshvan" && (pass === "quant2028" || pass === validPass)) {
+    if (remember) {
+      localStorage.setItem("console_auth", "true");
+      if (token) localStorage.setItem("gh_pat", token);
+    } else {
+      sessionStorage.setItem("console_auth", "true");
+      if (token) sessionStorage.setItem("gh_pat", token);
     }
     unlockConsole();
   } else {
-    errBox.textContent = "INVALID CREDENTIALS: Identification or Security Key mismatch.";
+    errBox.textContent = "INVALID CREDENTIALS: Identification or Security Key mismatch (default pass is quant2028).";
     errBox.style.display = "block";
   }
   return false;
 }
 
 function bypassLogin() {
-  sessionStorage.setItem("console_auth", "true");
+  localStorage.setItem("console_auth", "true");
   unlockConsole();
 }
 
 function handleLogout() {
+  localStorage.removeItem("console_auth");
   sessionStorage.removeItem("console_auth");
-  sessionStorage.removeItem("gh_pat");
   location.reload();
+}
+
+function getStoredPAT() {
+  return localStorage.getItem("gh_pat") || sessionStorage.getItem("gh_pat") || "";
+}
+
+function savePermanentPAT() {
+  const input = document.getElementById("permanent-pat-input");
+  const token = input.value.trim();
+  const statusText = document.getElementById("pat-status-text");
+
+  if (!token) {
+    statusText.innerHTML = "<span style='color: #f43f5e;'>Please enter a valid GitHub PAT before saving.</span>";
+    return;
+  }
+
+  localStorage.setItem("gh_pat", token);
+  input.value = "";
+  input.placeholder = "PAT Saved: " + token.slice(0, 7) + "••••••••••••";
+  statusText.innerHTML = "<span style='color: var(--accent-green);'>PAT saved permanently in local storage! Testing connection...</span>";
+  logTerm("success", "[KEYRING] GitHub PAT saved permanently on this device.");
+  checkGitHubApi();
+}
+
+function testPATConnection() {
+  checkGitHubApi();
 }
 
 function unlockConsole() {
   document.getElementById("auth-modal").style.display = "none";
   document.getElementById("console-body").style.display = "block";
-  logTerm("info", "[AUTH] Operator access granted. Initializing subsystems...");
+  
+  const savedToken = getStoredPAT();
+  if (savedToken) {
+    const input = document.getElementById("permanent-pat-input");
+    input.placeholder = "PAT Saved: " + savedToken.slice(0, 7) + "••••••••••••";
+  }
+
+  logTerm("info", "[AUTH] Operator access granted as 'vatshvan'.");
   checkGitHubApi();
   updateMetricsPreview();
   attachPreviewListeners();
 }
 
 function checkGitHubApi() {
-  const token = sessionStorage.getItem("gh_pat");
+  const token = getStoredPAT();
   const badge = document.getElementById("github-status-badge");
+  const statusText = document.getElementById("pat-status-text");
+
   if (!token) {
     badge.textContent = "OFFLINE / LOCAL MODE (NO TOKEN)";
     badge.className = "card-badge badge-amber";
-    logTerm("warn", "[GITHUB API] No Personal Access Token provided. Direct deploys disabled (Use Download/Copy).");
+    if (statusText) statusText.innerHTML = "<span style='color: var(--accent-amber);'>No PAT saved. Paste your token above to enable direct one-click GitHub Pages deploys.</span>";
+    logTerm("warn", "[GITHUB API] No Personal Access Token found. Use 'SAVE PAT PERMANENTLY' above or download files locally.");
   } else {
+    badge.textContent = "VERIFYING GITHUB API...";
     fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
       headers: { "Authorization": `token ${token}` }
     }).then(res => {
       if (res.ok) {
         badge.textContent = "GITHUB API: CONNECTED";
         badge.className = "card-badge badge-green";
-        logTerm("success", `[GITHUB API] Connected to repository ${REPO_OWNER}/${REPO_NAME}. Ready for direct deploys.`);
+        if (statusText) statusText.innerHTML = "<span style='color: var(--accent-green);'>GitHub API Connected! Direct one-click deploys to GitHub Pages are fully active.</span>";
+        logTerm("success", `[GITHUB API] Successfully authenticated with repository ${REPO_OWNER}/${REPO_NAME}.`);
       } else {
         badge.textContent = "GITHUB API: TOKEN INVALID";
         badge.className = "card-badge badge-amber";
-        logTerm("error", "[GITHUB API] Token rejected. Please verify 'repo' or 'contents:write' scope.");
+        if (statusText) statusText.innerHTML = "<span style='color: #f43f5e;'>Token invalid or lacking repo permissions. Please generate a new token with 'repo' scope.</span>";
+        logTerm("error", "[GITHUB API] Token rejected. Verify 'repo' or 'contents:write' scope on github.com/settings/tokens.");
       }
     }).catch(err => {
-      badge.textContent = "GITHUB API: UNREACHABLE";
+      badge.textContent = "GITHUB API: NETWORK ERROR";
       logTerm("error", "[GITHUB API] " + err.message);
     });
   }
@@ -797,14 +865,14 @@ function attachPreviewListeners() {
 
 // GitHub REST API Committer
 async function commitFileToGitHub(path, content, message) {
-  const token = sessionStorage.getItem("gh_pat");
+  const token = getStoredPAT();
   if (!token) {
-    logTerm("warn", `[COMMIT BLOCKED] No GitHub Token. Downloading file '${path}' locally instead.`);
+    logTerm("warn", `[COMMIT BLOCKED] No GitHub Token found. Downloading file '${path}' locally.`);
     downloadTextFile(path.split("/").pop(), content);
     return;
   }
 
-  logTerm("info", `[GITHUB] Fetching current SHA for ${path}...`);
+  logTerm("info", `[GITHUB] Checking current SHA for ${path}...`);
   const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
 
   let sha = null;
@@ -817,11 +885,10 @@ async function commitFileToGitHub(path, content, message) {
       sha = data.sha;
     }
   } catch(e) {
-    // File might not exist yet, which is fine
+    // File doesn't exist yet, normal for new items
   }
 
-  logTerm("info", `[GITHUB] Pushing commit: "${message}"...`);
-  // Encode UTF-8 content to Base64 safely
+  logTerm("info", `[GITHUB] Pushing commit: "${message}" to 'main'...`);
   const utf8Bytes = new TextEncoder().encode(content);
   let binary = '';
   utf8Bytes.forEach(b => binary += String.fromCharCode(b));
@@ -846,7 +913,7 @@ async function commitFileToGitHub(path, content, message) {
   if (putRes.ok) {
     const resData = await putRes.json();
     logTerm("success", `[DEPLOY TRIGGERED] Commit ${resData.commit.sha.slice(0,7)} pushed successfully!`);
-    logTerm("success", `[ACTIONS] GitHub Actions Hugo workflow is now building the site.`);
+    logTerm("success", `[ACTIONS] GitHub Actions Hugo workflow is now building the site (~30s).`);
     switchTab("tab-audit");
   } else {
     const err = await putRes.json();
@@ -964,7 +1031,6 @@ ${body}
 }
 
 function handleSelectExp(role) {
-  // Populate form based on role
   if (role === "worldquant") {
     document.getElementById("e-title").value = "Quantitative Alpha Research Consultant (Master Consultant)";
     document.getElementById("e-org").value = "WorldQuant BRAIN";
@@ -1008,7 +1074,8 @@ ${body}
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  if (sessionStorage.getItem("console_auth") === "true") {
+  // Auto-login if previously authenticated on this device
+  if (localStorage.getItem("console_auth") === "true" || sessionStorage.getItem("console_auth") === "true") {
     unlockConsole();
   }
   handleSelectExp("worldquant");

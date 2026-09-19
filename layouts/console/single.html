@@ -1,0 +1,419 @@
+{{ define "main" }}
+{{/* Embed the list.html console directly */}}
+<div class="console-wrapper" id="console-app">
+  <!-- Auth Gate Overlay -->
+  <div class="console-auth-overlay" id="auth-modal">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-kicker">RESTRICTED INTERFACE</span>
+        <h2>SYS_ADMIN ACCESS</h2>
+        <p class="auth-desc">Secure Administrative Console &bull; Vatsh Van Portfolio</p>
+      </div>
+
+      <form id="login-form" class="auth-form" onsubmit="return handleLogin(event)">
+        <div class="form-group">
+          <label for="admin-id">OPERATOR ID</label>
+          <input type="text" id="admin-id" value="vatshvan" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label for="admin-pass">SECURITY KEY (PASSWORD)</label>
+          <input type="password" id="admin-pass" value="quant2028" placeholder="Enter password" required autocomplete="current-password">
+          <span class="form-help">Default pass: <code>quant2028</code></span>
+        </div>
+
+        <div class="form-group">
+          <label for="github-token">GITHUB PERSONAL ACCESS TOKEN (PAT)</label>
+          <input type="password" id="github-token" placeholder="ghp_... (Saved permanently on this device)" autocomplete="off">
+          <span class="form-help">Generate at <strong>github.com/settings/tokens</strong> with <code>repo</code> scope.</span>
+        </div>
+
+        <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
+          <input type="checkbox" id="remember-me" checked style="width: auto; cursor: pointer;">
+          <label for="remember-me" style="font-size: 0.8rem; color: var(--text-subtle); cursor: pointer; margin: 0;">
+            Remember login & PAT permanently on this device
+          </label>
+        </div>
+
+        <div id="auth-error" class="auth-error-msg" style="display: none;"></div>
+
+        <div class="auth-actions">
+          <button type="submit" class="button button-primary" style="width: 100%;">
+            <span>AUTHENTICATE // ACCESS CONSOLE</span>
+          </button>
+          <button type="button" class="button button-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="bypassLogin()">
+            <span>DEMO / OFFLINE MODE</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Authenticated Console Interface -->
+  <div class="console-main" id="console-body" style="display: none;">
+    <!-- Console Topbar -->
+    <div class="console-topbar">
+      <div class="console-brand">
+        <span class="status-dot"></span>
+        <strong>SYS_ADMIN CONSOLE</strong>
+        <span class="console-tag">v2.4 &bull; QUANT & AUTONOMY</span>
+      </div>
+      <div class="console-controls">
+        <span id="github-status-badge" class="badge-cyan" style="font-size: 0.75rem;">CHECKING GITHUB API...</span>
+        <button class="button button-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="handleLogout()">
+          LOGOUT
+        </button>
+      </div>
+    </div>
+
+    <!-- Permanent PAT & Credentials Banner -->
+    <div class="pat-banner" id="pat-banner">
+      <div class="pat-info">
+        <span class="spec-label">GITHUB INTEGRATION (PERMANENT PAT)</span>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.35rem;">
+          <input type="password" id="permanent-pat-input" placeholder="Paste your GitHub PAT (ghp_...) here to save permanently" style="flex: 1; min-width: 280px; padding: 0.45rem 0.75rem; font-size: 0.8rem;">
+          <button class="button button-primary" style="padding: 0.45rem 0.9rem; font-size: 0.75rem;" onclick="savePermanentPAT()">
+            SAVE PAT PERMANENTLY
+          </button>
+          <button class="button button-outline" style="padding: 0.45rem 0.75rem; font-size: 0.75rem;" onclick="testPATConnection()">
+            TEST CONNECTION
+          </button>
+        </div>
+        <span class="form-help" id="pat-status-text" style="margin-top: 0.35rem; display: block;">
+          Saved securely in your browser's local storage. Will never expire until cleared.
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="console-tabs">
+      <button class="console-tab active" data-tab="tab-metrics" onclick="switchTab('tab-metrics')">
+        [01] SLIDES & METRICS
+      </button>
+      <button class="console-tab" data-tab="tab-projects" onclick="switchTab('tab-projects')">
+        [02] PROJECTS MANAGER
+      </button>
+      <button class="console-tab" data-tab="tab-experience" onclick="switchTab('tab-experience')">
+        [03] EXPERIENCES MANAGER
+      </button>
+      <button class="console-tab" data-tab="tab-audit" onclick="switchTab('tab-audit')">
+        [04] TERMINAL AUDIT & DEPLOY
+      </button>
+    </div>
+
+    <!-- TAB 1: SLIDES & METRICS -->
+    <div class="console-pane active" id="tab-metrics">
+      <div class="pane-header">
+        <div>
+          <h3>Homepage Slides & Metric Highlights</h3>
+          <p class="pane-desc">Edit the 4 highlight metric cards displayed across the top of your portfolio homepage.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-primary" onclick="deployMetrics()">
+            <span>SAVE & DEPLOY METRICS TO GITHUB</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="metrics-editor-grid">
+        <div class="metric-edit-card">
+          <div class="edit-card-title">SLOT 01 // WORLDQUANT / PRIMARY</div>
+          <div class="form-group">
+            <label>LABEL</label>
+            <input type="text" id="m1-label" value="WORLDQUANT BRAIN">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+              <label>PRIMARY VALUE</label>
+              <input type="text" id="m1-val" value="42">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>SUB-TEXT</label>
+              <input type="text" id="m1-sub" value="/ 5,700+">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>COLOR</label>
+              <select id="m1-color">
+                <option value="cyan" selected>Cyan</option>
+                <option value="green">Green</option>
+                <option value="amber">Amber</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>DESCRIPTION / DETAIL</label>
+            <input type="text" id="m1-detail" value="Global Rank in Power Pool Alpha Competition (11th in India)">
+          </div>
+        </div>
+
+        <div class="metric-edit-card">
+          <div class="edit-card-title">SLOT 02 // SCHOLASTIC / JEE</div>
+          <div class="form-group">
+            <label>LABEL</label>
+            <input type="text" id="m2-label" value="JEE MAINS '24">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+              <label>PRIMARY VALUE</label>
+              <input type="text" id="m2-val" value="99.72">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>SUB-TEXT</label>
+              <input type="text" id="m2-sub" value="%ile">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>COLOR</label>
+              <select id="m2-color">
+                <option value="cyan">Cyan</option>
+                <option value="green" selected>Green</option>
+                <option value="amber">Amber</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>DESCRIPTION / DETAIL</label>
+            <input type="text" id="m2-detail" value="Top 0.28% out of 1.4 Million candidates nationwide">
+          </div>
+        </div>
+
+        <div class="metric-edit-card">
+          <div class="edit-card-title">SLOT 03 // QUANT METRIC / IR</div>
+          <div class="form-group">
+            <label>LABEL</label>
+            <input type="text" id="m3-label" value="OUT-OF-SAMPLE IR">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+              <label>PRIMARY VALUE</label>
+              <input type="text" id="m3-val" value="2.39">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>SUB-TEXT</label>
+              <input type="text" id="m3-sub" value="">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>COLOR</label>
+              <select id="m3-color">
+                <option value="cyan">Cyan</option>
+                <option value="green">Green</option>
+                <option value="amber" selected>Amber</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>DESCRIPTION / DETAIL</label>
+            <input type="text" id="m3-detail" value="Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)">
+          </div>
+        </div>
+
+        <div class="metric-edit-card">
+          <div class="edit-card-title">SLOT 04 // AUTONOMY / CONTROLS</div>
+          <div class="form-group">
+            <label>LABEL</label>
+            <input type="text" id="m4-label" value="REAL-TIME CONTROL">
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 2;">
+              <label>PRIMARY VALUE</label>
+              <input type="text" id="m4-val" value="100">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>SUB-TEXT</label>
+              <input type="text" id="m4-sub" value="Hz">
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>COLOR</label>
+              <select id="m4-color">
+                <option value="cyan" selected>Cyan</option>
+                <option value="green">Green</option>
+                <option value="amber">Amber</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>DESCRIPTION / DETAIL</label>
+            <input type="text" id="m4-detail" value="LibTorch-Acados learned-dynamics HyperMPC control loop">
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div style="margin-top: 2rem;">
+        <span class="spec-label">LIVE PREVIEW ON HOMEPAGE</span>
+        <div class="metrics-bar" id="preview-metrics-bar" style="margin-top: 0.75rem;">
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: PROJECTS MANAGER -->
+    <div class="console-pane" id="tab-projects">
+      <div class="pane-header">
+        <div>
+          <h3>Technical Projects Editor</h3>
+          <p class="pane-desc">Create or update project markdown files with guaranteed valid YAML formatting.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-secondary" onclick="loadNewProjectTemplate()">
+            <span>+ NEW PROJECT</span>
+          </button>
+          <button class="button button-primary" onclick="deployProject()">
+            <span>SAVE & DEPLOY PROJECT</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label>SELECT PROJECT TO EDIT</label>
+        <select id="project-selector" onchange="handleSelectProject(this.value)">
+          <option value="regime-portfolio-optimization">Regime-Aware Portfolio Optimization</option>
+          <option value="quant-alley">Chicago Quant Alley: Crypto Strategy Simulator</option>
+          <option value="spatial-hyper-mpc">Spatial Hyper-MPC with Neural Policy</option>
+          <option value="inverse-elasticity-pinn">Inverse Elasticity Physics-Informed NN</option>
+          <option value="super-resolution">Single Image Super Resolution (EDSR)</option>
+          <option value="cosmic-detective">The Cosmic Detective: Multi-Agent AI</option>
+          <option value="spatial-anc">Spatial Active Noise Control</option>
+          <option value="Wildlife Hotspot Detector">Wildlife Hotspot Detector</option>
+          <option value="derivatives-math">Mathematics of Derivative Pricing</option>
+          <option value="interest-rate-hikes">Effects of Interest Rate Hikes (Vasicek)</option>
+          <option value="ssmphony">SSMphony: Linear Audio Generation</option>
+          <option value="__new__">+ Create New Project</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>PROJECT TITLE</label>
+          <input type="text" id="p-title" placeholder="Project Name">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>SLUG / FOLDER NAME</label>
+          <input type="text" id="p-slug" placeholder="e.g. new-project-name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>ORGANIZATION / VENUE</label>
+          <input type="text" id="p-org" placeholder="e.g. Quant Club | IIT Bombay">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>DATE (YYYY-MM-DD)</label>
+          <input type="text" id="p-date" placeholder="2026-06-01">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>TAGS (COMMA SEPARATED)</label>
+        <input type="text" id="p-tags" placeholder="Quantitative Finance, Machine Learning, Optimization">
+      </div>
+
+      <div class="form-group">
+        <label>SHORT SUMMARY</label>
+        <textarea id="p-summary" rows="2" placeholder="Brief 1-2 sentence overview for cards..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>TECHNICAL MARKDOWN BODY</label>
+        <textarea id="p-content" rows="10" placeholder="Detailed technical content, mathematical formulations, results..."></textarea>
+      </div>
+    </div>
+
+    <!-- TAB 3: EXPERIENCES MANAGER -->
+    <div class="console-pane" id="tab-experience">
+      <div class="pane-header">
+        <div>
+          <h3>Professional Experience Editor</h3>
+          <p class="pane-desc">Update roles, metrics, and achievements for WorldQuant BRAIN, SeDriCa, and leadership roles.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-primary" onclick="deployExperience()">
+            <span>SAVE & DEPLOY EXPERIENCE</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 1.5rem;">
+        <label>SELECT ROLE TO EDIT</label>
+        <select id="exp-selector" onchange="handleSelectExp(this.value)">
+          <option value="worldquant">WorldQuant BRAIN (Master Consultant)</option>
+          <option value="sedrica">SeDriCa (Controls & State Estimation)</option>
+          <option value="umic-manager">UMIC Team Manager (INR 4M+ Budget)</option>
+          <option value="mentorship">Quantitative & Systems Mentor</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>ROLE TITLE</label>
+          <input type="text" id="e-title">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <label>ORGANIZATION / COMPANY</label>
+          <input type="text" id="e-org">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label>LOCATION</label>
+          <input type="text" id="e-loc">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>START DATE (YYYY-MM-DD)</label>
+          <input type="text" id="e-date">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>END DATE</label>
+          <input type="text" id="e-date-end" placeholder="present or YYYY-MM-DD">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>TAGS (COMMA SEPARATED)</label>
+        <input type="text" id="e-tags">
+      </div>
+
+      <div class="form-group">
+        <label>SUMMARY</label>
+        <textarea id="e-summary" rows="2"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>TECHNICAL DETAILS & ACHIEVEMENTS (MARKDOWN)</label>
+        <textarea id="e-content" rows="8"></textarea>
+      </div>
+    </div>
+
+    <!-- TAB 4: TERMINAL AUDIT & DEPLOY -->
+    <div class="console-pane" id="tab-audit">
+      <div class="pane-header">
+        <div>
+          <h3>System Audit Log & Live Deployment Terminal</h3>
+          <p class="pane-desc">Real-time telemetry of GitHub REST API transactions, commit hashes, and CI/CD build states.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-outline" onclick="clearTerminal()">
+            CLEAR TERMINAL
+          </button>
+          <a href="https://github.com/VatshVan/vatshvan.github.io/actions" target="_blank" rel="noopener" class="button button-secondary">
+            <span>VIEW GITHUB ACTIONS</span> &rarr;
+          </a>
+        </div>
+      </div>
+
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <span class="term-dot red"></span>
+          <span class="term-dot yellow"></span>
+          <span class="term-dot green"></span>
+          <span class="term-title">vatshvan@iitb-quant-node: ~ / console / audit.log</span>
+        </div>
+        <div class="terminal-output" id="term-output">
+          <div class="term-line info">> [SYSTEM INITIALIZED] Console v2.4 operational.</div>
+          <div class="term-line info">> [AUTH] Session established.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}

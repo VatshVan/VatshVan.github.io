@@ -1,0 +1,15 @@
+# Environment & Secret Files
+.env
+.env.*
+*.env
+
+# Hugo cache & temporary build artifacts
+public/
+resources/
+.hugo_build.lock
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*~
