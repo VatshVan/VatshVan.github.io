@@ -5,28 +5,32 @@
   {{ $avatar = .Resources.GetMatch "avatar.*" }}
 {{ end }}
 
+{{ $sc := site.Data.site_content }}
+{{ $hero := $sc.hero }}
+{{ $profile := $sc.profile }}
+{{ $sections := $sc.sections }}
+
 <!-- Hero Section -->
 <section class="hero" id="overview">
   <div class="hero-copy">
     <div class="eyebrow-badge">
       <span class="pulse-dot-cyan"></span>
-      <span>IIT BOMBAY &bull; QUANT &bull; AUTONOMOUS SYSTEMS</span>
+      <span>{{ with $hero.eyebrow }}{{ . }}{{ else }}IIT BOMBAY &bull; QUANT &bull; AUTONOMOUS SYSTEMS{{ end }}</span>
     </div>
-    <h1>Quantitative Alpha Research & Autonomous Controls</h1>
+    <h1>{{ with $hero.heading }}{{ . }}{{ else }}Quantitative Alpha Research & Autonomous Controls{{ end }}</h1>
     <p class="lede">
-      Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. 
-      Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.
+      {{ with $hero.lede }}{{ . | safeHTML }}{{ else }}Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.{{ end }}
     </p>
     <div class="hero-actions">
       <a class="button button-primary" href="{{ "project/" | relURL }}">
-        <span>EXPLORE PROJECTS</span>
+        <span>{{ with $hero.primary_btn_text }}{{ . }}{{ else }}EXPLORE PROJECTS{{ end }}</span>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
       <a class="button button-secondary" href="{{ "experience/" | relURL }}">
-        <span>EXPERIENCE</span>
+        <span>{{ with $hero.secondary_btn_text }}{{ . }}{{ else }}EXPERIENCE{{ end }}</span>
       </a>
       <a class="button button-outline" href="{{ "resume/" | relURL }}">
-        <span>CURRICULUM VITAE</span>
+        <span>{{ with $hero.cv_btn_text }}{{ . }}{{ else }}CURRICULUM VITAE{{ end }}</span>
       </a>
     </div>
   </div>
@@ -36,7 +40,7 @@
       <div class="profile-title">
         <span class="card-kicker">RESEARCH DOSSIER</span>
         <h2>Vatsh Van</h2>
-        <p class="profile-affiliation">IIT Bombay &bull; B.Tech '28</p>
+        <p class="profile-affiliation">{{ with $profile.role_short }}{{ . }}{{ else }}IIT Bombay &bull; B.Tech '28{{ end }}</p>
       </div>
       <div class="status-badge-inline">
         <span class="status-dot"></span>
@@ -47,19 +51,19 @@
     <div class="profile-spec-grid">
       <div class="spec-item">
         <span class="spec-label">INSTITUTION</span>
-        <strong class="spec-value">IIT Bombay</strong>
+        <strong class="spec-value">{{ with $profile.institution }}{{ . }}{{ else }}IIT Bombay{{ end }}</strong>
       </div>
       <div class="spec-item">
         <span class="spec-label">ACADEMIC CPI</span>
-        <strong class="spec-value">8.27 / 10.0</strong>
+        <strong class="spec-value">{{ with $profile.cpi }}{{ . }}{{ else }}8.27 / 10.0{{ end }}</strong>
       </div>
       <div class="spec-item">
         <span class="spec-label">PRIMARY FOCUS</span>
-        <strong class="spec-value">Quantitative Finance</strong>
+        <strong class="spec-value">{{ with $profile.primary_focus }}{{ . }}{{ else }}Quantitative Finance{{ end }}</strong>
       </div>
       <div class="spec-item">
         <span class="spec-label">SECONDARY FOCUS</span>
-        <strong class="spec-value">Autonomous Control</strong>
+        <strong class="spec-value">{{ with $profile.secondary_focus }}{{ . }}{{ else }}Autonomous Control{{ end }}</strong>
       </div>
     </div>
 
@@ -109,8 +113,8 @@
 <section class="panel">
   <div class="section-heading split">
     <div>
-      <p class="eyebrow">PROFESSIONAL TRAJECTORY</p>
-      <h2>Core Engagements</h2>
+      <p class="eyebrow">{{ with $sections.experience_eyebrow }}{{ . }}{{ else }}PROFESSIONAL TRAJECTORY{{ end }}</p>
+      <h2>{{ with $sections.experience_title }}{{ . }}{{ else }}Core Engagements{{ end }}</h2>
     </div>
     <a href="{{ "experience/" | relURL }}" class="link-arrow">
       <span>View all experience</span> &rarr;
@@ -197,8 +201,8 @@
 <section class="panel">
   <div class="section-heading split">
     <div>
-      <p class="eyebrow">RESEARCH & IMPLEMENTATIONS</p>
-      <h2>Featured Technical Projects</h2>
+      <p class="eyebrow">{{ with $sections.projects_eyebrow }}{{ . }}{{ else }}RESEARCH & IMPLEMENTATIONS{{ end }}</p>
+      <h2>{{ with $sections.projects_title }}{{ . }}{{ else }}Featured Technical Projects{{ end }}</h2>
     </div>
     <a href="{{ "project/" | relURL }}" class="link-arrow">
       <span>View all 10 projects</span> &rarr;
@@ -315,8 +319,8 @@
 <!-- Technical Competencies Matrix -->
 <section class="panel">
   <div class="section-heading">
-    <p class="eyebrow">CAPABILITIES MATRIX</p>
-    <h2>Technical Competencies</h2>
+    <p class="eyebrow">{{ with $sections.competencies_eyebrow }}{{ . }}{{ else }}CAPABILITIES MATRIX{{ end }}</p>
+    <h2>{{ with $sections.competencies_title }}{{ . }}{{ else }}Technical Competencies{{ end }}</h2>
   </div>
   <div class="grid-4">
     <article class="skill-card">
@@ -385,8 +389,8 @@
 <section class="panel">
   <div class="section-heading split">
     <div>
-      <p class="eyebrow">ACADEMIC EXCELLENCE</p>
-      <h2>Scholastic Honors & Education</h2>
+      <p class="eyebrow">{{ with $sections.scholastic_eyebrow }}{{ . }}{{ else }}ACADEMIC EXCELLENCE{{ end }}</p>
+      <h2>{{ with $sections.scholastic_title }}{{ . }}{{ else }}Scholastic Honors & Education{{ end }}</h2>
     </div>
   </div>
   <div class="grid-2">

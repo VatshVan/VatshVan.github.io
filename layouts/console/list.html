@@ -24,7 +24,7 @@
         <div class="form-group">
           <label for="github-token">GITHUB PERSONAL ACCESS TOKEN (PAT)</label>
           <input type="password" id="github-token" placeholder="ghp_... (Saved permanently on this device)" autocomplete="off">
-          <span class="form-help">Generate at <strong>github.com/settings/tokens</strong> with <code>repo</code> scope.</span>
+          <span class="form-help">Tokens only need <strong>Contents: Read and write</strong> (or <code>repo</code> for classic). Stored permanently.</span>
         </div>
 
         <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -55,10 +55,10 @@
       <div class="console-brand">
         <span class="status-dot"></span>
         <strong>SYS_ADMIN CONSOLE</strong>
-        <span class="console-tag">v2.4 &bull; QUANT & AUTONOMY</span>
+        <span class="console-tag">v3.0 &bull; QUANT & AUTONOMY</span>
       </div>
       <div class="console-controls">
-        <span id="github-status-badge" class="badge-cyan" style="font-size: 0.75rem;">CHECKING GITHUB API...</span>
+        <span id="github-status-badge" class="card-badge badge-cyan" style="font-size: 0.75rem;">CHECKING GITHUB API...</span>
         <button class="button button-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="handleLogout()">
           LOGOUT
         </button>
@@ -68,193 +68,276 @@
     <!-- Permanent PAT & Credentials Banner -->
     <div class="pat-banner" id="pat-banner">
       <div class="pat-info">
-        <span class="spec-label">GITHUB INTEGRATION (PERMANENT PAT)</span>
-        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.35rem;">
-          <input type="password" id="permanent-pat-input" placeholder="Paste your GitHub PAT (ghp_...) here to save permanently" style="flex: 1; min-width: 280px; padding: 0.45rem 0.75rem; font-size: 0.8rem;">
-          <button class="button button-primary" style="padding: 0.45rem 0.9rem; font-size: 0.75rem;" onclick="savePermanentPAT()">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+          <span class="spec-label">GITHUB INTEGRATION &bull; PERMANENT LOCAL STORAGE</span>
+          <span id="pat-active-indicator" style="font-size: 0.75rem; color: var(--accent-green);"></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.45rem;">
+          <input type="password" id="permanent-pat-input" placeholder="Paste your GitHub PAT (ghp_...) here once" style="flex: 1; min-width: 280px; padding: 0.5rem 0.75rem; font-size: 0.82rem;">
+          <button class="button button-primary" style="padding: 0.5rem 0.9rem; font-size: 0.75rem;" onclick="savePermanentPAT()">
             SAVE PAT PERMANENTLY
           </button>
-          <button class="button button-outline" style="padding: 0.45rem 0.75rem; font-size: 0.75rem;" onclick="testPATConnection()">
+          <button class="button button-outline" style="padding: 0.5rem 0.75rem; font-size: 0.75rem;" onclick="testPATConnection()">
             TEST CONNECTION
           </button>
         </div>
-        <span class="form-help" id="pat-status-text" style="margin-top: 0.35rem; display: block;">
-          Saved securely in your browser's local storage. Will never expire until cleared.
+        <span class="form-help" id="pat-status-text" style="margin-top: 0.4rem; display: block;">
+          Saved securely in your browser's local storage. You <strong>never</strong> have to generate a new token every time!
         </span>
+      </div>
+    </div>
+
+    <!-- Diagnostic Banner if Permissions Error Occurs -->
+    <div id="pat-diagnostic-box" class="diag-banner" style="display: none;">
+      <div class="diag-header">
+        <span class="diag-icon">&Delta;</span>
+        <strong>ACTION REQUIRED: GITHUB TOKEN PERMISSION FIX (DO NOT CREATE A NEW TOKEN!)</strong>
+      </div>
+      <p class="diag-text">
+        Your GitHub Personal Access Token was rejected with: <code>Resource not accessible by personal access token</code>.<br>
+        This happens when the token has <strong>Read-only</strong> access instead of <strong>Read and write</strong>.
+      </p>
+      <div class="diag-steps">
+        <ol>
+          <li>Open your existing token on GitHub: <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" class="text-cyan"><strong>github.com/settings/tokens</strong></a>.</li>
+          <li>Click on the token name to edit it.</li>
+          <li>Under <strong>Repository permissions</strong> &rarr; <strong>Contents</strong>, change permission from <em>Read-only</em> to <strong>Read and write</strong>. (If using a Classic token, check the <code>repo</code> scope checkbox).</li>
+          <li>Scroll down and click <strong>Save changes</strong>.</li>
+          <li>Return here and click <strong>SAVE & DEPLOY</strong> again! The console will immediately succeed.</li>
+        </ol>
       </div>
     </div>
 
     <!-- Navigation Tabs -->
     <div class="console-tabs">
-      <button class="console-tab active" data-tab="tab-metrics" onclick="switchTab('tab-metrics')">
-        [01] SLIDES & METRICS
+      <button class="console-tab active" data-tab="tab-appearance" onclick="switchTab('tab-appearance')">
+        [01] APPEARANCE & FONTS
+      </button>
+      <button class="console-tab" data-tab="tab-headings" onclick="switchTab('tab-headings')">
+        [02] HEADINGS & HERO
+      </button>
+      <button class="console-tab" data-tab="tab-metrics" onclick="switchTab('tab-metrics')">
+        [03] SLIDES & METRICS
       </button>
       <button class="console-tab" data-tab="tab-projects" onclick="switchTab('tab-projects')">
-        [02] PROJECTS MANAGER
+        [04] PROJECTS MANAGER
       </button>
       <button class="console-tab" data-tab="tab-experience" onclick="switchTab('tab-experience')">
-        [03] EXPERIENCES MANAGER
+        [05] EXPERIENCES MANAGER
       </button>
       <button class="console-tab" data-tab="tab-audit" onclick="switchTab('tab-audit')">
-        [04] TERMINAL AUDIT & DEPLOY
+        [06] TERMINAL & AUDIT
       </button>
     </div>
 
-    <!-- TAB 1: SLIDES & METRICS -->
-    <div class="console-pane active" id="tab-metrics">
+    <!-- TAB 1: APPEARANCE & FONTS -->
+    <div class="console-pane active" id="tab-appearance">
       <div class="pane-header">
         <div>
-          <h3>Homepage Slides & Metric Highlights</h3>
-          <p class="pane-desc">Edit the 4 highlight metric cards displayed across the top of your portfolio homepage.</p>
+          <h3>Theme, Typography & Grid Customizer</h3>
+          <p class="pane-desc">Change font pairings, color palettes, and background grid styles with instant live preview and GitHub Pages deployment.</p>
         </div>
         <div class="pane-actions">
-          <button class="button button-primary" onclick="deployMetrics()">
-            <span>SAVE & DEPLOY METRICS TO GITHUB</span>
+          <button class="button button-outline" onclick="previewCurrentAppearance()">
+            <span>TEST LIVE IN BROWSER</span>
+          </button>
+          <button class="button button-primary" onclick="deployAppearance()">
+            <span>SAVE & DEPLOY APPEARANCE</span>
           </button>
         </div>
       </div>
 
       <div class="metrics-editor-grid">
-        <!-- Metric 1 -->
         <div class="metric-edit-card">
-          <div class="edit-card-title">SLOT 01 // WORLDQUANT / PRIMARY</div>
+          <div class="edit-card-title">TYPOGRAPHY PAIRING</div>
           <div class="form-group">
-            <label>LABEL</label>
-            <input type="text" id="m1-label" value="WORLDQUANT BRAIN">
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="flex: 2;">
-              <label>PRIMARY VALUE</label>
-              <input type="text" id="m1-val" value="42">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>SUB-TEXT</label>
-              <input type="text" id="m1-sub" value="/ 5,700+">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>COLOR</label>
-              <select id="m1-color">
-                <option value="cyan" selected>Cyan</option>
-                <option value="green">Green</option>
-                <option value="amber">Amber</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>DESCRIPTION / DETAIL</label>
-            <input type="text" id="m1-detail" value="Global Rank in Power Pool Alpha Competition (11th in India)">
+            <label>SELECT FONT PAIRING</label>
+            <select id="app-font-pair" onchange="previewCurrentAppearance()">
+              <option value="fraunces_space" selected>Fraunces (Serif) + Space Grotesk (Tech) [Default]</option>
+              <option value="inter_jetbrains">Inter (Neo-Grotesque) + JetBrains Mono (Hacker)</option>
+              <option value="jakarta_roboto">Plus Jakarta Sans (Modern) + Roboto Mono (Clean)</option>
+              <option value="playfair_fira">Playfair Display (Editorial) + Inter + Fira Code</option>
+              <option value="space_space">Space Grotesk (Pure Geometry) + JetBrains Mono</option>
+            </select>
+            <span class="form-help">Applies across all headers, body text, badges, and code snippets.</span>
           </div>
         </div>
 
-        <!-- Metric 2 -->
         <div class="metric-edit-card">
-          <div class="edit-card-title">SLOT 02 // SCHOLASTIC / JEE</div>
+          <div class="edit-card-title">COLOR THEME & PALETTE</div>
           <div class="form-group">
-            <label>LABEL</label>
-            <input type="text" id="m2-label" value="JEE MAINS '24">
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="flex: 2;">
-              <label>PRIMARY VALUE</label>
-              <input type="text" id="m2-val" value="99.72">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>SUB-TEXT</label>
-              <input type="text" id="m2-sub" value="%ile">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>COLOR</label>
-              <select id="m2-color">
-                <option value="cyan">Cyan</option>
-                <option value="green" selected>Green</option>
-                <option value="amber">Amber</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>DESCRIPTION / DETAIL</label>
-            <input type="text" id="m2-detail" value="Top 0.28% out of 1.4 Million candidates nationwide">
+            <label>SELECT ACCENT PALETTE</label>
+            <select id="app-accent-theme" onchange="previewCurrentAppearance()">
+              <option value="jane_street" selected>Jane Street & WorldQuant (Obsidian + Electric Cyan + Alpha Green)</option>
+              <option value="worldquant_cyan">WorldQuant Deep Tech (Midnight Blue + Sky Cyan + White)</option>
+              <option value="emerald_alpha">Emerald Alpha (Dark Forest + Emerald Green + Mint)</option>
+              <option value="amber_terminal">Amber Terminal (Phosphor Gold + Warm Amber + Charcoal)</option>
+              <option value="monochrome_matrix">Monochrome Matrix (Pure Obsidian + Titanium + Silver)</option>
+            </select>
+            <span class="form-help">Recolors primary buttons, badges, glowing accents, and cards.</span>
           </div>
         </div>
 
-        <!-- Metric 3 -->
         <div class="metric-edit-card">
-          <div class="edit-card-title">SLOT 03 // QUANT METRIC / IR</div>
+          <div class="edit-card-title">BACKGROUND GRID PATTERN</div>
           <div class="form-group">
-            <label>LABEL</label>
-            <input type="text" id="m3-label" value="OUT-OF-SAMPLE IR">
-          </div>
-          <div class="form-row">
-            <div class="form-group" style="flex: 2;">
-              <label>PRIMARY VALUE</label>
-              <input type="text" id="m3-val" value="2.39">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>SUB-TEXT</label>
-              <input type="text" id="m3-sub" value="">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>COLOR</label>
-              <select id="m3-color">
-                <option value="cyan">Cyan</option>
-                <option value="green">Green</option>
-                <option value="amber" selected>Amber</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>DESCRIPTION / DETAIL</label>
-            <input type="text" id="m3-detail" value="Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)">
+            <label>SELECT GRID STYLE</label>
+            <select id="app-grid-style" onchange="previewCurrentAppearance()">
+              <option value="coordinate" selected>Coordinate Grid (40px Cartesian hairline)</option>
+              <option value="dots">Dot Matrix (24px Precision Points)</option>
+              <option value="blueprint">Blueprint Dual Grid (20px / 100px Architecture)</option>
+              <option value="minimal">Minimal Studio (Clean Ambient Glow, No Grid)</option>
+            </select>
+            <span class="form-help">Pure CSS background texture with static zero-CPU ambient radial gradients.</span>
           </div>
         </div>
 
-        <!-- Metric 4 -->
         <div class="metric-edit-card">
-          <div class="edit-card-title">SLOT 04 // AUTONOMY / CONTROLS</div>
-          <div class="form-group">
-            <label>LABEL</label>
-            <input type="text" id="m4-label" value="REAL-TIME CONTROL">
+          <div class="edit-card-title">LIVE PREVIEW STATUS</div>
+          <p style="font-size: 0.85rem; color: var(--text-subtle); margin: 0 0 1rem;">
+            You can test all fonts, colors, and grid styles in real time right inside this browser window before pushing to GitHub!
+          </p>
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="card-badge badge-cyan">CYAN BADGE</span>
+            <span class="card-badge badge-green">GREEN BADGE</span>
+            <span class="card-badge badge-amber">AMBER BADGE</span>
           </div>
-          <div class="form-row">
-            <div class="form-group" style="flex: 2;">
-              <label>PRIMARY VALUE</label>
-              <input type="text" id="m4-val" value="100">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>SUB-TEXT</label>
-              <input type="text" id="m4-sub" value="Hz">
-            </div>
-            <div class="form-group" style="flex: 1;">
-              <label>COLOR</label>
-              <select id="m4-color">
-                <option value="cyan" selected>Cyan</option>
-                <option value="green">Green</option>
-                <option value="amber">Amber</option>
-              </select>
-            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: HEADINGS & HERO -->
+    <div class="console-pane" id="tab-headings">
+      <div class="pane-header">
+        <div>
+          <h3>Headings, Hero Text & Dossier Specs</h3>
+          <p class="pane-desc">Edit hero titles, lede paragraphs, call-to-action button labels, section headings, and profile card metrics.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-primary" onclick="deployHeadings()">
+            <span>SAVE & DEPLOY HEADINGS</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="metric-edit-card" style="margin-bottom: 1.5rem;">
+        <div class="edit-card-title">FLAGSHIP HERO SECTION</div>
+        <div class="form-group">
+          <label>HERO EYEBROW BADGE</label>
+          <input type="text" id="h-eyebrow" value="IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS">
+        </div>
+        <div class="form-group">
+          <label>HERO MAIN HEADLINE</label>
+          <input type="text" id="h-heading" value="Quantitative Alpha Research & Autonomous Controls">
+        </div>
+        <div class="form-group">
+          <label>HERO LEDE PARAGRAPH (HTML ALLOWED)</label>
+          <textarea id="h-lede" rows="3">Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.</textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label>PRIMARY BUTTON TEXT</label>
+            <input type="text" id="h-btn-primary" value="EXPLORE PROJECTS">
           </div>
-          <div class="form-group">
-            <label>DESCRIPTION / DETAIL</label>
-            <input type="text" id="m4-detail" value="LibTorch-Acados learned-dynamics HyperMPC control loop">
+          <div class="form-group" style="flex: 1;">
+            <label>SECONDARY BUTTON TEXT</label>
+            <input type="text" id="h-btn-secondary" value="EXPERIENCE">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>CV BUTTON TEXT</label>
+            <input type="text" id="h-btn-cv" value="CURRICULUM VITAE">
           </div>
         </div>
       </div>
 
+      <div class="metrics-editor-grid">
+        <div class="metric-edit-card">
+          <div class="edit-card-title">SECTION HEADINGS</div>
+          <div class="form-group">
+            <label>EXPERIENCE EYEBROW & TITLE</label>
+            <input type="text" id="sec-exp-eye" value="PROFESSIONAL TRAJECTORY" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-exp-title" value="Core Engagements">
+          </div>
+          <div class="form-group">
+            <label>PROJECTS EYEBROW & TITLE</label>
+            <input type="text" id="sec-proj-eye" value="RESEARCH & IMPLEMENTATIONS" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-proj-title" value="Featured Technical Projects">
+          </div>
+          <div class="form-group">
+            <label>COMPETENCIES EYEBROW & TITLE</label>
+            <input type="text" id="sec-comp-eye" value="CAPABILITIES MATRIX" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-comp-title" value="Technical Competencies">
+          </div>
+          <div class="form-group">
+            <label>SCHOLASTIC EYEBROW & TITLE</label>
+            <input type="text" id="sec-sch-eye" value="ACADEMIC EXCELLENCE" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-sch-title" value="Scholastic Honors & Education">
+          </div>
+        </div>
+
+        <div class="metric-edit-card">
+          <div class="edit-card-title">RESEARCH DOSSIER PROFILE CARD</div>
+          <div class="form-group">
+            <label>INSTITUTION</label>
+            <input type="text" id="prof-inst" value="IIT Bombay">
+          </div>
+          <div class="form-group">
+            <label>ACADEMIC CPI</label>
+            <input type="text" id="prof-cpi" value="8.27 / 10.0">
+          </div>
+          <div class="form-group">
+            <label>PRIMARY FOCUS</label>
+            <input type="text" id="prof-f1" value="Quantitative Finance">
+          </div>
+          <div class="form-group">
+            <label>SECONDARY FOCUS</label>
+            <input type="text" id="prof-f2" value="Autonomous Control">
+          </div>
+          <div class="form-group">
+            <label>ROLE SHORT BADGE</label>
+            <input type="text" id="prof-role-short" value="IIT Bombay • B.Tech '28">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: SLIDES & METRICS -->
+    <div class="console-pane" id="tab-metrics">
+      <div class="pane-header">
+        <div>
+          <h3>Homepage Slides & Metric Highlights</h3>
+          <p class="pane-desc">Add, remove, or edit highlight metric cards displayed across the top ticker of your portfolio homepage.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-secondary" onclick="addNewSlide()">
+            <span>+ ADD NEW SLIDE</span>
+          </button>
+          <button class="button button-primary" onclick="deployMetrics()">
+            <span>SAVE & DEPLOY METRICS</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Dynamic Slides Container -->
+      <div class="metrics-editor-grid" id="dynamic-slides-container">
+        <!-- Injected dynamically by JS -->
+      </div>
+
       <!-- Live Preview -->
       <div style="margin-top: 2rem;">
-        <span class="spec-label">LIVE PREVIEW ON HOMEPAGE</span>
+        <span class="spec-label">LIVE PREVIEW ON HOMEPAGE TICKER</span>
         <div class="metrics-bar" id="preview-metrics-bar" style="margin-top: 0.75rem;">
           <!-- Dynamically updated by JS -->
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: PROJECTS MANAGER -->
+    <!-- TAB 4: PROJECTS MANAGER -->
     <div class="console-pane" id="tab-projects">
       <div class="pane-header">
         <div>
           <h3>Technical Projects Editor</h3>
-          <p class="pane-desc">Create or update project markdown files with guaranteed valid YAML formatting.</p>
+          <p class="pane-desc">Create, edit, or delete project markdown files with guaranteed valid YAML formatting.</p>
         </div>
         <div class="pane-actions">
           <button class="button button-secondary" onclick="loadNewProjectTemplate()">
@@ -266,22 +349,27 @@
         </div>
       </div>
 
-      <div class="form-group" style="margin-bottom: 1.5rem;">
-        <label>SELECT PROJECT TO EDIT</label>
-        <select id="project-selector" onchange="handleSelectProject(this.value)">
-          <option value="regime-portfolio-optimization">Regime-Aware Portfolio Optimization</option>
-          <option value="quant-alley">Chicago Quant Alley: Crypto Strategy Simulator</option>
-          <option value="spatial-hyper-mpc">Spatial Hyper-MPC with Neural Policy</option>
-          <option value="inverse-elasticity-pinn">Inverse Elasticity Physics-Informed NN</option>
-          <option value="super-resolution">Single Image Super Resolution (EDSR)</option>
-          <option value="cosmic-detective">The Cosmic Detective: Multi-Agent AI</option>
-          <option value="spatial-anc">Spatial Active Noise Control</option>
-          <option value="Wildlife Hotspot Detector">Wildlife Hotspot Detector</option>
-          <option value="derivatives-math">Mathematics of Derivative Pricing</option>
-          <option value="interest-rate-hikes">Effects of Interest Rate Hikes (Vasicek)</option>
-          <option value="ssmphony">SSMphony: Linear Audio Generation</option>
-          <option value="__new__">+ Create New Project</option>
-        </select>
+      <div class="form-row" style="margin-bottom: 1.5rem; align-items: flex-end;">
+        <div class="form-group" style="flex: 2;">
+          <label>SELECT PROJECT TO EDIT</label>
+          <select id="project-selector" onchange="handleSelectProject(this.value)">
+            <!-- Populated dynamically by JS -->
+          </select>
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>LOAD DOMAIN PRESET</label>
+          <select id="preset-selector" onchange="applyProjectPreset(this.value)">
+            <option value="">-- Select Domain Preset --</option>
+            <option value="quant">Quantitative Finance / Alpha Research</option>
+            <option value="autonomy">Autonomous Controls / Robotics</option>
+            <option value="deeplearning">Deep Learning & AI Systems</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex: 0 0 auto;">
+          <button class="button button-outline" style="color: #f43f5e; border-color: rgba(244,63,94,0.4);" onclick="deleteCurrentProject()">
+            DELETE PROJECT
+          </button>
+        </div>
       </div>
 
       <div class="form-row">
@@ -318,11 +406,11 @@
 
       <div class="form-group">
         <label>TECHNICAL MARKDOWN BODY</label>
-        <textarea id="p-content" rows="10" placeholder="Detailed technical content, mathematical formulations, results..."></textarea>
+        <textarea id="p-content" rows="12" placeholder="Detailed technical content, mathematical formulations, results..."></textarea>
       </div>
     </div>
 
-    <!-- TAB 3: EXPERIENCES MANAGER -->
+    <!-- TAB 5: EXPERIENCES MANAGER -->
     <div class="console-pane" id="tab-experience">
       <div class="pane-header">
         <div>
@@ -330,20 +418,31 @@
           <p class="pane-desc">Update roles, metrics, and achievements for WorldQuant BRAIN, SeDriCa, and leadership roles.</p>
         </div>
         <div class="pane-actions">
+          <button class="button button-secondary" onclick="loadNewExpTemplate()">
+            <span>+ NEW EXPERIENCE</span>
+          </button>
           <button class="button button-primary" onclick="deployExperience()">
             <span>SAVE & DEPLOY EXPERIENCE</span>
           </button>
         </div>
       </div>
 
-      <div class="form-group" style="margin-bottom: 1.5rem;">
-        <label>SELECT ROLE TO EDIT</label>
-        <select id="exp-selector" onchange="handleSelectExp(this.value)">
-          <option value="worldquant">WorldQuant BRAIN (Master Consultant)</option>
-          <option value="sedrica">SeDriCa (Controls & State Estimation)</option>
-          <option value="umic-manager">UMIC Team Manager (INR 4M+ Budget)</option>
-          <option value="mentorship">Quantitative & Systems Mentor</option>
-        </select>
+      <div class="form-row" style="margin-bottom: 1.5rem; align-items: flex-end;">
+        <div class="form-group" style="flex: 3;">
+          <label>SELECT ROLE TO EDIT</label>
+          <select id="exp-selector" onchange="handleSelectExp(this.value)">
+            <option value="worldquant">WorldQuant BRAIN (Master Consultant)</option>
+            <option value="sedrica">SeDriCa (Controls & State Estimation)</option>
+            <option value="umic-manager">UMIC Team Manager (INR 4M+ Budget)</option>
+            <option value="mentorship">Quantitative & Systems Mentor</option>
+            <option value="__new__">+ Create New Experience</option>
+          </select>
+        </div>
+        <div class="form-group" style="flex: 0 0 auto;">
+          <button class="button button-outline" style="color: #f43f5e; border-color: rgba(244,63,94,0.4);" onclick="deleteCurrentExp()">
+            DELETE EXPERIENCE
+          </button>
+        </div>
       </div>
 
       <div class="form-row">
@@ -384,11 +483,11 @@
 
       <div class="form-group">
         <label>TECHNICAL DETAILS & ACHIEVEMENTS (MARKDOWN)</label>
-        <textarea id="e-content" rows="8"></textarea>
+        <textarea id="e-content" rows="10"></textarea>
       </div>
     </div>
 
-    <!-- TAB 4: TERMINAL AUDIT & DEPLOY -->
+    <!-- TAB 6: TERMINAL AUDIT & DEPLOY -->
     <div class="console-pane" id="tab-audit">
       <div class="pane-header">
         <div>
@@ -413,7 +512,7 @@
           <span class="term-title">vatshvan@iitb-quant-node: ~ / console / audit.log</span>
         </div>
         <div class="terminal-output" id="term-output">
-          <div class="term-line info">> [SYSTEM INITIALIZED] Console v2.4 operational.</div>
+          <div class="term-line info">> [SYSTEM INITIALIZED] Console v3.0 operational.</div>
           <div class="term-line info">> [AUTH] Session established.</div>
         </div>
       </div>
@@ -559,7 +658,40 @@
   background: rgba(0, 229, 255, 0.04);
   border: 1px solid rgba(0, 229, 255, 0.2);
   border-radius: var(--radius-md);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.diag-banner {
+  padding: 1.25rem 1.5rem;
+  background: rgba(244, 63, 94, 0.08);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+}
+
+.diag-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fb7185;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.diag-text {
+  font-size: 0.85rem;
+  color: var(--text);
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.diag-steps ol {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.82rem;
+  color: var(--text-subtle);
+  line-height: 1.6;
 }
 
 .console-tabs {
@@ -635,6 +767,9 @@
 }
 
 .edit-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.75rem;
   color: var(--accent-green);
   letter-spacing: 0.08em;
@@ -699,7 +834,149 @@
 const REPO_OWNER = "VatshVan";
 const REPO_NAME = "vatshvan.github.io";
 
-// Login handler: accepts 'vatshvan' and 'quant2028' (or saved password)
+// Comprehensive Projects Directory
+const PROJECTS_DATA = {
+  "regime-portfolio-optimization": {
+    title: "Regime-Aware Portfolio Optimization",
+    slug: "regime-portfolio-optimization",
+    org: "Summer of Quant, Quant Club | IIT Bombay",
+    date: "2026-06-01",
+    tags: "Quantitative Finance, Hidden Markov Models, Convex Optimization, CUSUM Sampling",
+    summary: "Built a regime-switching portfolio optimizer combining Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities.",
+    content: `### Executive Overview
+Integrated Gaussian Hidden Markov Models (HMMs), Random Forest meta-models, and convex portfolio optimization across 503 equities (2018–2024).
+
+### Key Methodological Innovations
+* **CUSUM Sampling & Triple Barrier Method**: Sampled informative event timestamps, filtering microstructural noise with 5-day horizon and 1.5x dynamic ATR thresholds.
+* **Purged 5-Fold Cross-Validation**: Implemented with 1% embargo periods preventing information leakage.
+* **Regime-Conditional Allocation**: Transitioned dynamically between Maximum Sharpe (bullish) and Hierarchical Risk Parity (high-volatility).`
+  },
+  "quant-alley": {
+    title: "Chicago Quant Alley: Crypto Strategy Simulator",
+    slug: "quant-alley",
+    org: "Personal Quant Initiative",
+    date: "2025-05-01",
+    tags: "Options Trading, CCXT, Multi-Armed Bandits, Risk Management",
+    summary: "Mid-frequency Bitcoin options and futures trading simulator with slippage modeling, async CCXT execution, and Multi-Armed Bandit parameter tuning.",
+    content: `### Executive Overview
+Engineered a mid-frequency options and futures trading simulator for cryptocurrency derivatives, modeling market impact, dynamic strike selection, and transaction costs.
+
+### Technical Details
+* **Multi-Armed Bandit Tuning**: Optimized delta hedging frequencies and dynamic strike selection.
+* **Async CCXT Execution**: Integrated asynchronous order routing for simulated low-latency order placement.`
+  },
+  "spatial-hyper-mpc": {
+    title: "Spatial Hyper-MPC with Neural Policy Distillation",
+    slug: "spatial-hyper-mpc",
+    org: "ME444 Course Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay",
+    date: "2026-03-01",
+    tags: "Autonomous Controls, Model Predictive Control, Neural Policy Distillation, OSQP",
+    summary: "Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF, cutting peak angular velocity by 3x.",
+    content: `### Executive Overview
+Engineered an ultra-fast, high-dimensional control framework for active vehicle suspension systems subjected to aggressive spatial road disturbances.
+
+### Technical Architecture
+* **OSQP Convex Formulation**: Formulated a 40-step horizon quadratic program with dynamic state constraints.
+* **Neural Policy Distillation**: Distilled the online MPC solver into a 4,736-parameter MLP with 20,000 expert trajectories, running at 100+ Hz.`
+  },
+  "inverse-elasticity-pinn": {
+    title: "Inverse Elasticity Physics-Informed NN",
+    slug: "inverse-elasticity-pinn",
+    org: "ME444 Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay",
+    date: "2026-03-01",
+    tags: "Machine Learning, Physics-Informed Neural Networks, Inverse Elasticity, Sobol Points",
+    summary: "Direct Hybrid Collocation PINN estimating Young's modulus fields across additive manufacturing lattice specimens.",
+    content: `### Executive Overview
+Engineered a Direct Hybrid Collocation Physics-Informed Neural Network (PINN) to resolve the inverse problem of non-destructive Young's modulus distribution estimation in additive manufacturing specimens.
+
+### Mathematical Formulation
+Enforces 2D Cauchy Momentum PDEs with Sobol quasi-random collocation sampling.`
+  },
+  "super-resolution": {
+    title: "Single Image Super Resolution (EDSR)",
+    slug: "super-resolution",
+    org: "Deep Learning Research",
+    date: "2026-03-01",
+    tags: "Deep Learning, Computer Vision, EDSR, PyTorch AMP, Satellite Imagery",
+    summary: "EDSR with 32 residual blocks and PyTorch AMP, achieving 34.84 dB PSNR on DIV2K and 37.47 dB PSNR on Sen2Venus satellite imagery.",
+    content: `### Executive Overview
+Implemented an Enhanced Deep Residual Network (EDSR) for 4x Single Image Super-Resolution with 32 residual blocks and 256 feature channels.
+
+### Benchmarks
+* DIV2K Benchmark: 34.84 dB PSNR / 0.932 SSIM.
+* Sen2Venus Satellite Benchmark: 37.47 dB PSNR.`
+  },
+  "cosmic-detective": {
+    title: "The Cosmic Detective: Multi-Agent AI",
+    slug: "cosmic-detective",
+    org: "Astronomy & AI Research",
+    date: "2026-05-01",
+    tags: "Multi-Agent AI, Knowledge Graphs, Neo4j, Gemini Pro, FITS Parsing",
+    summary: "Multi-agent AI system for autonomous sky survey exploration, transient detection, and hypothesis generation.",
+    content: `### Executive Overview
+Architected a multi-agent autonomous system combining Gemini models, Neo4j knowledge graphs, and Swift FITS astronomical data parsing for transient astrophysical event detection.`
+  },
+  "spatial-anc": {
+    title: "Spatial Active Noise Control",
+    slug: "spatial-anc",
+    org: "Acoustics & Signal Processing Project",
+    date: "2026-01-01",
+    tags: "Signal Processing, Adaptive Filters, FxLMS, Active Noise Control",
+    summary: "Multi-channel spatial active noise cancellation system using filtered-X LMS algorithms and acoustic transfer function modeling.",
+    content: `### Executive Overview
+Designed and simulated a multi-zone spatial Active Noise Control (ANC) system utilizing multichannel Filtered-X Least Mean Squares (FxLMS) algorithms.`
+  },
+  "wildlife-hotspot-detector": {
+    title: "Wildlife Hotspot Detector",
+    slug: "wildlife-hotspot-detector",
+    org: "Computer Vision & Edge Systems",
+    date: "2025-11-01",
+    tags: "Edge AI, Computer Vision, YOLO, Thermal Imaging",
+    summary: "Low-power edge AI detection system fusing thermal and visible imagery for real-time human-wildlife conflict mitigation.",
+    content: `### Executive Overview
+Developed an edge-deployable computer vision system for real-time wildlife tracking and human-wildlife conflict zone alerting.`
+  },
+  "derivatives-math": {
+    title: "Mathematics of Derivative Pricing",
+    slug: "derivatives-math",
+    org: "Independent Quantitative Study",
+    date: "2025-08-01",
+    tags: "Quantitative Finance, Stochastic Calculus, Black-Scholes, Martingales",
+    summary: "Rigorous derivations and numerical schemes for Black-Scholes PDEs, Feynman-Kac theorems, and risk-neutral pricing.",
+    content: `### Executive Overview
+Analytical derivations and numerical finite-difference schemes for European, American, and Asian option pricing under Black-Scholes and local volatility frameworks.`
+  },
+  "interest-rate-hikes": {
+    title: "Effects of Interest Rate Hikes (Vasicek)",
+    slug: "interest-rate-hikes",
+    org: "Fixed Income Research",
+    date: "2025-07-01",
+    tags: "Fixed Income, Term Structure, Vasicek Model, Monte Carlo",
+    summary: "Calibrated 1-factor Vasicek short-rate model to macroeconomic rate hiking regimes with Monte Carlo yield curve simulations.",
+    content: `### Executive Overview
+Investigated term structure shifts across central bank tightening cycles by calibrating the 1-factor Vasicek short-rate model.`
+  },
+  "ssmphony": {
+    title: "SSMphony: Linear Audio Generation",
+    slug: "ssmphony",
+    org: "Generative AI Research",
+    date: "2026-04-01",
+    tags: "Generative AI, State Space Models, Mamba, Audio Synthesis",
+    summary: "Sub-quadratic generative audio synthesis utilizing Structured State Space (S4/Mamba) layers for long-range audio waveform modeling.",
+    content: `### Executive Overview
+Engineered a linear-complexity generative audio architecture replacing quadratic attention with discretized state space models for ultra-long acoustic sequence generation.`
+  }
+};
+
+// Initial Slides Data
+let currentSlides = [
+  { label: "WORLDQUANT BRAIN", val: "42", sub: "/ 5,700+", col: "cyan", det: "Global Rank in Power Pool Alpha Competition (11th in India)" },
+  { label: "JEE MAINS '24", val: "99.72", sub: "%ile", col: "green", det: "Top 0.28% out of 1.4 Million candidates nationwide" },
+  { label: "OUT-OF-SAMPLE IR", val: "2.39", sub: "", col: "amber", det: "Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)" },
+  { label: "REAL-TIME CONTROL", val: "100", sub: "Hz", col: "cyan", det: "LibTorch-Acados learned-dynamics HyperMPC control loop" }
+];
+
+// Login handler
 function handleLogin(e) {
   if (e) e.preventDefault();
   const id = document.getElementById("admin-id").value.trim().toLowerCase();
@@ -771,18 +1048,23 @@ function unlockConsole() {
   if (savedToken) {
     const input = document.getElementById("permanent-pat-input");
     input.placeholder = "PAT Saved: " + savedToken.slice(0, 7) + "••••••••••••";
+    const ind = document.getElementById("pat-active-indicator");
+    if (ind) ind.textContent = "KEY ACTIVE: " + savedToken.slice(0, 7) + "••••";
   }
 
   logTerm("info", "[AUTH] Operator access granted as 'vatshvan'.");
   checkGitHubApi();
-  updateMetricsPreview();
-  attachPreviewListeners();
+  renderDynamicSlides();
+  populateProjectsDropdown();
+  handleSelectProject("regime-portfolio-optimization");
+  handleSelectExp("worldquant");
 }
 
 function checkGitHubApi() {
   const token = getStoredPAT();
   const badge = document.getElementById("github-status-badge");
   const statusText = document.getElementById("pat-status-text");
+  const diagBox = document.getElementById("pat-diagnostic-box");
 
   if (!token) {
     badge.textContent = "OFFLINE / LOCAL MODE (NO TOKEN)";
@@ -799,11 +1081,13 @@ function checkGitHubApi() {
         badge.className = "card-badge badge-green";
         if (statusText) statusText.innerHTML = "<span style='color: var(--accent-green);'>GitHub API Connected! Direct one-click deploys to GitHub Pages are fully active.</span>";
         logTerm("success", `[GITHUB API] Successfully authenticated with repository ${REPO_OWNER}/${REPO_NAME}.`);
+        if (diagBox) diagBox.style.display = "none";
       } else {
-        badge.textContent = "GITHUB API: TOKEN INVALID";
+        badge.textContent = "GITHUB API: PERMISSION ERROR";
         badge.className = "card-badge badge-amber";
-        if (statusText) statusText.innerHTML = "<span style='color: #f43f5e;'>Token invalid or lacking repo permissions. Please generate a new token with 'repo' scope.</span>";
-        logTerm("error", "[GITHUB API] Token rejected. Verify 'repo' or 'contents:write' scope on github.com/settings/tokens.");
+        if (statusText) statusText.innerHTML = "<span style='color: #f43f5e;'>Token invalid or lacking repo permissions. See instructions below.</span>";
+        logTerm("error", "[GITHUB API] Token rejected. Verify 'Contents: Read and write' scope on github.com/settings/tokens.");
+        if (diagBox) diagBox.style.display = "block";
       }
     }).catch(err => {
       badge.textContent = "GITHUB API: NETWORK ERROR";
@@ -815,8 +1099,10 @@ function checkGitHubApi() {
 function switchTab(tabId) {
   document.querySelectorAll(".console-tab").forEach(t => t.classList.remove("active"));
   document.querySelectorAll(".console-pane").forEach(p => p.classList.remove("active"));
-  document.querySelector(`[data-tab="${tabId}"]`).classList.add("active");
-  document.getElementById(tabId).classList.add("active");
+  const tabBtn = document.querySelector(`[data-tab="${tabId}"]`);
+  if (tabBtn) tabBtn.classList.add("active");
+  const pane = document.getElementById(tabId);
+  if (pane) pane.classList.add("active");
 }
 
 function logTerm(type, msg) {
@@ -834,38 +1120,11 @@ function clearTerminal() {
   document.getElementById("term-output").innerHTML = "";
 }
 
-// Live Metrics Preview
-function updateMetricsPreview() {
-  const preview = document.getElementById("preview-metrics-bar");
-  if (!preview) return;
-  const cards = [
-    { label: document.getElementById("m1-label").value, val: document.getElementById("m1-val").value, sub: document.getElementById("m1-sub").value, col: document.getElementById("m1-color").value, det: document.getElementById("m1-detail").value },
-    { label: document.getElementById("m2-label").value, val: document.getElementById("m2-val").value, sub: document.getElementById("m2-sub").value, col: document.getElementById("m2-color").value, det: document.getElementById("m2-detail").value },
-    { label: document.getElementById("m3-label").value, val: document.getElementById("m3-val").value, sub: document.getElementById("m3-sub").value, col: document.getElementById("m3-color").value, det: document.getElementById("m3-detail").value },
-    { label: document.getElementById("m4-label").value, val: document.getElementById("m4-val").value, sub: document.getElementById("m4-sub").value, col: document.getElementById("m4-color").value, det: document.getElementById("m4-detail").value }
-  ];
-
-  preview.innerHTML = cards.map(c => `
-    <div class="metric-card">
-      <span class="metric-label">${c.label}</span>
-      <div class="metric-value text-${c.col}">${c.val} ${c.sub ? `<span class="metric-sub">${c.sub}</span>` : ''}</div>
-      <span class="metric-detail">${c.det}</span>
-    </div>
-  `).join('');
-}
-
-function attachPreviewListeners() {
-  ["m1", "m2", "m3", "m4"].forEach(prefix => {
-    ["label", "val", "sub", "color", "detail"].forEach(prop => {
-      const el = document.getElementById(`${prefix}-${prop}`);
-      if (el) el.addEventListener("input", updateMetricsPreview);
-    });
-  });
-}
-
 // GitHub REST API Committer
 async function commitFileToGitHub(path, content, message) {
   const token = getStoredPAT();
+  const diagBox = document.getElementById("pat-diagnostic-box");
+
   if (!token) {
     logTerm("warn", `[COMMIT BLOCKED] No GitHub Token found. Downloading file '${path}' locally.`);
     downloadTextFile(path.split("/").pop(), content);
@@ -914,11 +1173,66 @@ async function commitFileToGitHub(path, content, message) {
     const resData = await putRes.json();
     logTerm("success", `[DEPLOY TRIGGERED] Commit ${resData.commit.sha.slice(0,7)} pushed successfully!`);
     logTerm("success", `[ACTIONS] GitHub Actions Hugo workflow is now building the site (~30s).`);
+    if (diagBox) diagBox.style.display = "none";
     switchTab("tab-audit");
   } else {
     const err = await putRes.json();
     logTerm("error", `[DEPLOY FAILED] ${err.message}`);
+    if (err.message && err.message.includes("Resource not accessible by personal access token")) {
+      logTerm("error", `[DIAGNOSTIC] Your GitHub PAT has Read-only permissions. Go to github.com/settings/tokens, edit this token, and change 'Repository permissions: Contents' to 'Read and write'. DO NOT create a new token!`);
+      if (diagBox) diagBox.style.display = "block";
+    }
     switchTab("tab-audit");
+  }
+}
+
+// GitHub REST API Deleter
+async function deleteFileFromGitHub(path, message) {
+  const token = getStoredPAT();
+  if (!token) {
+    alert("GitHub PAT is required to delete files directly from the repository.");
+    return;
+  }
+
+  if (!confirm(`Are you sure you want to permanently delete '${path}' from the repository?`)) {
+    return;
+  }
+
+  logTerm("info", `[GITHUB] Locating SHA for deletion: ${path}...`);
+  const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+
+  try {
+    const getRes = await fetch(apiUrl, {
+      headers: { "Authorization": `token ${token}` }
+    });
+    if (!getRes.ok) {
+      logTerm("error", `[DELETE FAILED] File ${path} does not exist on remote repository.`);
+      return;
+    }
+    const data = await getRes.json();
+    const sha = data.sha;
+
+    logTerm("info", `[GITHUB] Sending DELETE request for ${path}...`);
+    const delRes = await fetch(apiUrl, {
+      method: "DELETE",
+      headers: {
+        "Authorization": `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: message, sha: sha, branch: "main" })
+    });
+
+    if (delRes.ok) {
+      logTerm("success", `[DELETE SUCCESSFUL] '${path}' removed from 'main'.`);
+      logTerm("success", `[ACTIONS] Triggered Hugo rebuild workflow.`);
+      switchTab("tab-audit");
+    } else {
+      const err = await delRes.json();
+      logTerm("error", `[DELETE FAILED] ${err.message}`);
+      switchTab("tab-audit");
+    }
+  } catch(e) {
+    logTerm("error", `[DELETE ERROR] ${e.message}`);
   }
 }
 
@@ -930,62 +1244,183 @@ function downloadTextFile(filename, text) {
   a.click();
 }
 
-// Deploy Metrics
-function deployMetrics() {
-  const yaml = `items:
-  - label: "${document.getElementById("m1-label").value}"
-    value: "${document.getElementById("m1-val").value}"
-    sub: "${document.getElementById("m1-sub").value}"
-    detail: "${document.getElementById("m1-detail").value}"
-    color: "${document.getElementById("m1-color").value}"
-  - label: "${document.getElementById("m2-label").value}"
-    value: "${document.getElementById("m2-val").value}"
-    sub: "${document.getElementById("m2-sub").value}"
-    detail: "${document.getElementById("m2-detail").value}"
-    color: "${document.getElementById("m2-color").value}"
-  - label: "${document.getElementById("m3-label").value}"
-    value: "${document.getElementById("m3-val").value}"
-    sub: "${document.getElementById("m3-sub").value}"
-    detail: "${document.getElementById("m3-detail").value}"
-    color: "${document.getElementById("m3-color").value}"
-  - label: "${document.getElementById("m4-label").value}"
-    value: "${document.getElementById("m4-val").value}"
-    sub: "${document.getElementById("m4-sub").value}"
-    detail: "${document.getElementById("m4-detail").value}"
-    color: "${document.getElementById("m4-color").value}"
+// TAB 1: APPEARANCE MANAGEMENT
+function previewCurrentAppearance() {
+  const font = document.getElementById("app-font-pair").value;
+  const theme = document.getElementById("app-accent-theme").value;
+  const grid = document.getElementById("app-grid-style").value;
+
+  document.documentElement.setAttribute("data-font", font);
+  document.documentElement.setAttribute("data-theme", theme);
+  document.documentElement.setAttribute("data-grid", grid);
+
+  logTerm("info", `[PREVIEW] Switched browser view to font=${font}, theme=${theme}, grid=${grid}.`);
+}
+
+function deployAppearance() {
+  const font = document.getElementById("app-font-pair").value;
+  const theme = document.getElementById("app-accent-theme").value;
+  const grid = document.getElementById("app-grid-style").value;
+
+  const yaml = `appearance:
+  font_pair: "${font}"
+  accent_theme: "${theme}"
+  grid_style: "${grid}"
+
+hero:
+  eyebrow: "${document.getElementById("h-eyebrow").value.replace(/"/g, '\\"')}"
+  heading: "${document.getElementById("h-heading").value.replace(/"/g, '\\"')}"
+  lede: "${document.getElementById("h-lede").value.replace(/"/g, '\\"')}"
+  primary_btn_text: "${document.getElementById("h-btn-primary").value.replace(/"/g, '\\"')}"
+  secondary_btn_text: "${document.getElementById("h-btn-secondary").value.replace(/"/g, '\\"')}"
+  cv_btn_text: "${document.getElementById("h-btn-cv").value.replace(/"/g, '\\"')}"
+
+sections:
+  experience_eyebrow: "${document.getElementById("sec-exp-eye").value.replace(/"/g, '\\"')}"
+  experience_title: "${document.getElementById("sec-exp-title").value.replace(/"/g, '\\"')}"
+  projects_eyebrow: "${document.getElementById("sec-proj-eye").value.replace(/"/g, '\\"')}"
+  projects_title: "${document.getElementById("sec-proj-title").value.replace(/"/g, '\\"')}"
+  competencies_eyebrow: "${document.getElementById("sec-comp-eye").value.replace(/"/g, '\\"')}"
+  competencies_title: "${document.getElementById("sec-comp-title").value.replace(/"/g, '\\"')}"
+  scholastic_eyebrow: "${document.getElementById("sec-sch-eye").value.replace(/"/g, '\\"')}"
+  scholastic_title: "${document.getElementById("sec-sch-title").value.replace(/"/g, '\\"')}"
+
+profile:
+  cpi: "${document.getElementById("prof-cpi").value.replace(/"/g, '\\"')}"
+  primary_focus: "${document.getElementById("prof-f1").value.replace(/"/g, '\\"')}"
+  secondary_focus: "${document.getElementById("prof-f2").value.replace(/"/g, '\\"')}"
+  institution: "${document.getElementById("prof-inst").value.replace(/"/g, '\\"')}"
+  role_short: "${document.getElementById("prof-role-short").value.replace(/"/g, '\\"')}"
 `;
+
+  commitFileToGitHub("data/site_content.yaml", yaml, "Update site appearance & styles via Console");
+}
+
+// TAB 2: HEADINGS MANAGEMENT
+function deployHeadings() {
+  deployAppearance(); // Both sync to data/site_content.yaml seamlessly
+}
+
+// TAB 3: DYNAMIC SLIDES & METRICS
+function renderDynamicSlides() {
+  const container = document.getElementById("dynamic-slides-container");
+  if (!container) return;
+
+  container.innerHTML = currentSlides.map((s, idx) => `
+    <div class="metric-edit-card" id="slide-card-${idx}">
+      <div class="edit-card-title">
+        <span>SLIDE #${idx + 1} // ${s.label || "METRIC"}</span>
+        <button type="button" class="button button-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeSlide(${idx})">
+          DELETE
+        </button>
+      </div>
+      <div class="form-group">
+        <label>LABEL</label>
+        <input type="text" id="slide-label-${idx}" value="${s.label}" oninput="syncSlide(${idx})">
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>PRIMARY VALUE</label>
+          <input type="text" id="slide-val-${idx}" value="${s.val}" oninput="syncSlide(${idx})">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>SUB-TEXT</label>
+          <input type="text" id="slide-sub-${idx}" value="${s.sub}" oninput="syncSlide(${idx})">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>COLOR</label>
+          <select id="slide-color-${idx}" onchange="syncSlide(${idx})">
+            <option value="cyan" ${s.col === 'cyan' ? 'selected' : ''}>Cyan</option>
+            <option value="green" ${s.col === 'green' ? 'selected' : ''}>Green</option>
+            <option value="amber" ${s.col === 'amber' ? 'selected' : ''}>Amber</option>
+            <option value="blue" ${s.col === 'blue' ? 'selected' : ''}>Blue</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>DESCRIPTION / DETAIL</label>
+        <input type="text" id="slide-det-${idx}" value="${s.det}" oninput="syncSlide(${idx})">
+      </div>
+    </div>
+  `).join('');
+
+  updateMetricsPreview();
+}
+
+function addNewSlide() {
+  currentSlides.push({
+    label: "NEW METRIC",
+    val: "100%",
+    sub: "",
+    col: "cyan",
+    det: "Description of the quantitative achievement"
+  });
+  renderDynamicSlides();
+  logTerm("info", `[SLIDES] Added new slide card. Total slides: ${currentSlides.length}.`);
+}
+
+function removeSlide(idx) {
+  if (currentSlides.length <= 1) {
+    alert("You must keep at least 1 metric slide.");
+    return;
+  }
+  currentSlides.splice(idx, 1);
+  renderDynamicSlides();
+  logTerm("info", `[SLIDES] Removed slide #${idx + 1}. Total slides: ${currentSlides.length}.`);
+}
+
+function syncSlide(idx) {
+  currentSlides[idx] = {
+    label: document.getElementById(`slide-label-${idx}`).value,
+    val: document.getElementById(`slide-val-${idx}`).value,
+    sub: document.getElementById(`slide-sub-${idx}`).value,
+    col: document.getElementById(`slide-color-${idx}`).value,
+    det: document.getElementById(`slide-det-${idx}`).value
+  };
+  updateMetricsPreview();
+}
+
+function updateMetricsPreview() {
+  const preview = document.getElementById("preview-metrics-bar");
+  if (!preview) return;
+
+  preview.innerHTML = currentSlides.map(c => `
+    <div class="metric-card">
+      <span class="metric-label">${c.label}</span>
+      <div class="metric-value text-${c.col}">${c.val} ${c.sub ? `<span class="metric-sub">${c.sub}</span>` : ''}</div>
+      <span class="metric-detail">${c.det}</span>
+    </div>
+  `).join('');
+}
+
+function deployMetrics() {
+  let yaml = "items:\n";
+  currentSlides.forEach(s => {
+    yaml += `  - label: "${s.label.replace(/"/g, '\\"')}"\n`;
+    yaml += `    value: "${s.val.replace(/"/g, '\\"')}"\n`;
+    yaml += `    sub: "${s.sub.replace(/"/g, '\\"')}"\n`;
+    yaml += `    detail: "${s.det.replace(/"/g, '\\"')}"\n`;
+    yaml += `    color: "${s.col}"\n`;
+  });
 
   commitFileToGitHub("data/metrics.yaml", yaml, "Update homepage metrics & slides via Console");
 }
 
-// Project & Experience Form Management
-const SAMPLE_PROJECTS = {
-  "regime-portfolio-optimization": {
-    title: "Regime-Aware Portfolio Optimization",
-    slug: "regime-portfolio-optimization",
-    org: "Summer of Quant, Quant Club | IIT Bombay",
-    date: "2026-06-01",
-    tags: "Quantitative Finance, Hidden Markov Models, Convex Optimization, CUSUM Sampling",
-    summary: "Built a regime-switching portfolio optimizer combining Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities.",
-    content: "Developed an institutional-grade, regime-switching portfolio optimization system designed to dynamically adapt asset allocations across shifting market volatility and macroeconomic regimes."
-  },
-  "spatial-hyper-mpc": {
-    title: "Spatial Hyper-MPC with Neural Policy Distillation",
-    slug: "spatial-hyper-mpc",
-    org: "ME444 Course Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay",
-    date: "2026-03-01",
-    tags: "Autonomous Controls, Model Predictive Control, Neural Policy Distillation, OSQP",
-    summary: "Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF.",
-    content: "Engineered an ultra-fast, high-dimensional control framework for active vehicle suspension systems subjected to aggressive spatial road disturbances."
-  }
-};
+// TAB 4: PROJECTS MANAGEMENT
+function populateProjectsDropdown() {
+  const sel = document.getElementById("project-selector");
+  if (!sel) return;
+  sel.innerHTML = Object.keys(PROJECTS_DATA).map(slug => `
+    <option value="${slug}">${PROJECTS_DATA[slug].title}</option>
+  `).join('') + `<option value="__new__">+ Create New Project</option>`;
+}
 
 function handleSelectProject(slug) {
   if (slug === "__new__") {
     loadNewProjectTemplate();
     return;
   }
-  const p = SAMPLE_PROJECTS[slug] || { title: slug, slug: slug, org: "", date: "", tags: "", summary: "", content: "" };
+  const p = PROJECTS_DATA[slug] || { title: slug, slug: slug, org: "", date: "", tags: "", summary: "", content: "" };
   document.getElementById("p-title").value = p.title;
   document.getElementById("p-slug").value = p.slug;
   document.getElementById("p-org").value = p.org;
@@ -1001,8 +1436,64 @@ function loadNewProjectTemplate() {
   document.getElementById("p-org").value = "IIT Bombay";
   document.getElementById("p-date").value = new Date().toISOString().split("T")[0];
   document.getElementById("p-tags").value = "Quantitative Research, Python, C++";
-  document.getElementById("p-summary").value = "Overview of the implementation and quantitative results.";
-  document.getElementById("p-content").value = "### Methodology & Results\n\n* Detail the algorithmic approach here.\n* Mathematical formulations: \\( f(x) = \\sigma(Wx + b) \\)\n* Benchmarks and performance metrics.";
+  document.getElementById("p-summary").value = "Overview of the implementation, mathematical framework, and quantitative results.";
+  document.getElementById("p-content").value = `### Executive Overview
+Brief description of the problem, motivation, and solution architecture.
+
+### Technical Methodology
+* Algorithmic formulation and mathematical derivations:
+$$ f(x) = \\arg\\min_w \\frac{1}{2} w^T \\Sigma w - \\lambda \\mu^T w $$
+* Numerical implementations and runtime optimizations.
+
+### Empirical Results & Benchmarks
+* Performance metrics and backtest outcomes.`;
+}
+
+function applyProjectPreset(preset) {
+  if (!preset) return;
+  if (preset === "quant") {
+    document.getElementById("p-title").value = "Statistical Arbitrage & Alpha Engine";
+    document.getElementById("p-slug").value = "statistical-arbitrage-engine";
+    document.getElementById("p-org").value = "Quant Club | IIT Bombay";
+    document.getElementById("p-date").value = new Date().toISOString().split("T")[0];
+    document.getElementById("p-tags").value = "Quantitative Finance, Statistical Arbitrage, Pairs Trading, Kalman Filters";
+    document.getElementById("p-summary").value = "Cointegration-based statistical arbitrage engine with dynamic Kalman spread estimation and risk-controlled execution.";
+    document.getElementById("p-content").value = `### Executive Overview
+Developed an institutional-grade pairs trading and statistical arbitrage strategy on high-frequency order books.
+
+### Mathematical Framework
+* **Engle-Granger & Johansen Cointegration**: Identified mean-reverting asset pairs across liquid equities.
+* **Kalman Filter Dynamic Hedge Ratio**:
+$$ y_t = \\beta_t x_t + \\epsilon_t, \\quad \\beta_t = \\beta_{t-1} + \\eta_t $$
+* **Risk Controls**: Dynamic stop-loss barriers and volatility-adjusted position sizing.`;
+  } else if (preset === "autonomy") {
+    document.getElementById("p-title").value = "Real-Time Autonomous Trajectory Planner";
+    document.getElementById("p-slug").value = "autonomous-trajectory-planner";
+    document.getElementById("p-org").value = "SeDriCa UMIC | IIT Bombay";
+    document.getElementById("p-date").value = new Date().toISOString().split("T")[0];
+    document.getElementById("p-tags").value = "Autonomous Controls, Trajectory Optimization, ROS 2, C++, Acados";
+    document.getElementById("p-summary").value = "Nonlinear Model Predictive Control trajectory generator running at 100 Hz on embedded x86 Linux.";
+    document.getElementById("p-content").value = `### Executive Overview
+Engineered a real-time trajectory optimization pipeline for high-speed autonomous navigation under dynamic obstacle constraints.
+
+### Architecture & Optimization
+* **Real-Time Iteration (RTI) Scheme**: Solved with Acados Sequential Quadratic Programming (SQP).
+* **Sensor Integration**: Direct ROS 2 node interfacing RTK GNSS and dual IMU fusion.`;
+  } else if (preset === "deeplearning") {
+    document.getElementById("p-title").value = "Foundation Model Latency Optimization";
+    document.getElementById("p-slug").value = "foundation-model-optimization";
+    document.getElementById("p-org").value = "CMInDS | IIT Bombay";
+    document.getElementById("p-date").value = new Date().toISOString().split("T")[0];
+    document.getElementById("p-tags").value = "Deep Learning, PyTorch, Model Quantization, TensorRT, CUDA";
+    document.getElementById("p-summary").value = "Optimized transformer inference pipelines using INT8 post-training quantization and custom CUDA flash-attention kernels.";
+    document.getElementById("p-content").value = `### Executive Overview
+Implemented high-throughput low-latency inference runtimes for transformer and state-space models.
+
+### Benchmarks
+* 4.2x latency reduction via TensorRT execution graphs.
+* Maintained 99.4% task accuracy under 8-bit quantization.`;
+  }
+  logTerm("info", `[PROJECTS] Loaded domain preset: ${preset}.`);
 }
 
 function deployProject() {
@@ -1010,13 +1501,18 @@ function deployProject() {
   const title = document.getElementById("p-title").value.trim();
   const org = document.getElementById("p-org").value.trim();
   const date = document.getElementById("p-date").value.trim();
-  const tags = document.getElementById("p-tags").value.split(",").map(t => `  - "${t.trim()}"`).join("\n");
-  const summary = document.getElementById("p-summary").value.trim();
+  const tags = document.getElementById("p-tags").value.split(",").map(t => `  - "${t.trim().replace(/"/g, '\\"')}"`).join("\n");
+  const summary = document.getElementById("p-summary").value.trim().replace(/"/g, '\\"');
   const body = document.getElementById("p-content").value.trim();
 
+  if (!slug || !title) {
+    alert("Project Slug and Title are required.");
+    return;
+  }
+
   const md = `---
-title: "${title}"
-organization: "${org}"
+title: "${title.replace(/"/g, '\\"')}"
+organization: "${org.replace(/"/g, '\\"')}"
 date: ${date}
 draft: false
 summary: "${summary}"
@@ -1027,40 +1523,107 @@ ${tags}
 ${body}
 `;
 
+  PROJECTS_DATA[slug] = {
+    title: title,
+    slug: slug,
+    org: org,
+    date: date,
+    tags: document.getElementById("p-tags").value.trim(),
+    summary: summary,
+    content: body
+  };
+  populateProjectsDropdown();
+  document.getElementById("project-selector").value = slug;
+
   commitFileToGitHub(`content/project/${slug}/index.md`, md, `Update project: ${title} via Console`);
 }
 
+function deleteCurrentProject() {
+  const slug = document.getElementById("p-slug").value.trim();
+  if (!slug) return;
+  deleteFileFromGitHub(`content/project/${slug}/index.md`, `Delete project ${slug} via Console`);
+}
+
+// TAB 5: EXPERIENCES MANAGEMENT
 function handleSelectExp(role) {
+  if (role === "__new__") {
+    loadNewExpTemplate();
+    return;
+  }
   if (role === "worldquant") {
     document.getElementById("e-title").value = "Quantitative Alpha Research Consultant (Master Consultant)";
     document.getElementById("e-org").value = "WorldQuant BRAIN";
     document.getElementById("e-loc").value = "Remote";
     document.getElementById("e-date").value = "2025-02-01";
     document.getElementById("e-date-end").value = "present";
-    document.getElementById("e-tags").value = "Quantitative Alpha Research, Information Ratio 2.39, 320+ Alphas";
-    document.getElementById("e-summary").value = "Master Consultant (Q3'25) with an after-cost out-sample IR of 2.39 across 320+ submitted alphas.";
-    document.getElementById("e-content").value = "* Selected as 1 of 12 global consultants to attend IQC'25 Finals.\n* Produced 320+ orthogonal alphas.";
+    document.getElementById("e-tags").value = "Quantitative Alpha Research, Information Ratio 2.39, 320+ Alphas, Orthogonalization";
+    document.getElementById("e-summary").value = "Master Consultant (Q3'25) with an after-cost out-sample IR of 2.39 across 320+ submitted alphas with self-correlation <= 0.25.";
+    document.getElementById("e-content").value = `* **Global IQC'25 Finalist**: Selected as 1 of 12 global consultants to attend the Global IQC'25 Finals in Singapore.
+* **Alpha Generation Engine**: Formulated 320+ orthogonal alphas with max fitness score of 6.47.
+* **Algorithmic Modeling**: Built genetic programming frameworks and LLM-assisted financial signal pipelines.`;
+  } else if (role === "sedrica") {
+    document.getElementById("e-title").value = "Controls & State Estimation Engineer";
+    document.getElementById("e-org").value = "SeDriCa (UMIC) • IIT Bombay";
+    document.getElementById("e-loc").value = "Mumbai, India";
+    document.getElementById("e-date").value = "2025-09-01";
+    document.getElementById("e-date-end").value = "present";
+    document.getElementById("e-tags").value = "Autonomous Controls, HyperMPC, Joint EKF, RTK GNSS, LibTorch-Acados";
+    document.getElementById("e-summary").value = "Developing autonomous vehicle controls and state estimation for India's first Level 5 autonomous car.";
+    document.getElementById("e-content").value = `* **HyperMPC Loop**: Implemented a 100 Hz learned-dynamics HyperMPC controller in LibTorch-Acados C++.
+* **State Estimation**: Developed a Joint EKF fusing RTK GNSS and dual IMU telemetry for centimeter-level localization.`;
+  } else if (role === "umic-manager") {
+    document.getElementById("e-title").value = "Team Manager & Operational Lead";
+    document.getElementById("e-org").value = "Unmanned Intelligent Systems (UMIC) • IIT Bombay";
+    document.getElementById("e-loc").value = "Mumbai, India";
+    document.getElementById("e-date").value = "2025-08-01";
+    document.getElementById("e-date-end").value = "present";
+    document.getElementById("e-tags").value = "Technical Leadership, Budget Management, Autonomous Systems";
+    document.getElementById("e-summary").value = "Managing financial operations, hardware procurement, and technical workflows for a 30+ engineer autonomous vehicle team with an INR 4M+ budget.";
+    document.getElementById("e-content").value = `* **Budget & Logistics**: Directed an INR 4M+ operational budget for autonomous hardware and sensor procurement.
+* **Engineering Oversight**: Coordinated multidisciplinary hardware-in-the-loop (HIL) testing schedules.`;
+  } else if (role === "mentorship") {
+    document.getElementById("e-title").value = "Quantitative & Systems Mentor";
+    document.getElementById("e-org").value = "IIT Bombay Student Community";
+    document.getElementById("e-loc").value = "IIT Bombay";
+    document.getElementById("e-date").value = "2025-06-01";
+    document.getElementById("e-date-end").value = "present";
+    document.getElementById("e-tags").value = "Mentorship, Quantitative Finance, Scientific Computing";
+    document.getElementById("e-summary").value = "Mentoring students in algorithmic trading, stochastic calculus, and C++ systems programming.";
+    document.getElementById("e-content").value = `* Guided undergraduates through quantitative finance projects, convex optimization, and options pricing.`;
   }
+}
+
+function loadNewExpTemplate() {
+  document.getElementById("e-title").value = "Quantitative Analyst / Engineer";
+  document.getElementById("e-org").value = "Organization Name";
+  document.getElementById("e-loc").value = "City, Country or Remote";
+  document.getElementById("e-date").value = new Date().toISOString().split("T")[0];
+  document.getElementById("e-date-end").value = "present";
+  document.getElementById("e-tags").value = "Quantitative Research, Machine Learning, Systems";
+  document.getElementById("e-summary").value = "Overview of responsibilities and key achievements.";
+  document.getElementById("e-content").value = `* Key achievement 1 with verified quantitative metrics.
+* Algorithmic or systems contributions.`;
 }
 
 function deployExperience() {
   const role = document.getElementById("exp-selector").value;
+  const slug = role === "__new__" ? "new-role" : role;
   const title = document.getElementById("e-title").value.trim();
   const org = document.getElementById("e-org").value.trim();
   const loc = document.getElementById("e-loc").value.trim();
   const date = document.getElementById("e-date").value.trim();
   const dateEnd = document.getElementById("e-date-end").value.trim();
-  const tags = document.getElementById("e-tags").value.split(",").map(t => `  - "${t.trim()}"`).join("\n");
-  const summary = document.getElementById("e-summary").value.trim();
+  const tags = document.getElementById("e-tags").value.split(",").map(t => `  - "${t.trim().replace(/"/g, '\\"')}"`).join("\n");
+  const summary = document.getElementById("e-summary").value.trim().replace(/"/g, '\\"');
   const body = document.getElementById("e-content").value.trim();
 
   const md = `---
-title: "${title}"
-organization: "${org}"
-company: "${org}"
-location: "${loc}"
+title: "${title.replace(/"/g, '\\"')}"
+organization: "${org.replace(/"/g, '\\"')}"
+company: "${org.replace(/"/g, '\\"')}"
+location: "${loc.replace(/"/g, '\\"')}"
 date: ${date}
-date_end: "${dateEnd}"
+date_end: "${dateEnd.replace(/"/g, '\\"')}"
 draft: false
 summary: "${summary}"
 tags:
@@ -1070,16 +1633,19 @@ ${tags}
 ${body}
 `;
 
-  commitFileToGitHub(`content/experience/${role}/index.md`, md, `Update experience: ${title} via Console`);
+  commitFileToGitHub(`content/experience/${slug}/index.md`, md, `Update experience: ${title} via Console`);
+}
+
+function deleteCurrentExp() {
+  const role = document.getElementById("exp-selector").value;
+  if (!role || role === "__new__") return;
+  deleteFileFromGitHub(`content/experience/${role}/index.md`, `Delete experience ${role} via Console`);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Auto-login if previously authenticated on this device
   if (localStorage.getItem("console_auth") === "true" || sessionStorage.getItem("console_auth") === "true") {
     unlockConsole();
   }
-  handleSelectExp("worldquant");
-  handleSelectProject("regime-portfolio-optimization");
 });
 </script>
 {{ end }}

@@ -37,6 +37,160 @@
   --mono: 'Fira Code', ui-monospace, SFMono-Regular, monospace;
 }
 
+/* ==========================================================================
+   DYNAMIC FONT PAIRINGS
+   ========================================================================== */
+html[data-font="fraunces_space"] body {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+html[data-font="fraunces_space"] h1,
+html[data-font="fraunces_space"] h2,
+html[data-font="fraunces_space"] h3,
+html[data-font="fraunces_space"] .brand-name {
+  font-family: 'Fraunces', serif;
+}
+html[data-font="fraunces_space"] {
+  --mono: 'Fira Code', ui-monospace, monospace;
+}
+
+html[data-font="inter_jetbrains"] body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+html[data-font="inter_jetbrains"] h1,
+html[data-font="inter_jetbrains"] h2,
+html[data-font="inter_jetbrains"] h3,
+html[data-font="inter_jetbrains"] .brand-name {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+html[data-font="inter_jetbrains"] {
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html[data-font="jakarta_roboto"] body {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+html[data-font="jakarta_roboto"] h1,
+html[data-font="jakarta_roboto"] h2,
+html[data-font="jakarta_roboto"] h3,
+html[data-font="jakarta_roboto"] .brand-name {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+html[data-font="jakarta_roboto"] {
+  --mono: 'Roboto Mono', ui-monospace, monospace;
+}
+
+html[data-font="playfair_fira"] body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+html[data-font="playfair_fira"] h1,
+html[data-font="playfair_fira"] h2,
+html[data-font="playfair_fira"] h3,
+html[data-font="playfair_fira"] .brand-name {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+html[data-font="playfair_fira"] {
+  --mono: 'Fira Code', ui-monospace, monospace;
+}
+
+html[data-font="space_space"] body,
+html[data-font="space_space"] h1,
+html[data-font="space_space"] h2,
+html[data-font="space_space"] h3,
+html[data-font="space_space"] .brand-name {
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+}
+html[data-font="space_space"] {
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ==========================================================================
+   DYNAMIC COLOR THEMES
+   ========================================================================== */
+html[data-theme="worldquant_cyan"] {
+  --bg: #040812;
+  --bg-secondary: #081026;
+  --bg-card: #0c1736;
+  --bg-card-hover: #12214d;
+  --accent-cyan: #38bdf8;
+  --accent-cyan-dim: rgba(56, 189, 248, 0.12);
+  --accent-green: #34d399;
+  --accent-green-dim: rgba(52, 211, 153, 0.12);
+  --accent-amber: #fbbf24;
+  --accent-amber-dim: rgba(251, 191, 36, 0.12);
+  --border: rgba(56, 189, 248, 0.18);
+  --border-hover: rgba(56, 189, 248, 0.5);
+}
+
+html[data-theme="emerald_alpha"] {
+  --bg: #030a08;
+  --bg-secondary: #061410;
+  --bg-card: #091e18;
+  --bg-card-hover: #0e2d24;
+  --accent-cyan: #2dd4bf;
+  --accent-cyan-dim: rgba(45, 212, 191, 0.12);
+  --accent-green: #10b981;
+  --accent-green-dim: rgba(16, 185, 129, 0.12);
+  --accent-amber: #f59e0b;
+  --accent-amber-dim: rgba(245, 158, 11, 0.12);
+  --border: rgba(16, 185, 129, 0.18);
+  --border-hover: rgba(16, 185, 129, 0.5);
+}
+
+html[data-theme="amber_terminal"] {
+  --bg: #0a0804;
+  --bg-secondary: #141008;
+  --bg-card: #1f180c;
+  --bg-card-hover: #2e2412;
+  --accent-cyan: #f59e0b;
+  --accent-cyan-dim: rgba(245, 158, 11, 0.12);
+  --accent-green: #eab308;
+  --accent-green-dim: rgba(234, 179, 8, 0.12);
+  --accent-amber: #f97316;
+  --accent-amber-dim: rgba(249, 115, 22, 0.12);
+  --border: rgba(245, 158, 11, 0.18);
+  --border-hover: rgba(245, 158, 11, 0.5);
+}
+
+html[data-theme="monochrome_matrix"] {
+  --bg: #050505;
+  --bg-secondary: #0d0d0d;
+  --bg-card: #141414;
+  --bg-card-hover: #1f1f1f;
+  --accent-cyan: #00e5ff;
+  --accent-cyan-dim: rgba(0, 229, 255, 0.12);
+  --accent-green: #e2e8f0;
+  --accent-green-dim: rgba(226, 232, 240, 0.12);
+  --accent-amber: #94a3b8;
+  --accent-amber-dim: rgba(148, 163, 184, 0.12);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(0, 229, 255, 0.5);
+}
+
+/* ==========================================================================
+   DYNAMIC GRID STYLES
+   ========================================================================== */
+html[data-grid="dots"] body {
+  background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+html[data-grid="minimal"] body {
+  background-image: none;
+}
+
+html[data-grid="blueprint"] body {
+  background-image: 
+    linear-gradient(rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(56, 189, 248, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.02) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
