@@ -1,18 +1,18 @@
 appearance:
-  font_pair: "playfair_fira"
+  font_pair: "fraunces_space"
   accent_theme: "pitch_black"
   grid_style: "coordinate"
 
 hero:
-  eyebrow: "MODELS • SIGNALS • OPTIMIZATION"
-  heading: "Vatsh Van"
-  lede: "Majoring in Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization and machine learning with ultra-low-latency autonomous control runtimes."
+  eyebrow: "IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS"
+  heading: "Quantitative Alpha Research & Autonomous Controls"
+  lede: "Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes."
   primary_btn_text: "EXPLORE PROJECTS"
   secondary_btn_text: "EXPERIENCE"
   cv_btn_text: "CURRICULUM VITAE"
 
 sections:
-  experience_eyebrow: "Engineering TRAJECTORY"
+  experience_eyebrow: "PROFESSIONAL TRAJECTORY"
   experience_title: "Core Engagements"
   projects_eyebrow: "RESEARCH & IMPLEMENTATIONS"
   projects_title: "Featured Technical Projects"
@@ -36,12 +36,6 @@ profile:
     - label: "SECONDARY FOCUS"
       value: "LEARN → VALIDATE → GENERALIZE"
       link: ""
-    - label: "ORCID"
-      value: "0009-0001-7236-8213"
-      link: "https://orcid.org/0009-0001-7236-8213"
-    - label: "SSRN AUTHOR"
-      value: "ID: 10485196"
-      link: "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196"
   affiliations:
     - "WorldQuant BRAIN (Master Consultant)"
     - "SeDriCa UMIC (Controls & Manager)"
