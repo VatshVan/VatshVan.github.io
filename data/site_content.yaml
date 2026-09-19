@@ -4,15 +4,15 @@ appearance:
   grid_style: "coordinate"
 
 hero:
-  eyebrow: "IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS"
-  heading: "Quantitative Alpha Research & Autonomous Controls"
+  eyebrow: "IIT Bombay"
+  heading: "Vatsh Van"
   lede: "Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes."
   primary_btn_text: "EXPLORE PROJECTS"
   secondary_btn_text: "EXPERIENCE"
   cv_btn_text: "CURRICULUM VITAE"
 
 sections:
-  experience_eyebrow: "PROFESSIONAL TRAJECTORY"
+  experience_eyebrow: "Engineering TRAJECTORY"
   experience_title: "Core Engagements"
   projects_eyebrow: "RESEARCH & IMPLEMENTATIONS"
   projects_title: "Featured Technical Projects"
