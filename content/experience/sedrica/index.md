@@ -1,22 +1,22 @@
 ---
-title: Controls & State Estimation Engineer
-organization: SeDriCa (UMIC) - IIT Bombay
-company: Unmesh Mashruwala Innovation Cell [UMIC]
-location: IIT Bombay
+title: "Controls & State Estimation Engineer"
+organization: "SeDriCa (UMIC) - IIT Bombay"
+company: "Unmesh Mashruwala Innovation Cell [UMIC]"
+location: "IIT Bombay"
 date: 2025-09-01
 draft: false
-summary: Engineering India's first Level 5 autonomous car. Developing 100 Hz HyperMPC on LibTorch-Acados for 1/10 F1TENTH racing and Joint EKF RTK GNSS/IMU localization for a full-scale vehicle.
+summary: "Engineering India's first Level 5 autonomous car. Developing 100 Hz HyperMPC on LibTorch-Acados for 1/10 F1TENTH racing and Joint EKF RTK GNSS/IMU localization for a full-scale vehicle."
 image:
-  filename: images.jpg
-  focal_point: Smart
+  filename: "images.jpg"
+  focal_point: "Smart"
   preview_only: false
 tags:
-  - Autonomous Vehicles
-  - HyperMPC @ 100 Hz
-  - LibTorch-Acados C++
-  - Joint EKF
-  - RTK GNSS & IMU Fusion
-  - Level 5 Autonomy
+  - "Autonomous Vehicles"
+  - "HyperMPC @ 100 Hz"
+  - "LibTorch-Acados C++"
+  - "Joint EKF"
+  - "RTK GNSS & IMU Fusion"
+  - "Level 5 Autonomy"
 ---
 
 Contributing to **SeDriCa**, IIT Bombay's premier autonomous vehicle tech team of 30+ students under the guidance of **Prof. Archak Mittal**, developing India's first Level 5 self-driving car customized for Indian road and traffic dynamics.

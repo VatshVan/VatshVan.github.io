@@ -1,16 +1,16 @@
 ---
 title: "The Cosmic Detective: Multi-Agent AI for Sky Exploration"
-organization: Krittika Summer Projects, Krittika Astronomy Club | IIT Bombay
+organization: "Krittika Summer Projects, Krittika Astronomy Club | IIT Bombay"
 date: 2026-05-01
 draft: false
-summary: Multi-agent AI system for autonomous astronomical exploration and hypothesis generation. Built Gemini-driven literature benchmark, Neo4j knowledge graph with 95% similarity de-duplication, and Swift FITS pipeline.
+summary: "Multi-agent AI system for autonomous astronomical exploration and hypothesis generation. Built Gemini-driven literature benchmark, Neo4j knowledge graph with 95% similarity de-duplication, and Swift FITS pipeline."
 tags:
-  - Multi-Agent AI
-  - LLM Orchestration
-  - Neo4j Knowledge Graph
-  - Astrophysics Data
-  - Swift FITS Pipeline
-  - Gemini API
+  - "Multi-Agent AI"
+  - "LLM Orchestration"
+  - "Neo4j Knowledge Graph"
+  - "Astrophysics Data"
+  - "Swift FITS Pipeline"
+  - "Gemini API"
 ---
 
 Developed a collaborative multi-agent artificial intelligence framework within a 7-member research team for autonomous sky survey data exploration, transient detection, and astrophysical hypothesis generation.

@@ -1,17 +1,17 @@
 ---
-title: Inverse Elasticity Physics-Informed Neural Network (PINN)
-organization: ME218 Course Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay
+title: "Inverse Elasticity Physics-Informed Neural Network (PINN)"
+organization: "ME218 Course Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay"
 date: 2026-03-01
 date_end: 2026-04-30
 draft: false
-summary: Direct Hybrid Collocation PINN estimating Young's modulus fields across 3 Additive Manufacturing lattice specimens. Unified 8 DIC anchors with 10,000+ Sobol points enforcing 2D Cauchy Momentum PDEs.
+summary: "Direct Hybrid Collocation PINN estimating Young's modulus fields across 3 Additive Manufacturing lattice specimens. Unified 8 DIC anchors with 10,000+ Sobol points enforcing 2D Cauchy Momentum PDEs."
 tags:
-  - Machine Learning
-  - Physics-Informed Neural Networks
-  - Cauchy Momentum PDE
-  - Inverse Problems
-  - Sobol Collocation
-  - Continuum Mechanics
+  - "Machine Learning"
+  - "Physics-Informed Neural Networks"
+  - "Cauchy Momentum PDE"
+  - "Inverse Problems"
+  - "Sobol Collocation"
+  - "Continuum Mechanics"
 ---
 
 Formulated and implemented a physics-informed deep learning architecture to solve the ill-posed inverse elasticity problem of reconstructing spatially varying material properties from sparse experimental surface measurements.

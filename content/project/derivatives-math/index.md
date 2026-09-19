@@ -1,17 +1,17 @@
 ---
-title: Mathematics of Derivative Pricing & Risk Neutral Valuation
-organization: Summer of Science, Maths & Physics Club | IIT Bombay
+title: "Mathematics of Derivative Pricing & Risk Neutral Valuation"
+organization: "Summer of Science, Maths & Physics Club | IIT Bombay"
 date: 2025-05-01
 date_end: 2025-07-31
 draft: false
-summary: Theoretical derivation and computational implementation of the Black-Scholes PDE, martingale pricing, Greeks sensitivity analysis, and Monte Carlo option pricing engines in Python.
+summary: "Theoretical derivation and computational implementation of the Black-Scholes PDE, martingale pricing, Greeks sensitivity analysis, and Monte Carlo option pricing engines in Python."
 tags:
-  - Quantitative Finance
-  - Black-Scholes PDE
-  - Stochastic Calculus
-  - Greeks Sensitivity
-  - Martingale Pricing
-  - Monte Carlo Simulation
+  - "Quantitative Finance"
+  - "Black-Scholes PDE"
+  - "Stochastic Calculus"
+  - "Greeks Sensitivity"
+  - "Martingale Pricing"
+  - "Monte Carlo Simulation"
 ---
 
 A comprehensive theoretical and computational investigation into continuous-time mathematical finance, asset pricing models, and risk-neutral valuation frameworks.

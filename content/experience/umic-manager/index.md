@@ -1,16 +1,16 @@
 ---
-title: Team Manager & Core Coordinator
-organization: Unmesh Mashruwala Innovation Cell [UMIC]
-company: UMIC, IIT Bombay
-location: IIT Bombay
+title: "Team Manager & Core Coordinator"
+organization: "Unmesh Mashruwala Innovation Cell [UMIC]"
+company: "UMIC, IIT Bombay"
+location: "IIT Bombay"
 date: 2026-04-01
 draft: false
-summary: Directing operations and technical integration for a 30+ member autonomous vehicle engineering team, managing an annual budget of INR 4+ Million, recruitment drives, and competition readiness.
+summary: "Directing operations and technical integration for a 30+ member autonomous vehicle engineering team, managing an annual budget of INR 4+ Million, recruitment drives, and competition readiness."
 tags:
-  - Technical Leadership
-  - Budget Management (INR 4M+)
-  - System Integration
-  - Recruitment & Mentorship
+  - "Technical Leadership"
+  - "Budget Management (INR 4M+)"
+  - "System Integration"
+  - "Recruitment & Mentorship"
 ---
 
 Cross-functional leadership of 30+ undergraduate and graduate engineers developing India's first Level 5 autonomous driving platform, tailored for complex Indian road geometries and mixed-traffic behavior.

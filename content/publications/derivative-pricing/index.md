@@ -6,11 +6,11 @@ draft: false
 summary: "Rigorous investigation into stochastic calculus, Black-Scholes PDE derivation, equivalent martingale measures, Greeks sensitivity analysis, and Monte Carlo option pricing engines."
 url_pdf: "https://drive.google.com/file/d/1f_SgJi7vGpL9-7TIhU96r7zdb4itlnQH/view?usp=sharing"
 tags:
-  - Black-Scholes PDE
-  - Stochastic Calculus
-  - Martingale Pricing
-  - Monte Carlo Simulation
-  - Greeks Sensitivity
+  - "Black-Scholes PDE"
+  - "Stochastic Calculus"
+  - "Martingale Pricing"
+  - "Monte Carlo Simulation"
+  - "Greeks Sensitivity"
 ---
 
 ### Abstract

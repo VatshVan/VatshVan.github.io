@@ -1,17 +1,17 @@
 ---
-title: Spatial Active Noise Control via Virtual Acoustic Sensing
-organization: ME791 Course Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay
+title: "Spatial Active Noise Control via Virtual Acoustic Sensing"
+organization: "ME791 Course Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay"
 date: 2026-03-01
 date_end: 2026-05-31
 draft: false
-summary: Virtual sensing framework for Spatial Active Noise Control using 4 remote microphones and an ObsTasNet deep observation-filter on 400 simulated acoustic scenes, achieving 12.6x faster pressure estimation.
+summary: "Virtual sensing framework for Spatial Active Noise Control using 4 remote microphones and an ObsTasNet deep observation-filter on 400 simulated acoustic scenes, achieving 12.6x faster pressure estimation."
 tags:
-  - Acoustic Signal Processing
-  - Spatial ANC
-  - ObsTasNet
-  - Deep Learning
-  - Virtual Sensing
-  - Wave Physics
+  - "Acoustic Signal Processing"
+  - "Spatial ANC"
+  - "ObsTasNet"
+  - "Deep Learning"
+  - "Virtual Sensing"
+  - "Wave Physics"
 ---
 
 Engineered an advanced spatial acoustic signal processing framework enabling Active Noise Control (ANC) in unmonitored spatial zones without requiring intrusive physical microphones at human ear locations.

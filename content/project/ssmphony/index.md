@@ -1,16 +1,16 @@
 ---
 title: "SSMphony: Linear-Complexity Audio Generation with Mamba & State Space Models"
-organization: Independent Research
+organization: "Independent Research"
 date: 2025-01-01
 draft: false
-summary: Explored linear-complexity State Space Models (SSM) and Mamba architectures for long-horizon audio synthesis, overcoming the quadratic attention bottlenecks of standard Transformer architectures.
+summary: "Explored linear-complexity State Space Models (SSM) and Mamba architectures for long-horizon audio synthesis, overcoming the quadratic attention bottlenecks of standard Transformer architectures."
 tags:
-  - Deep Learning
-  - State Space Models
-  - Mamba
-  - Audio Generation
-  - Linear Attention
-  - Sequence Modeling
+  - "Deep Learning"
+  - "State Space Models"
+  - "Mamba"
+  - "Audio Generation"
+  - "Linear Attention"
+  - "Sequence Modeling"
 ---
 
 Explored modern State Space Models (SSMs) and selective structured state space architectures (Mamba) for continuous long-context audio and waveform synthesis.

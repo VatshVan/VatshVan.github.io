@@ -1,17 +1,17 @@
 ---
-title: Chicago Quant Alley: Crypto Trading Simulator & Optimizer
-organization: Seasons of Code, Web and Coding Club | IIT Bombay
+title: "Chicago Quant Alley: Crypto Trading Simulator & Optimizer"
+organization: "Seasons of Code, Web and Coding Club | IIT Bombay"
 date: 2025-05-01
 date_end: 2025-07-31
 draft: false
-summary: Engineered a mid-frequency Bitcoin options/futures simulator with slippage modeling, async ccxt API execution, dynamic strike selection, and Multi-Armed Bandit hyperparameter optimization.
+summary: "Engineered a mid-frequency Bitcoin options/futures simulator with slippage modeling, async ccxt API execution, dynamic strike selection, and Multi-Armed Bandit hyperparameter optimization."
 tags:
-  - Quantitative Finance
-  - Crypto Derivatives
-  - Options Trading
-  - Multi-Armed Bandits
-  - Async CCXT
-  - Backtesting Engine
+  - "Quantitative Finance"
+  - "Crypto Derivatives"
+  - "Options Trading"
+  - "Multi-Armed Bandits"
+  - "Async CCXT"
+  - "Backtesting Engine"
 ---
 
 Designed and deployed a modular, high-throughput Python framework for developing, simulating, and systematically optimizing quantitative trading strategies in cryptocurrency derivative markets.

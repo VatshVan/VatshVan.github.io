@@ -1,17 +1,17 @@
 ---
-title: Wildlife Hotspot Detector: Active Learning on Skewed Datasets
-organization: DS203 Course Project | Guide: Prof. Vinay Kulkarni, IIT Bombay
+title: "Wildlife Hotspot Detector: Active Learning on Skewed Datasets"
+organization: "DS203 Course Project | Guide: Prof. Vinay Kulkarni, IIT Bombay"
 date: 2025-10-01
 date_end: 2025-11-20
 draft: false
-summary: Engineered HOG/GLCM/LAB feature vectors, Random Forest dimension reduction (750+ features), and an Active Learning loop with SMOTE and XGBoost GridSearchCV, attaining 0.85 F1-Score on highly skewed data.
+summary: "Engineered HOG/GLCM/LAB feature vectors, Random Forest dimension reduction (750+ features), and an Active Learning loop with SMOTE and XGBoost GridSearchCV, attaining 0.85 F1-Score on highly skewed data."
 tags:
-  - Machine Learning
-  - Active Learning
-  - Feature Engineering
-  - XGBoost
-  - SMOTE
-  - Computer Vision
+  - "Machine Learning"
+  - "Active Learning"
+  - "Feature Engineering"
+  - "XGBoost"
+  - "SMOTE"
+  - "Computer Vision"
 ---
 
 Engineered an active learning machine learning pipeline to detect wildlife presence in large-scale, highly skewed ecological camera trap datasets with heavy background clutter.

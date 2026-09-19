@@ -1,17 +1,17 @@
 ---
-title: Quantitative Systems & Algorithmic Trading Mentor
-organization: Analytics Club & Maths and Physics Club, IIT Bombay
-company: IIT Bombay
-location: Mumbai, India
+title: "Quantitative Systems & Algorithmic Trading Mentor"
+organization: "Analytics Club & Maths and Physics Club, IIT Bombay"
+company: "IIT Bombay"
+location: "Mumbai, India"
 date: 2025-12-01
 date_end: 2026-07-31
 draft: false
-summary: Mentored 30+ students across algorithmic trading engines, stochastic calculus, derivative pricing models, and system validation within quantitative trading clubs.
+summary: "Mentored 30+ students across algorithmic trading engines, stochastic calculus, derivative pricing models, and system validation within quantitative trading clubs."
 tags:
-  - Algorithmic Trading
-  - Derivative Pricing
-  - Academic Mentorship
-  - Backtesting Engines
+  - "Algorithmic Trading"
+  - "Derivative Pricing"
+  - "Academic Mentorship"
+  - "Backtesting Engines"
 ---
 
 Leading educational initiatives and mentoring student cohorts in mathematical finance, algorithmic strategy validation, and production backtesting systems.

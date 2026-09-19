@@ -1,17 +1,17 @@
 ---
-title: Spatial Hyper-MPC with Neural Policy Distillation
-organization: ME444 Course Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay
+title: "Spatial Hyper-MPC with Neural Policy Distillation"
+organization: "ME444 Course Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay"
 date: 2026-03-01
 date_end: 2026-04-30
 draft: false
-summary: Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF. Distilled a 40-step MPC into a 4,736-parameter neural policy via 20k expert trajectories, reducing peak angular velocities up to 3x.
+summary: "Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF. Distilled a 40-step MPC into a 4,736-parameter neural policy via 20k expert trajectories, reducing peak angular velocities up to 3x."
 tags:
-  - Autonomous Controls
-  - Model Predictive Control
-  - Neural Policy Distillation
-  - OSQP Solver
-  - Joint EKF
-  - 6-DOF Vehicle Dynamics
+  - "Autonomous Controls"
+  - "Model Predictive Control"
+  - "Neural Policy Distillation"
+  - "OSQP Solver"
+  - "Joint EKF"
+  - "6-DOF Vehicle Dynamics"
 ---
 
 Engineered an ultra-fast, high-dimensional control framework for active vehicle suspension systems subjected to aggressive spatial road disturbances.

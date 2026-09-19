@@ -1,17 +1,17 @@
 ---
-title: Regime-Aware Portfolio Optimization
-organization: Summer of Quant, Quant Club | IIT Bombay
+title: "Regime-Aware Portfolio Optimization"
+organization: "Summer of Quant, Quant Club | IIT Bombay"
 date: 2026-06-01
 date_end: 2026-07-31
 draft: false
-summary: Built a regime-switching portfolio optimizer combining Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities with Purged 5-Fold CV and 250+ alpha features.
+summary: "Built a regime-switching portfolio optimizer combining Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities with Purged 5-Fold CV and 250+ alpha features."
 tags:
-  - Quantitative Finance
-  - Hidden Markov Models
-  - Convex Optimization
-  - CUSUM Sampling
-  - Triple Barrier Method
-  - Purged K-Fold CV
+  - "Quantitative Finance"
+  - "Hidden Markov Models"
+  - "Convex Optimization"
+  - "CUSUM Sampling"
+  - "Triple Barrier Method"
+  - "Purged K-Fold CV"
 ---
 
 Developed an institutional-grade, regime-switching portfolio optimization system designed to dynamically adapt asset allocations across shifting market volatility and macroeconomic regimes.

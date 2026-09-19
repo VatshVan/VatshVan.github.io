@@ -5,11 +5,11 @@ date: 2026-04-15
 draft: false
 summary: "Reconstructing heterogeneous Young's modulus fields across 3D printed lattice specimens using Physics-Informed Neural Networks constrained by 2D Cauchy Momentum PDEs and sparse DIC anchors."
 tags:
-  - Physics-Informed Neural Networks
-  - Cauchy Momentum PDE
-  - Inverse Problems
-  - Sobol Collocation
-  - Additive Manufacturing
+  - "Physics-Informed Neural Networks"
+  - "Cauchy Momentum PDE"
+  - "Inverse Problems"
+  - "Sobol Collocation"
+  - "Additive Manufacturing"
 ---
 
 ### Abstract

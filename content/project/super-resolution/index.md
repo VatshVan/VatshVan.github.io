@@ -1,17 +1,17 @@
 ---
-title: Single Image Super Resolution with Deep Residual Networks
-organization: ME228 Course Project | Guide: Prof. Neeraj Kumbhakarna, IIT Bombay
+title: "Single Image Super Resolution with Deep Residual Networks"
+organization: "ME228 Course Project | Guide: Prof. Neeraj Kumbhakarna, IIT Bombay"
 date: 2026-03-01
 date_end: 2026-04-30
 draft: false
-summary: Enhanced Deep Super-Resolution (EDSR) with 32 residual blocks and PyTorch AMP. Achieved 34.84 dB PSNR and 0.939 SSIM on DIV2K, and 37.47 dB PSNR benchmarking SRCNN on Sen2Venus satellite imagery.
+summary: "Enhanced Deep Super-Resolution (EDSR) with 32 residual blocks and PyTorch AMP. Achieved 34.84 dB PSNR and 0.939 SSIM on DIV2K, and 37.47 dB PSNR benchmarking SRCNN on Sen2Venus satellite imagery."
 tags:
-  - Deep Learning
-  - Computer Vision
-  - Super Resolution
-  - EDSR
-  - PyTorch AMP
-  - Satellite Imagery
+  - "Deep Learning"
+  - "Computer Vision"
+  - "Super Resolution"
+  - "EDSR"
+  - "PyTorch AMP"
+  - "Satellite Imagery"
 ---
 
 Engineered high-performance convolutional architectures for high-fidelity single image super-resolution (SISR), with applications ranging from photographic benchmarks to satellite earth observation.

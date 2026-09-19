@@ -1,17 +1,17 @@
 ---
-title: Effects of Interest Rate Hikes on Financial Markets & Vasicek Modeling
-organization: FINSEARCH, Finance Club | IIT Bombay
+title: "Effects of Interest Rate Hikes on Financial Markets & Vasicek Modeling"
+organization: "FINSEARCH, Finance Club | IIT Bombay"
 date: 2026-06-01
 date_end: 2026-07-31
 draft: false
-summary: Empirical analysis of 20+ years of RBI monetary policy tightening cycles and simulation of bond price sensitivity and yield curves using the Vasicek short-rate model.
+summary: "Empirical analysis of 20+ years of RBI monetary policy tightening cycles and simulation of bond price sensitivity and yield curves using the Vasicek short-rate model."
 tags:
-  - Quantitative Finance
-  - Fixed Income
-  - Vasicek Model
-  - Macroeconomics
-  - Monetary Policy
-  - Stochastic Rates
+  - "Quantitative Finance"
+  - "Fixed Income"
+  - "Vasicek Model"
+  - "Macroeconomics"
+  - "Monetary Policy"
+  - "Stochastic Rates"
 ---
 
 Empirical macro-financial research analyzing the transmission mechanism of central bank monetary policy tightening cycles onto domestic equity and sovereign debt markets.
