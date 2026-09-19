@@ -1,18 +1,18 @@
 appearance:
-  font_pair: "fraunces_space"
+  font_pair: "playfair_fira"
   accent_theme: "pitch_black"
   grid_style: "coordinate"
 
 hero:
-  eyebrow: "IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS"
-  heading: "Quantitative Alpha Research & Autonomous Controls"
-  lede: "Mechanical Engineering undergraduate at IIT Bombay with a Minor in AI & Data Science (CMInDS). Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes."
+  eyebrow: "MODELS • SIGNALS • OPTIMIZATION"
+  heading: "Vatsh Van"
+  lede: "Majoring in Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization and machine learning with ultra-low-latency autonomous control runtimes."
   primary_btn_text: "EXPLORE PROJECTS"
   secondary_btn_text: "EXPERIENCE"
   cv_btn_text: "CURRICULUM VITAE"
 
 sections:
-  experience_eyebrow: "PROFESSIONAL TRAJECTORY"
+  experience_eyebrow: "Engineering TRAJECTORY"
   experience_title: "Core Engagements"
   projects_eyebrow: "RESEARCH & IMPLEMENTATIONS"
   projects_title: "Featured Technical Projects"
@@ -23,7 +23,7 @@ sections:
 
 profile:
   cpi: "8.27 / 10.0"
-  primary_focus: "Quantitative Finance"
-  secondary_focus: "Autonomous Control"
+  primary_focus: "OBJECTIVE → CONSTRAINTS → OPTIMUM"
+  secondary_focus: "LEARN → VALIDATE → GENERALIZE"
   institution: "IIT Bombay"
-  role_short: "IIT Bombay • B.Tech '28"
+  role_short: "Undergrad • BTech'28"

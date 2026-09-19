@@ -11,7 +11,7 @@ items:
     color: "green"
   - label: "OUT-OF-SAMPLE IR"
     value: "2.39"
-    sub: ""
+    sub: "Q2'25"
     detail: "Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)"
     color: "amber"
   - label: "REAL-TIME CONTROL"
