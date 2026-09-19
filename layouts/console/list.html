@@ -122,11 +122,14 @@
       <button class="console-tab" data-tab="tab-projects" onclick="switchTab('tab-projects')">
         [04] PROJECTS MANAGER
       </button>
+      <button class="console-tab" data-tab="tab-publications" onclick="switchTab('tab-publications')">
+        [05] PUBLICATIONS MANAGER
+      </button>
       <button class="console-tab" data-tab="tab-experience" onclick="switchTab('tab-experience')">
-        [05] EXPERIENCES MANAGER
+        [06] EXPERIENCES MANAGER
       </button>
       <button class="console-tab" data-tab="tab-audit" onclick="switchTab('tab-audit')">
-        [06] TERMINAL & AUDIT
+        [07] TERMINAL & AUDIT
       </button>
     </div>
 
@@ -276,26 +279,35 @@
         </div>
 
         <div class="metric-edit-card">
-          <div class="edit-card-title">RESEARCH DOSSIER PROFILE CARD</div>
-          <div class="form-group">
-            <label>INSTITUTION</label>
-            <input type="text" id="prof-inst" value="IIT Bombay">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <div class="edit-card-title" style="margin: 0;">RESEARCH DOSSIER PROFILE BLOCKS</div>
+              <span class="form-help">Add, edit, or delete any block (Institution, CPI, ORCID, SSRN, etc.) in the hero profile card.</span>
+            </div>
+            <button class="button button-secondary" type="button" onclick="addNewSpec()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
+              <span>+ ADD SPEC BLOCK</span>
+            </button>
           </div>
-          <div class="form-group">
-            <label>ACADEMIC CPI</label>
-            <input type="text" id="prof-cpi" value="8.27 / 10.0">
+
+          <div class="form-group" style="margin-bottom: 1.25rem;">
+            <label>ROLE / DEGREE SHORT BADGE</label>
+            <input type="text" id="prof-role-short" value="Undergrad • BTech'28">
           </div>
-          <div class="form-group">
-            <label>PRIMARY FOCUS</label>
-            <input type="text" id="prof-f1" value="Quantitative Finance">
+
+          <div id="dynamic-specs-container" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+            <!-- Rendered dynamically by JS with [DELETE BLOCK] buttons -->
           </div>
-          <div class="form-group">
-            <label>SECONDARY FOCUS</label>
-            <input type="text" id="prof-f2" value="Autonomous Control">
-          </div>
-          <div class="form-group">
-            <label>ROLE SHORT BADGE</label>
-            <input type="text" id="prof-role-short" value="IIT Bombay • B.Tech '28">
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <label style="margin: 0; font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);">AFFILIATION TAGS (BOTTOM OF DOSSIER CARD)</label>
+              <button class="button button-secondary" type="button" onclick="addNewAffil()" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;">
+                <span>+ ADD AFFILIATION</span>
+              </button>
+            </div>
+            <div id="dynamic-affils-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Rendered dynamically by JS -->
+            </div>
           </div>
         </div>
       </div>
@@ -410,7 +422,106 @@
       </div>
     </div>
 
-    <!-- TAB 5: EXPERIENCES MANAGER -->
+    <!-- TAB 5: PUBLICATIONS & PRE-PRINTS MANAGER -->
+    <div class="console-pane" id="tab-publications">
+      <div class="pane-header">
+        <div>
+          <h3>Publications & Pre-prints Manager</h3>
+          <p class="pane-desc">Create, edit, or delete research papers, SSRN pre-prints, and algorithmic monographs with full LaTeX math & metadata.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-secondary" type="button" onclick="loadNewPublicationTemplate()">
+            <span>+ NEW PUBLICATION</span>
+          </button>
+          <button class="button button-primary" type="button" onclick="deployPublication()">
+            <span>SAVE & DEPLOY PUBLICATION</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Publication Selector -->
+      <div class="metric-edit-card" style="margin-bottom: 1.5rem;">
+        <div class="form-row" style="align-items: flex-end;">
+          <div class="form-group" style="flex: 2;">
+            <label>SELECT EXISTING PUBLICATION TO EDIT</label>
+            <select id="pub-selector" onchange="handleSelectPub(this.value)">
+              <!-- Populated dynamically by JS -->
+            </select>
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <button class="button button-outline" type="button" style="width: 100%; border-color: #f43f5e; color: #fb7185;" onclick="deleteCurrentPublication()">
+              <span>DELETE PUBLICATION</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Publication Editor Form -->
+      <div class="metric-edit-card">
+        <div class="edit-card-title">METADATA & CITATIONS</div>
+        
+        <div class="form-row">
+          <div class="form-group" style="flex: 3;">
+            <label>PUBLICATION TITLE</label>
+            <input type="text" id="pub-title" placeholder="e.g. Mathematics of Derivative Pricing: Theory and Implementation">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>SLUG / FOLDER NAME</label>
+            <input type="text" id="pub-slug" placeholder="derivative-pricing">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 2;">
+            <label>PUBLICATION VENUE / JOURNAL / DETAILS</label>
+            <input type="text" id="pub-venue" placeholder="e.g. SSRN Electronic Journal (Pre-Print ID: 6439720) & IIT Bombay">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>DATE (YYYY-MM-DD)</label>
+            <input type="text" id="pub-date" placeholder="2025-07-15">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 1;">
+            <label>SSRN ABSTRACT ID (OPTIONAL)</label>
+            <input type="text" id="pub-ssrn-id" placeholder="e.g. 6439720">
+          </div>
+          <div class="form-group" style="flex: 2;">
+            <label>SSRN PAPER URL (OPTIONAL)</label>
+            <input type="text" id="pub-ssrn-url" placeholder="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6439720">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex: 2;">
+            <label>FULL REPORT PDF URL (OPTIONAL)</label>
+            <input type="text" id="pub-pdf-url" placeholder="https://drive.google.com/file/d/...">
+          </div>
+          <div class="form-group" style="flex: 1;">
+            <label>AUTHOR ORCID (OPTIONAL)</label>
+            <input type="text" id="pub-orcid" placeholder="0009-0001-7236-8213">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>TAGS (COMMA SEPARATED)</label>
+          <input type="text" id="pub-tags" placeholder="SSRN Pre-print, Black-Scholes PDE, Stochastic Calculus, Monte Carlo">
+        </div>
+
+        <div class="form-group">
+          <label>SUMMARY / ABSTRACT</label>
+          <textarea id="pub-summary" rows="3" placeholder="Executive summary or abstract of the research paper..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>FULL TECHNICAL WRITEUP (MARKDOWN & LATEX ALLOWED)</label>
+          <textarea id="pub-content" rows="12" style="font-family: var(--mono); font-size: 0.85rem;" placeholder="### Abstract&#10;...&#10;&#10;### Mathematical Architecture&#10;$$ dS_t = \mu S_t dt + \sigma S_t dW_t $$"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: EXPERIENCES MANAGER -->
     <div class="console-pane" id="tab-experience">
       <div class="pane-header">
         <div>
@@ -1041,6 +1152,15 @@ function testPATConnection() {
   checkGitHubApi();
 }
 
+function switchTab(tabId) {
+  document.querySelectorAll(".console-tab").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".console-pane").forEach(p => p.classList.remove("active"));
+  const tabBtn = document.querySelector(`.console-tab[data-tab="${tabId}"]`);
+  if (tabBtn) tabBtn.classList.add("active");
+  const pane = document.getElementById(tabId);
+  if (pane) pane.classList.add("active");
+}
+
 function unlockConsole() {
   document.getElementById("auth-modal").style.display = "none";
   document.getElementById("console-body").style.display = "block";
@@ -1055,9 +1175,13 @@ function unlockConsole() {
 
   logTerm("info", "[AUTH] Operator access granted as 'vatshvan'.");
   checkGitHubApi();
+  renderDynamicSpecs();
+  renderDynamicAffils();
   renderDynamicSlides();
   populateProjectsDropdown();
+  populatePublicationsDropdown();
   handleSelectProject("regime-portfolio-optimization");
+  handleSelectPub("derivative-pricing");
   handleSelectExp("worldquant");
 }
 
@@ -1245,6 +1369,108 @@ function downloadTextFile(filename, text) {
   a.click();
 }
 
+// Dynamic Research Dossier Data
+let currentSpecs = [
+  { label: "INSTITUTION", value: "IIT Bombay", link: "" },
+  { label: "ACADEMIC CPI", value: "8.27 / 10.0", link: "" },
+  { label: "PRIMARY FOCUS", value: "OBJECTIVE → CONSTRAINTS → OPTIMUM", link: "" },
+  { label: "SECONDARY FOCUS", value: "LEARN → VALIDATE → GENERALIZE", link: "" },
+  { label: "ORCID", value: "0009-0001-7236-8213", link: "https://orcid.org/0009-0001-7236-8213" },
+  { label: "SSRN AUTHOR", value: "ID: 10485196", link: "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196" }
+];
+
+let currentAffiliations = [
+  "WorldQuant BRAIN (Master Consultant)",
+  "SeDriCa UMIC (Controls & Manager)",
+  "Centre for Machine Intelligence & Data Science"
+];
+
+function renderDynamicSpecs() {
+  const container = document.getElementById("dynamic-specs-container");
+  if (!container) return;
+
+  container.innerHTML = currentSpecs.map((s, idx) => `
+    <div class="metric-edit-card" id="spec-card-${idx}" style="background: var(--bg-secondary);">
+      <div class="edit-card-title">
+        <span>BLOCK #${idx + 1} // ${s.label || "SPEC"}</span>
+        <button type="button" class="button button-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeSpec(${idx})">
+          DELETE BLOCK
+        </button>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label>LABEL</label>
+          <input type="text" id="spec-lbl-${idx}" value="${s.label}" oninput="syncSpec(${idx})">
+        </div>
+        <div class="form-group" style="flex: 2;">
+          <label>VALUE</label>
+          <input type="text" id="spec-val-${idx}" value="${s.value}" oninput="syncSpec(${idx})">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>LINK URL (OPTIONAL, E.G. ORCID / SSRN)</label>
+        <input type="text" id="spec-link-${idx}" value="${s.link || ''}" placeholder="https://..." oninput="syncSpec(${idx})">
+      </div>
+    </div>
+  `).join('');
+}
+
+function syncSpec(idx) {
+  currentSpecs[idx].label = document.getElementById(`spec-lbl-${idx}`).value.trim();
+  currentSpecs[idx].value = document.getElementById(`spec-val-${idx}`).value.trim();
+  currentSpecs[idx].link = document.getElementById(`spec-link-${idx}`).value.trim();
+}
+
+function addNewSpec() {
+  currentSpecs.push({
+    label: "NEW BLOCK",
+    value: "Block Value",
+    link: ""
+  });
+  renderDynamicSpecs();
+  logTerm("info", `[DOSSIER] Added new profile spec block. Total blocks: ${currentSpecs.length}.`);
+}
+
+function removeSpec(idx) {
+  if (currentSpecs.length <= 1) {
+    alert("You must keep at least 1 profile spec block.");
+    return;
+  }
+  const removed = currentSpecs.splice(idx, 1);
+  renderDynamicSpecs();
+  logTerm("info", `[DOSSIER] Removed profile block: ${removed[0].label}.`);
+}
+
+function renderDynamicAffils() {
+  const container = document.getElementById("dynamic-affils-container");
+  if (!container) return;
+
+  container.innerHTML = currentAffiliations.map((a, idx) => `
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <input type="text" id="affil-val-${idx}" value="${a}" style="flex: 1;" oninput="syncAffil(${idx})">
+      <button type="button" class="button button-outline" style="padding: 0.35rem 0.6rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeAffil(${idx})">
+        &times;
+      </button>
+    </div>
+  `).join('');
+}
+
+function syncAffil(idx) {
+  currentAffiliations[idx] = document.getElementById(`affil-val-${idx}`).value.trim();
+}
+
+function addNewAffil() {
+  currentAffiliations.push("New Affiliation / Organization");
+  renderDynamicAffils();
+  logTerm("info", `[DOSSIER] Added affiliation tag. Total: ${currentAffiliations.length}.`);
+}
+
+function removeAffil(idx) {
+  currentAffiliations.splice(idx, 1);
+  renderDynamicAffils();
+  logTerm("info", `[DOSSIER] Removed affiliation tag.`);
+}
+
 // TAB 1: APPEARANCE MANAGEMENT
 function previewCurrentAppearance() {
   const font = document.getElementById("app-font-pair").value;
@@ -1262,6 +1488,12 @@ function deployAppearance() {
   const font = document.getElementById("app-font-pair").value;
   const theme = document.getElementById("app-accent-theme").value;
   const grid = document.getElementById("app-grid-style").value;
+
+  const specsYaml = currentSpecs.map(s => `    - label: "${s.label.replace(/"/g, '\\"')}"
+      value: "${s.value.replace(/"/g, '\\"')}"
+      link: "${(s.link || '').replace(/"/g, '\\"')}"`).join('\n');
+
+  const affilsYaml = currentAffiliations.map(a => `    - "${a.replace(/"/g, '\\"')}"`).join('\n');
 
   const yaml = `appearance:
   font_pair: "${font}"
@@ -1287,14 +1519,14 @@ sections:
   scholastic_title: "${document.getElementById("sec-sch-title").value.replace(/"/g, '\\"')}"
 
 profile:
-  cpi: "${document.getElementById("prof-cpi").value.replace(/"/g, '\\"')}"
-  primary_focus: "${document.getElementById("prof-f1").value.replace(/"/g, '\\"')}"
-  secondary_focus: "${document.getElementById("prof-f2").value.replace(/"/g, '\\"')}"
-  institution: "${document.getElementById("prof-inst").value.replace(/"/g, '\\"')}"
   role_short: "${document.getElementById("prof-role-short").value.replace(/"/g, '\\"')}"
+  specs:
+${specsYaml}
+  affiliations:
+${affilsYaml}
 `;
 
-  commitFileToGitHub("data/site_content.yaml", yaml, "Update site appearance & styles via Console");
+  commitFileToGitHub("data/site_content.yaml", yaml, "Update site appearance & content via Console");
 }
 
 // TAB 2: HEADINGS MANAGEMENT
@@ -1544,7 +1776,155 @@ function deleteCurrentProject() {
   deleteFileFromGitHub(`content/project/${slug}/index.md`, `Delete project ${slug} via Console`);
 }
 
-// TAB 5: EXPERIENCES MANAGEMENT
+// TAB 5: PUBLICATIONS & PRE-PRINTS MANAGEMENT
+const PUBLICATIONS_DATA = {
+  "derivative-pricing": {
+    title: "Mathematics of Derivative Pricing: Theory and Computational Implementation",
+    slug: "derivative-pricing",
+    venue: "SSRN Electronic Journal (Pre-Print ID: 6439720) & IIT Bombay",
+    date: "2025-07-15",
+    ssrn_id: "6439720",
+    url_ssrn: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6439720",
+    url_pdf: "https://drive.google.com/file/d/1f_SgJi7vGpL9-7TIhU96r7zdb4itlnQH/view?usp=sharing",
+    orcid: "0009-0001-7236-8213",
+    author_ssrn: "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196",
+    tags: "SSRN Pre-print, Black-Scholes PDE, Stochastic Calculus, Martingale Pricing, Monte Carlo Simulation, Greeks Sensitivity",
+    summary: "Rigorous investigation into stochastic calculus, Black-Scholes PDE derivation, equivalent martingale measures, Greeks sensitivity analysis, and Monte Carlo option pricing engines.",
+    content: `### Abstract
+This technical monograph explores the mathematical foundations and computational realization of modern derivative pricing. Beginning with discrete binomial lattices and Brownian motion kinematics, we derive the fundamental Black-Scholes partial differential equation under non-arbitrage principles and Feynman-Kac representations. We formulate numerical schemes using both vectorized Monte Carlo methods with antithetic variate variance reduction and finite-difference PDE solvers for early-exercise American options. Complete Python workflows evaluate Greeks surfaces and delta-hedging performance under realistic volatility and transaction frictions.
+
+---
+
+### Publication & Pre-print Details
+* **SSRN Pre-print**: [https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6439720](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6439720) (Abstract ID: \`6439720\`)
+* **SSRN Author Profile**: [Vatsh Van on SSRN (Author ID: 10485196)](https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196)
+* **Author ORCID**: [0009-0001-7236-8213](https://orcid.org/0009-0001-7236-8213)
+* **Primary Affiliation**: Department of Mechanical Engineering & Centre for Machine Intelligence and Data Science (CMInDS), Indian Institute of Technology Bombay
+* **Full Technical Report (PDF)**: [View on Google Drive](https://drive.google.com/file/d/1f_SgJi7vGpL9-7TIhU96r7zdb4itlnQH/view?usp=sharing)
+* **Open-Source Code**: [GitHub Repository \`Mathematics_Of_Pricing_Derivatives\`](https://github.com/VatshVan/Mathematics_Of_Pricing_Derivatives)`
+  },
+  "inverse-elasticity-pinn": {
+    title: "Direct Hybrid Collocation PINNs for Inverse Elasticity in Additive Manufacturing",
+    slug: "inverse-elasticity-pinn",
+    venue: "Department of Mechanical Engineering, IIT Bombay | ME218",
+    date: "2026-04-15",
+    ssrn_id: "",
+    url_ssrn: "",
+    url_pdf: "",
+    orcid: "0009-0001-7236-8213",
+    author_ssrn: "",
+    tags: "Physics-Informed Neural Networks, Cauchy Momentum PDE, Inverse Problems, Sobol Collocation, Additive Manufacturing",
+    summary: "Reconstructing heterogeneous Young's modulus fields across 3D printed lattice specimens using Physics-Informed Neural Networks constrained by 2D Cauchy Momentum PDEs and sparse DIC anchors.",
+    content: `### Abstract
+Non-destructive evaluation of spatially varying elasticity fields in additively manufactured lattices presents significant mathematical challenges due to ill-posed inverse boundary value problems. We propose a Direct Hybrid Collocation Physics-Informed Neural Network (PINN) that embeds governing 2D Cauchy momentum balance equations into a composite 7-objective loss. By coupling 8 Digital Image Correlation (DIC) surface anchor measurements with over 10,000 Sobol low-discrepancy interior collocation points, our framework successfully reconstructs displacement, stress, strain, and Young's modulus fields without requiring internal destructive testing.`
+  }
+};
+
+function populatePublicationsDropdown() {
+  const sel = document.getElementById("pub-selector");
+  if (!sel) return;
+  sel.innerHTML = Object.keys(PUBLICATIONS_DATA).map(slug => `
+    <option value="${slug}">${PUBLICATIONS_DATA[slug].title}</option>
+  `).join('');
+}
+
+function handleSelectPub(slug) {
+  const p = PUBLICATIONS_DATA[slug];
+  if (!p) return;
+  document.getElementById("pub-title").value = p.title || "";
+  document.getElementById("pub-slug").value = p.slug || slug;
+  document.getElementById("pub-venue").value = p.venue || "";
+  document.getElementById("pub-date").value = p.date || "";
+  document.getElementById("pub-ssrn-id").value = p.ssrn_id || "";
+  document.getElementById("pub-ssrn-url").value = p.url_ssrn || "";
+  document.getElementById("pub-author-ssrn").value = p.author_ssrn || "";
+  document.getElementById("pub-orcid").value = p.orcid || "";
+  document.getElementById("pub-pdf-url").value = p.url_pdf || "";
+  document.getElementById("pub-tags").value = p.tags || "";
+  document.getElementById("pub-summary").value = p.summary || "";
+  document.getElementById("pub-content").value = p.content || "";
+  logTerm("info", `[PUBLICATIONS] Loaded publication: ${p.title}.`);
+}
+
+function loadNewPublicationTemplate() {
+  document.getElementById("pub-title").value = "New Research Paper / Pre-print Title";
+  document.getElementById("pub-slug").value = "new-publication-slug";
+  document.getElementById("pub-venue").value = "Journal / Conference / Department & IIT Bombay";
+  document.getElementById("pub-date").value = new Date().toISOString().split("T")[0];
+  document.getElementById("pub-ssrn-id").value = "";
+  document.getElementById("pub-ssrn-url").value = "";
+  document.getElementById("pub-author-ssrn").value = "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196";
+  document.getElementById("pub-orcid").value = "0009-0001-7236-8213";
+  document.getElementById("pub-pdf-url").value = "";
+  document.getElementById("pub-tags").value = "Quantitative Finance, Machine Learning, Research";
+  document.getElementById("pub-summary").value = "Executive abstract summarizing research methodologies and empirical findings...";
+  document.getElementById("pub-content").value = `### Abstract
+Provide the comprehensive abstract for the paper here.
+
+---
+
+### Mathematical Architecture & Methods
+Formulate equations and algorithms.`;
+  logTerm("info", "[PUBLICATIONS] Loaded blank publication template.");
+}
+
+function deployPublication() {
+  const slug = document.getElementById("pub-slug").value.trim();
+  const title = document.getElementById("pub-title").value.trim();
+  const venue = document.getElementById("pub-venue").value.trim();
+  const date = document.getElementById("pub-date").value.trim();
+  const ssrnId = document.getElementById("pub-ssrn-id").value.trim();
+  const ssrnUrl = document.getElementById("pub-ssrn-url").value.trim();
+  const authorSsrn = document.getElementById("pub-author-ssrn").value.trim();
+  const orcid = document.getElementById("pub-orcid").value.trim();
+  const pdfUrl = document.getElementById("pub-pdf-url").value.trim();
+  const tags = document.getElementById("pub-tags").value.split(",").map(t => `  - "${t.trim().replace(/"/g, '\\"')}"`).join("\n");
+  const summary = document.getElementById("pub-summary").value.trim().replace(/"/g, '\\"');
+  const body = document.getElementById("pub-content").value.trim();
+
+  if (!slug || !title) {
+    alert("Publication Slug and Title are required.");
+    return;
+  }
+
+  let frontmatter = `---
+title: "${title.replace(/"/g, '\\"')}"
+publication: "${venue.replace(/"/g, '\\"')}"
+date: ${date}
+draft: false
+summary: "${summary}"
+`;
+  if (ssrnId) frontmatter += `ssrn_id: "${ssrnId}"\n`;
+  if (ssrnUrl) frontmatter += `url_ssrn: "${ssrnUrl}"\n`;
+  if (authorSsrn) frontmatter += `author_ssrn: "${authorSsrn}"\n`;
+  if (orcid) frontmatter += `orcid: "${orcid}"\n`;
+  if (pdfUrl) frontmatter += `url_pdf: "${pdfUrl}"\n`;
+  frontmatter += `tags:\n${tags}\n---\n\n${body}\n`;
+
+  PUBLICATIONS_DATA[slug] = {
+    title, slug, venue, date, ssrn_id: ssrnId, url_ssrn: ssrnUrl,
+    author_ssrn: authorSsrn, orcid, url_pdf: pdfUrl,
+    tags: document.getElementById("pub-tags").value.trim(),
+    summary, content: body
+  };
+  populatePublicationsDropdown();
+  document.getElementById("pub-selector").value = slug;
+
+  commitFileToGitHub(`content/publications/${slug}/index.md`, frontmatter, `Update publication: ${title} via Console`);
+}
+
+function deleteCurrentPublication() {
+  const slug = document.getElementById("pub-slug").value.trim();
+  if (!slug) return;
+  if (!confirm(`Are you sure you want to delete publication '${slug}'?`)) return;
+  deleteFileFromGitHub(`content/publications/${slug}/index.md`, `Delete publication ${slug} via Console`);
+  delete PUBLICATIONS_DATA[slug];
+  populatePublicationsDropdown();
+  const remaining = Object.keys(PUBLICATIONS_DATA);
+  if (remaining.length > 0) handleSelectPub(remaining[0]);
+}
+
+// TAB 6: EXPERIENCES MANAGEMENT
 function handleSelectExp(role) {
   if (role === "__new__") {
     loadNewExpTemplate();

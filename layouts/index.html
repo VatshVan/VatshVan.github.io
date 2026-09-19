@@ -49,36 +49,55 @@
     </div>
 
     <div class="profile-spec-grid">
-      <div class="spec-item">
-        <span class="spec-label">INSTITUTION</span>
-        <strong class="spec-value">{{ with $profile.institution }}{{ . }}{{ else }}IIT Bombay{{ end }}</strong>
-      </div>
-      <div class="spec-item">
-        <span class="spec-label">ACADEMIC CPI</span>
-        <strong class="spec-value">{{ with $profile.cpi }}{{ . }}{{ else }}8.27 / 10.0{{ end }}</strong>
-      </div>
-      <div class="spec-item">
-        <span class="spec-label">PRIMARY FOCUS</span>
-        <strong class="spec-value">{{ with $profile.primary_focus }}{{ . }}{{ else }}Quantitative Finance{{ end }}</strong>
-      </div>
-      <div class="spec-item">
-        <span class="spec-label">SECONDARY FOCUS</span>
-        <strong class="spec-value">{{ with $profile.secondary_focus }}{{ . }}{{ else }}Autonomous Control{{ end }}</strong>
-      </div>
-      <div class="spec-item">
-        <span class="spec-label">ORCID</span>
-        <a href="https://orcid.org/0009-0001-7236-8213" target="_blank" rel="noopener" class="spec-value" style="color: #ffffff; font-family: var(--mono); font-size: 0.78rem;">0009-0001-7236-8213</a>
-      </div>
-      <div class="spec-item">
-        <span class="spec-label">SSRN AUTHOR</span>
-        <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196" target="_blank" rel="noopener" class="spec-value" style="color: var(--accent-green); font-family: var(--mono); font-size: 0.78rem;">ID: 10485196</a>
-      </div>
+      {{ if $profile.specs }}
+        {{ range $profile.specs }}
+          <div class="spec-item">
+            <span class="spec-label">{{ .label }}</span>
+            {{ if .link }}
+              <a href="{{ .link }}" target="_blank" rel="noopener" class="spec-value" style="color: {{ if (in (lower .label) "ssrn") }}var(--accent-green){{ else }}var(--text-heading){{ end }}; font-family: var(--mono); font-size: 0.78rem;">{{ .value }}</a>
+            {{ else }}
+              <strong class="spec-value">{{ .value }}</strong>
+            {{ end }}
+          </div>
+        {{ end }}
+      {{ else }}
+        <div class="spec-item">
+          <span class="spec-label">INSTITUTION</span>
+          <strong class="spec-value">{{ with $profile.institution }}{{ . }}{{ else }}IIT Bombay{{ end }}</strong>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">ACADEMIC CPI</span>
+          <strong class="spec-value">{{ with $profile.cpi }}{{ . }}{{ else }}8.27 / 10.0{{ end }}</strong>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">PRIMARY FOCUS</span>
+          <strong class="spec-value">{{ with $profile.primary_focus }}{{ . }}{{ else }}Quantitative Finance{{ end }}</strong>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">SECONDARY FOCUS</span>
+          <strong class="spec-value">{{ with $profile.secondary_focus }}{{ . }}{{ else }}Autonomous Control{{ end }}</strong>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">ORCID</span>
+          <a href="https://orcid.org/0009-0001-7236-8213" target="_blank" rel="noopener" class="spec-value" style="color: var(--text-heading); font-family: var(--mono); font-size: 0.78rem;">0009-0001-7236-8213</a>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">SSRN AUTHOR</span>
+          <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196" target="_blank" rel="noopener" class="spec-value" style="color: var(--accent-green); font-family: var(--mono); font-size: 0.78rem;">ID: 10485196</a>
+        </div>
+      {{ end }}
     </div>
 
     <div class="profile-affiliations">
-      <span class="affil-tag">WorldQuant BRAIN (Master Consultant)</span>
-      <span class="affil-tag">SeDriCa UMIC (Controls & Manager)</span>
-      <span class="affil-tag">Centre for Machine Intelligence & Data Science</span>
+      {{ with $profile.affiliations }}
+        {{ range . }}
+          <span class="affil-tag">{{ . }}</span>
+        {{ end }}
+      {{ else }}
+        <span class="affil-tag">WorldQuant BRAIN (Master Consultant)</span>
+        <span class="affil-tag">SeDriCa UMIC (Controls & Manager)</span>
+        <span class="affil-tag">Centre for Machine Intelligence & Data Science</span>
+      {{ end }}
     </div>
   </aside>
 </section>
