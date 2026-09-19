@@ -73,26 +73,36 @@
 
 <!-- Scholastic & Quantitative Metrics Ticker -->
 <section class="metrics-bar">
-  <div class="metric-card">
-    <span class="metric-label">WORLDQUANT BRAIN</span>
-    <div class="metric-value text-cyan">42 <span class="metric-sub">/ 5,700+</span></div>
-    <span class="metric-detail">Global Rank in Power Pool Alpha Competition (11th in India)</span>
-  </div>
-  <div class="metric-card">
-    <span class="metric-label">JEE MAINS '24</span>
-    <div class="metric-value text-green">99.72<span class="metric-sub">%ile</span></div>
-    <span class="metric-detail">Top 0.28% out of 1.4 Million candidates nationwide</span>
-  </div>
-  <div class="metric-card">
-    <span class="metric-label">OUT-OF-SAMPLE IR</span>
-    <div class="metric-value text-amber">2.39</div>
-    <span class="metric-detail">Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)</span>
-  </div>
-  <div class="metric-card">
-    <span class="metric-label">REAL-TIME CONTROL</span>
-    <div class="metric-value text-cyan">100 <span class="metric-sub">Hz</span></div>
-    <span class="metric-detail">LibTorch-Acados learned-dynamics HyperMPC control loop</span>
-  </div>
+  {{ with site.Data.metrics.items }}
+    {{ range . }}
+      <div class="metric-card">
+        <span class="metric-label">{{ .label }}</span>
+        <div class="metric-value text-{{ .color }}">{{ .value }} {{ with .sub }}<span class="metric-sub">{{ . }}</span>{{ end }}</div>
+        <span class="metric-detail">{{ .detail }}</span>
+      </div>
+    {{ end }}
+  {{ else }}
+    <div class="metric-card">
+      <span class="metric-label">WORLDQUANT BRAIN</span>
+      <div class="metric-value text-cyan">42 <span class="metric-sub">/ 5,700+</span></div>
+      <span class="metric-detail">Global Rank in Power Pool Alpha Competition (11th in India)</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">JEE MAINS '24</span>
+      <div class="metric-value text-green">99.72<span class="metric-sub">%ile</span></div>
+      <span class="metric-detail">Top 0.28% out of 1.4 Million candidates nationwide</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">OUT-OF-SAMPLE IR</span>
+      <div class="metric-value text-amber">2.39</div>
+      <span class="metric-detail">Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)</span>
+    </div>
+    <div class="metric-card">
+      <span class="metric-label">REAL-TIME CONTROL</span>
+      <div class="metric-value text-cyan">100 <span class="metric-sub">Hz</span></div>
+      <span class="metric-detail">LibTorch-Acados learned-dynamics HyperMPC control loop</span>
+    </div>
+  {{ end }}
 </section>
 
 <!-- Core Engagements Spotlight -->
