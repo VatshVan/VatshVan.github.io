@@ -1,5 +1,5 @@
 appearance:
-  font_pair: "fraunces_space"
+  font_pair: "playfair_fira"
   accent_theme: "monochrome_matrix"
   grid_style: "coordinate"
 
