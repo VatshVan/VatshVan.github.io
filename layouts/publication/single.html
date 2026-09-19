@@ -1,0 +1,47 @@
+{{ define "main" }}
+{{ $img := .Resources.GetMatch "featured.*" }}
+{{ if not $img }}{{ $img = .Resources.GetMatch "images.*" }}{{ end }}
+{{ if not $img }}{{ with .Params.image }}{{ $img = $.Resources.GetMatch .filename }}{{ end }}{{ end }}
+
+<article class="single-page">
+  <div class="single-header">
+    <a href="{{ .Parent.RelPermalink }}" class="back-link">
+      &larr; BACK TO {{ upper .Parent.Title }}
+    </a>
+    <h1 class="single-title">{{ .Title }}</h1>
+    <div class="single-meta">
+      {{ if .Date }}
+        <span class="mono-date">&bull; {{ .Date.Format "Jan 2006" }}{{ with .Params.date_end }} &ndash; {{ if eq . "present" }}Present{{ else }}{{ (time .).Format "Jan 2006" }}{{ end }}{{ end }}</span>
+      {{ end }}
+      {{ with .Params.publication }}
+        <span class="org-pill">{{ . }}</span>
+      {{ end }}
+    </div>
+    {{ if .Params.tags }}
+      <div class="tag-row" style="margin-top: 1rem;">
+        {{ range .Params.tags }}
+          <span class="tag">#{{ . }}</span>
+        {{ end }}
+      </div>
+    {{ end }}
+  </div>
+
+  {{ if $img }}
+    <div class="single-image" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); margin-bottom: 3rem; overflow: hidden; aspect-ratio: 16/7;">
+      <img src="{{ $img.RelPermalink }}" alt="{{ $.Title }}" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+  {{ end }}
+
+  <div class="single-content">
+    {{ .Content }}
+  </div>
+
+  {{ if .Params.url_pdf }}
+    <div style="margin-top: 4rem; text-align: center;">
+      <a href="{{ .Params.url_pdf }}" target="_blank" rel="noopener" class="button button-primary">
+        <span>DOWNLOAD DOCUMENTATION (PDF)</span>
+      </a>
+    </div>
+  {{ end }}
+</article>
+{{ end }}

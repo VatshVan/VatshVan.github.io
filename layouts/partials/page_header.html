@@ -1,0 +1,10 @@
+{{/* Safe page_header override preventing HugoBlox $featured.Fit crash on SVGs */}}
+{{ $featured := .Resources.GetMatch "featured.*" }}
+{{ if not $featured }}{{ $featured = .Resources.GetMatch "images.*" }}{{ end }}
+{{ if not $featured }}{{ with .Params.image }}{{ $featured = $.Resources.GetMatch .filename }}{{ end }}{{ end }}
+
+{{ if $featured }}
+  <div class="article-header" style="margin-bottom: 2rem;">
+    <img src="{{ $featured.RelPermalink }}" alt="{{ $.Title }}" style="width: 100%; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+  </div>
+{{ end }}
