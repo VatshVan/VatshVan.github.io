@@ -58,7 +58,7 @@
         <span class="console-tag">v3.0 &bull; QUANT & AUTONOMY</span>
       </div>
       <div class="console-controls">
-        <span id="github-status-badge" class="card-badge badge-cyan" style="font-size: 0.75rem;">CHECKING GITHUB API...</span>
+        <span id="github-status-badge" class="card-badge badge-white" style="font-size: 0.75rem;">CHECKING GITHUB API...</span>
         <button class="button button-outline" style="padding: 0.35rem 0.8rem; font-size: 0.75rem;" onclick="handleLogout()">
           LOGOUT
         </button>
@@ -99,7 +99,7 @@
       </p>
       <div class="diag-steps">
         <ol>
-          <li>Open your existing token on GitHub: <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" class="text-cyan"><strong>github.com/settings/tokens</strong></a>.</li>
+          <li>Open your existing token on GitHub: <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" class="text-white"><strong>github.com/settings/tokens</strong></a>.</li>
           <li>Click on the token name to edit it.</li>
           <li>Under <strong>Repository permissions</strong> &rarr; <strong>Contents</strong>, change permission from <em>Read-only</em> to <strong>Read and write</strong>. (If using a Classic token, check the <code>repo</code> scope checkbox).</li>
           <li>Scroll down and click <strong>Save changes</strong>.</li>
@@ -198,7 +198,7 @@
             You can test all fonts, colors, and grid styles in real time right inside this browser window before pushing to GitHub!
           </p>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-            <span class="card-badge badge-cyan">CYAN BADGE</span>
+            <span class="card-badge badge-white">WHITE BADGE</span>
             <span class="card-badge badge-green">GREEN BADGE</span>
             <span class="card-badge badge-amber">AMBER BADGE</span>
           </div>
@@ -595,8 +595,8 @@
 
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
   outline: none;
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+  border-color: var(--accent-green);
+  box-shadow: 0 0 10px rgba(0, 230, 153, 0.2);
 }
 
 .form-help {
@@ -646,17 +646,17 @@
 
 .console-tag {
   font-size: 0.75rem;
-  color: var(--accent-cyan);
-  background: var(--accent-cyan-dim);
-  border: 1px solid rgba(0, 229, 255, 0.25);
+  color: var(--accent-green);
+  background: var(--accent-green-dim);
+  border: 1px solid rgba(0, 230, 153, 0.25);
   padding: 0.15rem 0.5rem;
   border-radius: 999px;
 }
 
 .pat-banner {
   padding: 1.25rem 1.5rem;
-  background: rgba(0, 229, 255, 0.04);
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-md);
   margin-bottom: 1.5rem;
 }
@@ -704,7 +704,7 @@
 }
 
 .console-tab {
-  background: rgba(12, 18, 34, 0.6);
+  background: rgba(20, 20, 20, 0.6);
   border: 1px solid var(--border-subtle);
   color: var(--text-subtle);
   font-family: var(--mono);
@@ -717,9 +717,9 @@
 }
 
 .console-tab:hover, .console-tab.active {
-  background: var(--accent-cyan-dim);
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--text-heading);
+  color: var(--text-heading);
 }
 
 .console-pane {
@@ -819,7 +819,7 @@
   line-height: 1.6;
 }
 
-.term-line.info { color: var(--accent-cyan); }
+.term-line.info { color: var(--accent-green); }
 .term-line.success { color: var(--accent-green); }
 .term-line.warn { color: var(--accent-amber); }
 .term-line.error { color: #f43f5e; }
@@ -949,12 +949,13 @@ Analytical derivations and numerical finite-difference schemes for European, Ame
   "interest-rate-hikes": {
     title: "Effects of Interest Rate Hikes (Vasicek)",
     slug: "interest-rate-hikes",
-    org: "Fixed Income Research",
-    date: "2025-07-01",
-    tags: "Fixed Income, Term Structure, Vasicek Model, Monte Carlo",
-    summary: "Calibrated 1-factor Vasicek short-rate model to macroeconomic rate hiking regimes with Monte Carlo yield curve simulations.",
+    slug: "derivative-pricing",
+    org: "Maths & Physics Club &bull; Summer of Science",
+    date: "2025-07-10",
+    tags: "Financial Engineering, Stochastic Calculus, Black-Scholes, Monte Carlo",
+    summary: "Black-Scholes model implementation with stochastic calculus, risk-neutral pricing, Greeks analysis, and finite-difference methods.",
     content: `### Executive Overview
-Investigated term structure shifts across central bank tightening cycles by calibrating the 1-factor Vasicek short-rate model.`
+Implemented the Black-Scholes model for European options using stochastic processes and risk-neutral valuation in Python.`
   },
   "ssmphony": {
     title: "SSMphony: Linear Audio Generation",
@@ -970,10 +971,10 @@ Engineered a linear-complexity generative audio architecture replacing quadratic
 
 // Initial Slides Data
 let currentSlides = [
-  { label: "WORLDQUANT BRAIN", val: "42", sub: "/ 5,700+", col: "cyan", det: "Global Rank in Power Pool Alpha Competition (11th in India)" },
+  { label: "WORLDQUANT BRAIN", val: "42", sub: "/ 5,700+", col: "green", det: "Global Rank in Power Pool Alpha Competition (11th in India)" },
   { label: "JEE MAINS '24", val: "99.72", sub: "%ile", col: "green", det: "Top 0.28% out of 1.4 Million candidates nationwide" },
   { label: "OUT-OF-SAMPLE IR", val: "2.39", sub: "", col: "amber", det: "Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)" },
-  { label: "REAL-TIME CONTROL", val: "100", sub: "Hz", col: "cyan", det: "LibTorch-Acados learned-dynamics HyperMPC control loop" }
+  { label: "REAL-TIME CONTROL", val: "100", sub: "Hz", col: "white", det: "LibTorch-Acados learned-dynamics HyperMPC control loop" }
 ];
 
 // Login handler
@@ -1330,10 +1331,9 @@ function renderDynamicSlides() {
         <div class="form-group" style="flex: 1;">
           <label>COLOR</label>
           <select id="slide-color-${idx}" onchange="syncSlide(${idx})">
-            <option value="cyan" ${s.col === 'cyan' ? 'selected' : ''}>Cyan</option>
-            <option value="green" ${s.col === 'green' ? 'selected' : ''}>Green</option>
-            <option value="amber" ${s.col === 'amber' ? 'selected' : ''}>Amber</option>
-            <option value="blue" ${s.col === 'blue' ? 'selected' : ''}>Blue</option>
+            <option value="green" ${s.col === 'green' ? 'selected' : ''}>Green (WorldQuant)</option>
+            <option value="white" ${s.col === 'white' || s.col === 'cyan' || s.col === 'blue' ? 'selected' : ''}>White (Stark)</option>
+            <option value="amber" ${s.col === 'amber' ? 'selected' : ''}>Amber (Metric)</option>
           </select>
         </div>
       </div>
@@ -1352,7 +1352,7 @@ function addNewSlide() {
     label: "NEW METRIC",
     val: "100%",
     sub: "",
-    col: "cyan",
+    col: "white",
     det: "Description of the quantitative achievement"
   });
   renderDynamicSlides();
