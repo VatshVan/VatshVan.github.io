@@ -1,21 +1,30 @@
 ---
-title: Research Consultant (Master Consultant - Top 10%)
+title: Quantitative Alpha Research Consultant (Master Consultant)
 organization: WorldQuant BRAIN
 company: WorldQuant BRAIN
 location: Remote
 date: 2025-02-01
-date_end: ''
+date_end: 2025-12-31
 draft: false
-# image:
-#   filename: featured.svg
-#   focal_point: Smart
-#   preview_only: false
+summary: Selected as 1 of 12 global consultants to attend the IQC'25 Finals in Singapore. Master Consultant (Q3'25) with an after-cost out-sample IR of 2.39 across 320+ submitted alphas.
+image:
+  filename: featured.svg
+  focal_point: Smart
+  preview_only: false
+tags:
+  - Quantitative Alpha Research
+  - Information Ratio: 2.39
+  - 320+ Alphas
+  - Genetic Algorithms
+  - Orthogonal Signals
+  - LLM Signal Pipelines
 ---
 
-Master Consultant (Top 10%) with an IR of 2.39, validating signal robustness across market regimes.
+Selected as **1 of the 12 WQBRAIN Research Consultants** (Rising Stars cohort) globally to attend the **Global IQC'25 Finals** in Singapore from an initial competitive pool of 650+ applicants.
 
-* Selected as 1 of 12 consultant delegates for the Global IQC Finals, Singapore (Sept 25) from 650+ applicants.
-* Produced 450+ alpha factors utilizing mean-reversion to extract stochastic signals from raw time-series data.
-* Optimized throughput via vectorized Python pipelines, enabling rapid simulation of large high-dimensional datasets.
-* Deployed Genetic Algorithms & CNNs for tuning, systematic alpha evolution to maximize global optima.
-* Reduced OS error by 25% using statistical validation to enforce signal orthogonality & mitigate model overfitting.
+### Key Contributions & Quantitative Milestones
+* **Master Consultant Status (Q3'25)**: Achieved Master Consultant distinction by maintaining a portfolio of strictly orthogonal alpha signals yielding an after-cost out-of-sample Information Ratio (**IR**) of **2.39**.
+* **Alpha Generation & Statistical Validation**: Submitted **320+ robust alphas** with out-of-sample fitness scores up to **6.47**, strictly maintaining an average self-correlation of **0.25** to ensure diversification and non-redundancy.
+* **Composite Strategy Architecture**: Engineered **90+ composite alpha strategies** by selecting, filtering, and synthesizing orthogonal quantitative signals across high-dimensional cross-sectional market data.
+* **Automated Research Pipelines**: Designed and deployed an LLM-driven iterative refinement pipeline for automated, hypothesis-driven quantitative signal generation and backtesting.
+* **Performance Optimization**: Vectorized signal computation pipelines in Python/C++ to accelerate simulation throughput across multi-decade price-volume and fundamental factor datasets.

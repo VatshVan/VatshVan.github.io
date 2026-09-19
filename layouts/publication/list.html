@@ -1,11 +1,16 @@
 {{ define "main" }}
-<section class="panel" id="publications">
-  <div class="section-heading split">
-    <div>
-      <p class="eyebrow">Publications</p>
-      <h2>Research & Publications</h2>
-    </div>
+<section class="page-hero">
+  <div class="eyebrow-badge">
+    <span class="pulse-dot-cyan"></span>
+    <span>RESEARCH PAPERS & MONOGRAPHS</span>
   </div>
+  <h1>Research & Publications</h1>
+  <p class="page-intro">
+    Technical reports, research monographs, and algorithmic whitepapers spanning quantitative asset pricing, physics-informed neural networks, and autonomous vehicle control architectures.
+  </p>
+</section>
+
+<section class="panel" style="margin-top: 2rem;">
   <div class="stack">
     {{ range sort .Pages "Date" "desc" }}
       {{ partial "publication_card.html" . }}

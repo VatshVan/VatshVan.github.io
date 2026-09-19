@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0b0f19">
+    <meta name="theme-color" content="#070b14">
     <title>{{ block "title" . }}{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}{{ end }}</title>
     {{ if .Description }}<meta name="description" content="{{ .Description }}">{{ end }}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ "css/site.css" | relURL }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -18,83 +18,35 @@
   <body>
     <div class="site-shell">
       <div class="site-bg"></div>
-      <canvas id="ai-mesh" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -2;"></canvas>
-      <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const canvas = document.getElementById("ai-mesh");
-        const ctx = canvas.getContext("2d");
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        
-        window.addEventListener('resize', () => {
-          width = canvas.width = window.innerWidth;
-          height = canvas.height = window.innerHeight;
-        });
-
-        const particles = [];
-        const particleCount = Math.floor(window.innerWidth / 15); // Scale amount of particles to screen width
-        
-        for(let i = 0; i < particleCount; i++) {
-          particles.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - 0.5) * 0.8,
-            vy: (Math.random() - 0.5) * 0.8,
-            radius: Math.random() * 1.5 + 0.5
-          });
-        }
-        
-        function draw() {
-          ctx.clearRect(0, 0, width, height);
-          ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
-          ctx.strokeStyle = 'rgba(129, 140, 248, 0.15)';
-          
-          for(let i = 0; i < particleCount; i++) {
-            let p = particles[i];
-            p.x += p.vx;
-            p.y += p.vy;
-            
-            if(p.x < 0 || p.x > width) p.vx *= -1;
-            if(p.y < 0 || p.y > height) p.vy *= -1;
-            
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fill();
-            
-            for(let j = i + 1; j < particleCount; j++) {
-              let p2 = particles[j];
-              let dx = p.x - p2.x;
-              let dy = p.y - p2.y;
-              let dist = Math.sqrt(dx*dx + dy*dy);
-              
-              if(dist < 150) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.lineWidth = (1 - (dist / 150)) * 1.2;
-                ctx.stroke();
-              }
-            }
-          }
-          requestAnimationFrame(draw);
-        }
-        draw();
-      });
-      </script>
       <header class="topbar">
-        <a class="brand" href="{{ site.Home.RelPermalink }}">Vatsh Van</a>
+        <a class="brand" href="{{ site.Home.RelPermalink }}">
+          <span class="brand-name">Vatsh Van</span>
+          <span class="brand-badge">IIT BOMBAY</span>
+        </a>
         <nav class="nav">
           {{ range site.Menus.main }}
-            <a href="{{ .URL }}">{{ .Name }}</a>
+            <a href="{{ .URL }}" class="{{ if eq $.RelPermalink .URL }}active{{ end }}">{{ .Name }}</a>
           {{ end }}
         </nav>
+        <div class="status-pill">
+          <span class="status-dot"></span>
+          <span class="status-text">SYS: ACTIVE</span>
+        </div>
       </header>
       <main>
         {{ block "main" . }}{{ end }}
       </main>
       <footer class="footer">
-        <span>Minimal, modular, static. Built with Hugo and Hugo Blox.</span>
-        <span>Math ready. GitHub Pages compatible. Easy to extend with new markdown files.</span>
+        <div class="footer-left">
+          <strong>Vatsh Van</strong> &bull; Indian Institute of Technology Bombay
+          <p class="footer-sub">Quantitative Research &bull; Autonomous Systems &bull; Machine Learning</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/VatshVan" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/vatsh-van-iit-bombay/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="mailto:24b2259@iitb.ac.in">Contact</a>
+          <a href="{{ "resume/" | relURL }}">Curriculum Vitae</a>
+        </div>
       </footer>
     </div>
   </body>

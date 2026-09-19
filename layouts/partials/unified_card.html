@@ -1,36 +1,123 @@
-<a href="{{ .RelPermalink }}" class="timeline-card-link" style="text-decoration: none; color: inherit; display: block;">
+{{ $img := .Resources.GetMatch "featured.*" }}
+{{ if not $img }}{{ $img = .Resources.GetMatch "images.*" }}{{ end }}
+{{ if not $img }}{{ with .Params.image }}{{ $img = $.Resources.GetMatch .filename }}{{ end }}{{ end }}
+
+{{ $isQuant := or (in (lower .Title) "quant") (in (lower .Title) "alpha") (in (lower .Title) "portfolio") (in (lower .Title) "derivative") (in (lower .Title) "rate") (in (lower .Title) "finance") (in (lower (delimit .Params.tags " ")) "quant") }}
+{{ $isControl := or (in (lower .Title) "mpc") (in (lower .Title) "control") (in (lower .Title) "sedrica") (in (lower .Title) "autonomous") (in (lower .Title) "car") (in (lower (delimit .Params.tags " ")) "control") }}
+
+<a href="{{ .RelPermalink }}" class="timeline-card-link">
   <article class="timeline-card">
-    <div class="timeline-media" style="position: relative; min-height: 260px; width: 100%; background: var(--bg-2); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow: hidden;">
-      {{ with .Resources.GetMatch "featured.*" }}
-      <img src="{{ .RelPermalink }}" alt="{{ $.Title }} illustration" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+    <div class="timeline-media">
+      {{ if $img }}
+        <img src="{{ $img.RelPermalink }}" alt="{{ .Title }} preview">
       {{ else }}
-      <!-- Fallback terminal/canvas placeholder -->
-      <div style="position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); color: var(--accent); background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,255,255,0.03) 10px, rgba(0,255,255,0.03) 20px);">
-        [ ASSET_PENDING ]
-      </div>
+        <div class="procedural-graphic {{ if $isQuant }}graphic-quant{{ else if $isControl }}graphic-control{{ else }}graphic-ml{{ end }}">
+          <div class="graphic-watermark">
+            {{ if $isQuant }}QUANT // ALPHA{{ else if $isControl }}AUTONOMY // MPC{{ else }}ML // NEURAL{{ end }}
+          </div>
+          {{ if $isQuant }}
+            <!-- Quant Alpha / Order Book Schematic -->
+            <svg viewBox="0 0 400 240" fill="none" class="schematic-svg">
+              <defs>
+                <linearGradient id="quantGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="40" y1="40" x2="360" y2="40" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="90" x2="360" y2="90" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="140" x2="360" y2="140" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+              <line x1="40" y1="190" x2="360" y2="190" stroke="rgba(255,255,255,0.06)" stroke-dasharray="3 3"/>
+              <!-- Depth bars (Order book) -->
+              <rect x="290" y="50" width="30" height="12" fill="rgba(0, 230, 153, 0.25)"/>
+              <rect x="270" y="68" width="50" height="12" fill="rgba(0, 230, 153, 0.35)"/>
+              <rect x="250" y="86" width="70" height="12" fill="rgba(0, 230, 153, 0.5)"/>
+              <rect x="240" y="110" width="80" height="12" fill="rgba(244, 63, 94, 0.5)"/>
+              <rect x="260" y="128" width="60" height="12" fill="rgba(244, 63, 94, 0.35)"/>
+              <rect x="280" y="146" width="40" height="12" fill="rgba(244, 63, 94, 0.25)"/>
+              <!-- Stochastic price / cumulative return curve -->
+              <path d="M40 160 Q80 170 110 130 T180 110 T240 85 T310 65 T360 45" fill="none" stroke="#00e5ff" stroke-width="2.5"/>
+              <path d="M40 160 Q80 170 110 130 T180 110 T240 85 T310 65 T360 45 L360 200 L40 200 Z" fill="url(#quantGrad)"/>
+              <circle cx="360" cy="45" r="4" fill="#00e5ff"/>
+              <text x="50" y="30" fill="#00e5ff" font-family="'Fira Code', monospace" font-size="11">&sigma; = 0.14 | IR: 2.39</text>
+            </svg>
+          {{ else if $isControl }}
+            <!-- Autonomous Control / State Space Trajectory -->
+            <svg viewBox="0 0 400 240" fill="none" class="schematic-svg">
+              <!-- Coordinate Grid -->
+              <circle cx="200" cy="120" r="80" stroke="rgba(0, 229, 255, 0.15)" stroke-dasharray="4 4"/>
+              <circle cx="200" cy="120" r="40" stroke="rgba(0, 229, 255, 0.25)"/>
+              <line x1="50" y1="120" x2="350" y2="120" stroke="rgba(255,255,255,0.1)"/>
+              <line x1="200" y1="20" x2="200" y2="220" stroke="rgba(255,255,255,0.1)"/>
+              <!-- Planned trajectory spline -->
+              <path d="M60 180 C120 180, 140 70, 200 70 S280 150, 340 50" fill="none" stroke="#00e699" stroke-width="2.5"/>
+              <!-- Predicted horizon points -->
+              <circle cx="200" cy="70" r="4" fill="#00e699"/>
+              <circle cx="250" cy="115" r="3" fill="#38bdf8"/>
+              <circle cx="300" cy="130" r="3" fill="#38bdf8"/>
+              <circle cx="340" cy="50" r="5" fill="#f59e0b"/>
+              <text x="50" y="30" fill="#00e699" font-family="'Fira Code', monospace" font-size="11">MPC 100Hz // &Delta;t = 10ms</text>
+            </svg>
+          {{ else }}
+            <!-- Machine Learning / Neural Architecture Schematic -->
+            <svg viewBox="0 0 400 240" fill="none" class="schematic-svg">
+              <!-- Node layers -->
+              <g stroke="rgba(255,255,255,0.15)" stroke-width="1">
+                <line x1="80" y1="50" x2="160" y2="70"/><line x1="80" y1="50" x2="160" y2="120"/><line x1="80" y1="50" x2="160" y2="170"/>
+                <line x1="80" y1="120" x2="160" y2="70"/><line x1="80" y1="120" x2="160" y2="120"/><line x1="80" y1="120" x2="160" y2="170"/>
+                <line x1="80" y1="190" x2="160" y2="70"/><line x1="80" y1="190" x2="160" y2="120"/><line x1="80" y1="190" x2="160" y2="170"/>
+                <line x1="160" y1="70" x2="260" y2="90"/><line x1="160" y1="70" x2="260" y2="150"/>
+                <line x1="160" y1="120" x2="260" y2="90"/><line x1="160" y1="120" x2="260" y2="150"/>
+                <line x1="160" y1="170" x2="260" y2="90"/><line x1="160" y1="170" x2="260" y2="150"/>
+                <line x1="260" y1="90" x2="330" y2="120"/><line x1="260" y1="150" x2="330" y2="120"/>
+              </g>
+              <!-- Input Nodes -->
+              <circle cx="80" cy="50" r="7" fill="#0c1222" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="80" cy="120" r="7" fill="#0c1222" stroke="#38bdf8" stroke-width="2"/>
+              <circle cx="80" cy="190" r="7" fill="#0c1222" stroke="#38bdf8" stroke-width="2"/>
+              <!-- Hidden Nodes -->
+              <circle cx="160" cy="70" r="8" fill="#0c1222" stroke="#00e5ff" stroke-width="2"/>
+              <circle cx="160" cy="120" r="8" fill="#0c1222" stroke="#00e5ff" stroke-width="2"/>
+              <circle cx="160" cy="170" r="8" fill="#0c1222" stroke="#00e5ff" stroke-width="2"/>
+              <!-- Bottleneck Nodes -->
+              <circle cx="260" cy="90" r="7" fill="#0c1222" stroke="#f59e0b" stroke-width="2"/>
+              <circle cx="260" cy="150" r="7" fill="#0c1222" stroke="#f59e0b" stroke-width="2"/>
+              <!-- Output Node -->
+              <circle cx="330" cy="120" r="9" fill="#0c1222" stroke="#00e699" stroke-width="2"/>
+              <text x="50" y="25" fill="#f59e0b" font-family="'Fira Code', monospace" font-size="11">PINN // Cauchy Loss &lt; 1e-4</text>
+            </svg>
+          {{ end }}
+        </div>
       {{ end }}
     </div>
+
     <div class="timeline-copy">
       <div class="meta-row">
         <h3>{{ .Title }}</h3>
-        {{ with .Params.organization }}<span style="color: var(--accent-2);">{{ . }}</span>{{ end }}
-        {{ with .Params.role }}<span style="color: var(--accent-2);">{{ . }}</span>{{ end }}
+        {{ with .Params.organization }}
+          <span class="org-pill">{{ . }}</span>
+        {{ end }}
       </div>
       
       {{ if .Date }}
-      <p class="date" style="color: var(--accent-3);">>_ TIMESTAMP: {{ .Date.Format "Jan 2006" }}</p>
+        <p class="date">
+          <span class="mono-date">&bull; {{ .Date.Format "Jan 2006" }}{{ with .Params.date_end }} &ndash; {{ if eq . "present" }}Present{{ else }}{{ (time .).Format "Jan 2006" }}{{ end }}{{ end }}</span>
+        </p>
       {{ end }}
 
-      <p style="margin-top: 1rem;">{{ .Summary }}</p>
+      <p class="card-summary">{{ .Summary }}</p>
       
       {{ if .Params.tags }}
-      <div class="tag-row" style="margin-top: 1rem;">
-        {{ range .Params.tags }}<span class="tag">#{{ . }}</span>{{ end }}
-      </div>
+        <div class="tag-row">
+          {{ range .Params.tags }}
+            <span class="tag">#{{ . }}</span>
+          {{ end }}
+        </div>
       {{ end }}
       
-      <div style="margin-top: 1.5rem; color: var(--accent); font-family: var(--mono); font-size: 0.85rem; font-weight: 500;">
-        > CLICK_TO_EXPAND //
+      <div class="card-expand-link">
+        <span>VIEW TECHNICAL DETAILS</span> &rarr;
       </div>
     </div>
   </article>

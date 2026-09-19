@@ -1,76 +1,342 @@
 {{ define "main" }}
-<section class="panel" id="resume">
-  <div class="section-heading split">
+<section class="page-hero">
+  <div class="eyebrow-badge">
+    <span class="pulse-dot-cyan"></span>
+    <span>CURRICULUM VITAE // VERIFIED CREDENTIALS</span>
+  </div>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1.5rem; margin-top: 1rem;">
     <div>
-      <p class="eyebrow">SYS_LOG: Digital CV</p>
-      <h2>Curriculum Vitae</h2>
+      <h1>Curriculum Vitae</h1>
+      <p class="page-intro" style="margin: 0.5rem 0 0;">
+        Undergraduate Researcher &bull; Quantitative Finance &bull; Autonomous Systems &bull; IIT Bombay
+      </p>
     </div>
     <div class="resume-actions">
-      <a class="button button-primary" href="{{ "uploads/Vatsh_Van_Resume.pdf" | relURL }}" target="_blank" rel="noopener">
-        EXECUTE_DOWNLOAD(PDF)
+      <a class="button button-primary" href="https://github.com/VatshVan/vatshvan.github.io/raw/main/Technology_2_Pager.pdf" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2V11M8 11L4 7M8 11L12 7M2 14H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>DOWNLOAD PDF (2-PAGER)</span>
       </a>
     </div>
   </div>
+</section>
 
-  <div class="resume-container" style="background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 2.5rem; color: var(--text);">
-    <header style="border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
-      <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin: 0; color: var(--accent);">Vatsh Van</h1>
-      <p style="margin: 0.5rem 0 0; color: var(--accent-3); font-family: var(--mono); font-size: 1rem;">
-        >_ B.Tech Mechanical Engineering<br>
-        >_ Minor: AI & Data Science @ IIT Bombay
+<section class="panel resume-dossier" style="margin-top: 2rem;">
+  <!-- CV Header -->
+  <div class="cv-header">
+    <div>
+      <h2 class="cv-name">Vatsh Van</h2>
+      <p class="cv-subtitle">
+        B.Tech in Mechanical Engineering &bull; Minor in Artificial Intelligence & Data Science (CMInDS)<br>
+        <strong>Indian Institute of Technology Bombay</strong> &bull; Roll: 24B2259
       </p>
-    </header>
+    </div>
+    <div class="cv-contact-box">
+      <div><span>Email:</span> <a href="mailto:24b2259@iitb.ac.in">24b2259@iitb.ac.in</a></div>
+      <div><span>GitHub:</span> <a href="https://github.com/VatshVan" target="_blank" rel="noopener">github.com/VatshVan</a></div>
+      <div><span>LinkedIn:</span> <a href="https://www.linkedin.com/in/vatsh-van-iit-bombay/" target="_blank" rel="noopener">in/vatsh-van-iit-bombay</a></div>
+      <div><span>Location:</span> Mumbai, India</div>
+    </div>
+  </div>
 
-    <section style="margin-bottom: 2.5rem;">
-      <h3 style="color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; font-family: var(--mono); font-size: 1.2rem;">[01] Professional Experience</h3>
-      
-      <div style="margin-top: 1.5rem;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
-          <strong style="color: var(--accent-2); font-size: 1.1rem;">WorldQuant BRAIN</strong>
-          <span style="color: var(--muted); font-family: var(--mono); font-size: 0.9rem;">Remote</span>
+  <!-- 01. Education -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[01]</span>
+      <h3>ACADEMIC RECORD</h3>
+    </div>
+    <div class="cv-table-wrapper">
+      <table class="cv-table">
+        <thead>
+          <tr>
+            <th>Examination</th>
+            <th>University / Board</th>
+            <th>Institute</th>
+            <th>Year</th>
+            <th>CPI / %</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Graduation (B.Tech)</strong></td>
+            <td>IIT Bombay</td>
+            <td>Indian Institute of Technology Bombay</td>
+            <td>2028</td>
+            <td><strong class="text-cyan">8.27</strong></td>
+          </tr>
+          <tr>
+            <td><strong>Intermediate</strong></td>
+            <td>GSHSEB</td>
+            <td>Citizen's School</td>
+            <td>2024</td>
+            <td>89.40%</td>
+          </tr>
+          <tr>
+            <td><strong>Matriculation</strong></td>
+            <td>GSHSEB</td>
+            <td>Citizen's School</td>
+            <td>2022</td>
+            <td>89.00%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cv-note">
+      &bull; Pursuing a Minor degree from the <strong>Centre for Machine Intelligence and Data Science (CMInDS)</strong>, IIT Bombay.
+    </p>
+  </div>
+
+  <!-- 02. Scholastic Achievements -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[02]</span>
+      <h3>SCHOLASTIC ACHIEVEMENTS</h3>
+    </div>
+    <ul class="cv-bullets">
+      <li>
+        <strong>WorldQuant BRAIN Power Pool Alpha Competition:</strong> Ranked <strong class="text-cyan">42 of 5.7K+ globally</strong> (11th in India) [Apr '25 &ndash; May '25].
+      </li>
+      <li>
+        <strong>JEE Mains 2024:</strong> Secured <strong class="text-green">99.72 percentile</strong> nationwide over 1.4 million candidates.
+      </li>
+      <li>
+        <strong>JEE Advanced 2024:</strong> Secured <strong class="text-green">98.36 percentile</strong> over 180,000+ candidates nationwide.
+      </li>
+      <li>
+        <strong>IISc Bangalore BS (Research):</strong> Secured admission to the prestigious BS (Research) program among India's top applicants ('24).
+      </li>
+      <li>
+        <strong>Gujarat Common Entrance Test (GUJCET):</strong> Ranked in the <strong>top 2.47%</strong> over a pool of 48,000+ Group A candidates ('24).
+      </li>
+    </ul>
+  </div>
+
+  <!-- 03. Research and Engineering Experience -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[03]</span>
+      <h3>RESEARCH & ENGINEERING EXPERIENCE</h3>
+    </div>
+
+    <!-- SeDriCa -->
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <div>
+          <h4>Self Driving Car [SeDriCa] &bull; Controls & State Estimation</h4>
+          <p class="cv-entry-sub">Team Unmesh Mashruwala Innovation Cell [UMIC] | Guide: Prof. Archak Mittal, IIT Bombay</p>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="font-family: var(--mono); color: var(--text);">Master Consultant (Top 10%)</span>
-          <span style="color: var(--accent-3); font-family: var(--mono); font-size: 0.9rem;">>_ Feb 2025 – Present</span>
+        <span class="cv-entry-date">Sep '25 &ndash; Present | IIT Bombay</span>
+      </div>
+      <p class="cv-desc">Cross-functional team of 30+ students developing India's first Level 5 self-driving car, customized for Indian roads.</p>
+      <ul class="cv-bullets">
+        <li><strong>F1TENTH Autonomous Racing:</strong> Engineering a <code>LibTorch</code>-<code>Acados</code> C++ runtime to deploy learned-dynamics <strong>HyperMPC at a 100 Hz</strong> control loop on a 1/10-scale racecar.</li>
+        <li><strong>Adaptive Parameter Learning:</strong> Developing a GRU-based Hyper-Param network with B-spline control encoding to learn horizon-varying tire and kinematic model parameters.</li>
+        <li><strong>Autonomous Golf Cart Localization:</strong> Building an autonomous localization stack for reliable outdoor navigation using high-precision <strong>RTK GNSS</strong>.</li>
+        <li><strong>Joint Sensor Fusion (EKF):</strong> Developing a Joint Extended Kalman Filter fusing RTK GNSS & IMU measurements to estimate vehicle 6-DOF pose, linear velocity & heading in real time.</li>
+      </ul>
+    </div>
+
+    <!-- WorldQuant BRAIN -->
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <div>
+          <h4>WorldQuant BRAIN &bull; Quantitative Alpha Research Consultant</h4>
+          <p class="cv-entry-sub">WorldQuant BRAIN | Quantitative Alpha Research</p>
         </div>
-        <ul style="margin: 0; padding-left: 1.5rem; color: var(--text); font-size: 0.95rem; list-style-type: square;">
-          <li style="margin-bottom: 0.5rem;">Produced 450+ alpha factors utilizing mean-reversion to extract stochastic signals.</li>
-          <li>Deployed Genetic Algorithms & CNNs for systematic alpha evolution.</li>
+        <span class="cv-entry-date">Feb '25 &ndash; Dec '25 | Remote</span>
+      </div>
+      <p class="cv-desc">Selected as 1 of the 12 WQBRAIN Research Consultants (Rising Stars cohort) globally to attend the IQC'25 Finals in Singapore.</p>
+      <ul class="cv-bullets">
+        <li><strong>Master Consultant (Q3'25):</strong> Achieved Master Consultant status via a portfolio of orthogonal signals yielding an after-cost out-sample Information Ratio (<strong>IR</strong>) of <strong class="text-cyan">2.39</strong>.</li>
+        <li><strong>320+ Submitted Alphas:</strong> Maintained an average self-correlation of <strong class="text-green">0.25</strong> with out-sample fitness scores up to <strong class="text-amber">6.47</strong>.</li>
+        <li><strong>Composite Strategy Architecture:</strong> Engineered <strong>90+ composite alpha strategies</strong> by selecting, filtering & combining orthogonal quantitative signals.</li>
+        <li><strong>Automated Research Pipeline:</strong> Automated alpha factor research via an LLM-driven iterative refinement pipeline for large-scale systematic signal generation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 04. Key Projects -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[04]</span>
+      <h3>KEY TECHNICAL PROJECTS</h3>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Regime Aware Portfolio Optimization | Summer of Quant, Quant Club</h4>
+        <span class="cv-entry-date">Jun '26 &ndash; Jul '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Built a regime-switching portfolio optimizer integrating Gaussian HMMs, Random Forest meta-models & convex allocation across 503 equities.</li>
+        <li>Constructed event-driven trading labels using CUSUM sampling, Triple Barrier labeling & volatility-normalized dynamic thresholds.</li>
+        <li>Engineered 250+ alpha features spanning price, volatility, momentum, volume & macroeconomic factor spaces.</li>
+        <li>Mitigated temporal leakage using Purged 5-Fold Cross-Validation with 1% embargoes & sequential bootstrapping.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>The Cosmic Detective | Krittika Summer Projects, Krittika Astronomy Club</h4>
+        <span class="cv-entry-date">May '26 &ndash; Present</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Created a multi-agent AI system in a 7-member team for autonomous sky exploration, transient detection & hypothesis generation.</li>
+        <li>Built an astronomy benchmark pipeline integrating Google Gemini with academic literature retrieval & fault-tolerant LLM orchestration.</li>
+        <li>Constructed a semantic Neo4j knowledge graph using transformer-based claim de-duplication with 95% similarity threshold.</li>
+        <li>Engineered a high-throughput Swift FITS pipeline extracting temporal, spectral & physical features from astronomical observations.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Single Image Super Resolution | ME 228 Course Project (Prof. Neeraj Kumbhakarna)</h4>
+        <span class="cv-entry-date">Mar '26 &ndash; Apr '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Built an EDSR with 32 residual blocks, boosting training throughput via mixed-precision (FP16/FP32) using PyTorch AMP.</li>
+        <li>Trained over 290k iterations using L1 loss, achieving 34.84 dB PSNR & 0.939 SSIM on DIV2K.</li>
+        <li>Bounded peak VRAM spikes via spatial tiling & AMP, deploying sub-pixel convolution for fast upsampling; benchmarked SRCNN on Sen2Venus (37.47 dB PSNR).</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Inverse Elasticity Physics Informed NN | ME 218 Course Project (Prof. Sripriya Ramamoorthy)</h4>
+        <span class="cv-entry-date">Mar '26 &ndash; Apr '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Developed a Direct Hybrid Collocation PINN estimating Young's modulus fields across 3 Additive Manufacturing lattice specimens.</li>
+        <li>Unified 8 DIC anchors with 10,000+ Sobol collocation points, strictly enforcing 2D Cauchy Momentum PDE equilibrium constraints.</li>
+        <li>Solved the ill-posed inverse elasticity problem via a 7-objective composite loss reconstructing displacement, stress, strain & modulus fields.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Chicago Quant Alley: Crypto Strategy Optimizer | Seasons of Code, WnCC</h4>
+        <span class="cv-entry-date">May '25 &ndash; Jul '25</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Engineered a mid-frequency Bitcoin options simulator with slippage-aware logic and Delta Exchange API integration.</li>
+        <li>Built an event-driven execution engine for asynchronous ccxt API interactions, minimizing execution overhead.</li>
+        <li>Designed dynamic strike selection & trade lifecycle management with automated PnL, turnover, slippage & Greek exposures.</li>
+        <li>Deployed Multi-Armed Bandits (UCB / Thompson Sampling) for hyperparameter tuning, balancing exploration and exploitation.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Spatial Hyper-MPC with Neural Net | ME 444 Course Project (Prof. Seshu Pasumarthy)</h4>
+        <span class="cv-entry-date">Mar '26 &ndash; Apr '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Developed a hybrid Neural-MPC controller for a 6-DOF active suspension using OSQP, Joint EKF & residual learning.</li>
+        <li>Distilled a 40-step MPC into a 4,736-parameter neural policy using 20k expert trajectories, reducing peak angular velocities up to 3x.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Spatial Active Noise Control | ME 791 Course Project (Prof. Sripriya Ramamoorthy)</h4>
+        <span class="cv-entry-date">Mar '26 &ndash; May '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Built virtual sensing framework for Spatial ANC using signals from 4 remote microphones for pressure reconstruction.</li>
+        <li>Estimated virtual microphone pressure by training an ObsTasNet observation-filter on 400 simulated acoustic scenes (12.6x faster than kernel methods).</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Mathematics of Derivative Pricing | Summer of Science, Maths & Physics Club</h4>
+        <span class="cv-entry-date">May '25 &ndash; Jul '25</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Implemented the Black-Scholes model for European options using stochastic processes and risk-neutral valuation in Python.</li>
+        <li>Performed sensitivity analysis on volatility, interest rates & maturity (Greeks); explored martingale pricing & finite-difference methods.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 05. Positions of Responsibility -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[05]</span>
+      <h3>POSITIONS OF RESPONSIBILITY</h3>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Team Manager | Self Driving Car, Unmesh Mashruwala Innovation Cell</h4>
+        <span class="cv-entry-date">Apr '26 &ndash; Present</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Responsible for effectively managing an annual operating budget of <strong>INR 4+ Million</strong>, allocating resources for optimal outcomes.</li>
+        <li>Coordinating communication between Technical Core & Non-Technical teams; spearheaded a 2-month recruitment drive for 100+ aspirants.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Student Mentor | Summer of Science, Maths and Physics Club</h4>
+        <span class="cv-entry-date">May '26 &ndash; Jul '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Guided 9 students with suitable references & materials to build theoretical understanding of Algorithmic Trading and Derivative Pricing.</li>
+      </ul>
+    </div>
+
+    <div class="cv-entry">
+      <div class="cv-entry-header">
+        <h4>Project Mentor | Build the Algorithmic Black Box, Analytics Club</h4>
+        <span class="cv-entry-date">Dec '25 &ndash; Jan '26</span>
+      </div>
+      <ul class="cv-bullets">
+        <li>Mentored 20+ students in building algo-trading protocols & validating system dynamics within quantitative trading engines.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 06. Technical Skills & Coursework -->
+  <div class="cv-section">
+    <div class="cv-section-title">
+      <span class="cv-num">[06]</span>
+      <h3>TECHNICAL SKILLS & COURSEWORK</h3>
+    </div>
+    <div class="cv-grid-2">
+      <div>
+        <h4 class="cv-subheading">Technical Stack</h4>
+        <ul class="cv-stack-list">
+          <li><strong>Languages:</strong> Python, C++ (Modern C++ / STL), C, MATLAB, SQL, LaTeX, HTML/CSS</li>
+          <li><strong>Libraries:</strong> NumPy, Pandas, Scikit-Learn, PyTorch, CUDA, TensorFlow, Keras, NLTK, Matplotlib</li>
+          <li><strong>Autonomous & Systems:</strong> ROS 2, Gazebo, LibTorch-Acados, OSQP, CasADi, Docker, Linux, Git, EasyEDA</li>
         </ul>
       </div>
-
-      <div style="margin-top: 2rem;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;">
-          <strong style="color: var(--accent-2); font-size: 1.1rem;">SeDriCa Autonomous Vehicle</strong>
-          <span style="color: var(--muted); font-family: var(--mono); font-size: 0.9rem;">Mumbai, India</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
-          <span style="font-family: var(--mono); color: var(--text);">Controls Engineer</span>
-          <span style="color: var(--accent-3); font-family: var(--mono); font-size: 0.9rem;">>_ Present</span>
-        </div>
-        <ul style="margin: 0; padding-left: 1.5rem; color: var(--text); font-size: 0.95rem; list-style-type: square;">
-          <li style="margin-bottom: 0.5rem;">Integrated Model Predictive Control (MPC) algorithms for path tracking.</li>
-          <li>Designed sensor fusion architectures for state estimation in noisy environments.</li>
+      <div>
+        <h4 class="cv-subheading">Academic Coursework</h4>
+        <ul class="cv-stack-list">
+          <li><strong>Data Science & AI:</strong> Statistical ML and Data Mining, Applied Data Science & ML, Programming in Data Science</li>
+          <li><strong>Mathematics:</strong> Calculus, Linear Algebra & Differential Equations</li>
+          <li><strong>Engineering:</strong> Control Systems, Numerical Analysis, Mechanical Systems, Acoustic Devices</li>
+          <li><strong>Finance & Economics:</strong> Introduction to Financial Engineering, Economics, Social Learning & Herding</li>
         </ul>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section style="margin-bottom: 1rem;">
-      <h3 style="color: var(--text-heading); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; font-family: var(--mono); font-size: 1.2rem;">[02] Algorithmic Performance & Leadership</h3>
-      <div style="margin-top: 1.5rem; color: var(--text); font-size: 0.95rem;">
-        <ul style="margin: 0; padding-left: 1.5rem; list-style-type: square;">
-          <li style="margin-bottom: 1rem;">
-            <strong style="color: var(--accent);">Competitive Programming:</strong> 
-            Achieved a baseline algorithmic performance rating of <span style="color: var(--accent-2); font-family: var(--mono);">1490</span>, demonstrating strong proficiency in data structures, graph theory, and dynamic programming optimization.
-          </li>
-          <li>
-            <strong style="color: var(--accent);">Technical Leadership (CodeWars):</strong> 
-            Spearheaded mentorship initiatives for junior developers in competitive programming and system design, successfully guiding a team to secure a first-place finish in the annual CodeWars hackathon.
-          </li>
-        </ul>
-      </div>
-    </section>
-
+  <!-- 07. Extracurriculars -->
+  <div class="cv-section" style="border-bottom: none;">
+    <div class="cv-section-title">
+      <span class="cv-num">[07]</span>
+      <h3>EXTRACURRICULAR HONORS & INITIATIVES</h3>
+    </div>
+    <ul class="cv-bullets">
+      <li><strong>Portfolio Management Competition (PMC '26):</strong> Built a goal-based multi-asset portfolio using quantitative equity screening & liability investing.</li>
+      <li><strong>AIC X Anthropic Claude Hackathon:</strong> Built LexAI, securing a Top-10 finish among competing cohorts (May '26).</li>
+      <li><strong>CodeWars V6 (WnCC):</strong> Mentored 12 participants across 3 teams, leading one team to become finalists (Mar '26).</li>
+      <li><strong>DSA Bootcamp:</strong> Completed intensive Data Structures & Algorithms training by WnCC in collaboration with GeeksForGeeks.</li>
+      <li><strong>Hardware Prototyping:</strong> Built a drone controller (Makerspace MS101) and gesture-controlled WiFi bot for XLR8 (RPi Pico W, ESP01).</li>
+    </ul>
   </div>
 </section>
 {{ end }}

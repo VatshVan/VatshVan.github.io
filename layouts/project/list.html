@@ -1,15 +1,57 @@
 {{ define "main" }}
-<section class="panel" id="projects">
-  <div class="section-heading split">
-    <div>
-      <p class="eyebrow">SYS_LOG: Projects</p>
-      <h2>Technical Implementations</h2>
-    </div>
+<section class="page-hero">
+  <div class="eyebrow-badge">
+    <span class="pulse-dot-cyan"></span>
+    <span>ALGORITHMIC & COMPUTATIONAL WORK</span>
   </div>
-  <div class="stack">
+  <h1>Technical Projects</h1>
+  <p class="page-intro">
+    Systematic portfolio optimization, stochastic calculus in derivative valuation, learned-dynamics HyperMPC at 100 Hz, physics-informed neural networks (PINNs), and multi-agent astronomical exploration.
+  </p>
+
+  <!-- Filter tabs -->
+  <div class="filter-bar" id="project-filters">
+    <button class="filter-btn active" data-filter="all">ALL PROJECTS</button>
+    <button class="filter-btn" data-filter="quant">QUANT FINANCE</button>
+    <button class="filter-btn" data-filter="control">AUTONOMOUS CONTROLS</button>
+    <button class="filter-btn" data-filter="ml">MACHINE LEARNING & AI</button>
+  </div>
+</section>
+
+<section class="panel" style="margin-top: 2rem;">
+  <div class="stack" id="project-stack">
     {{ range sort .Pages "Date" "desc" }}
-      {{ partial "unified_card.html" . }}
+      {{ $isQuant := or (in (lower .Title) "quant") (in (lower .Title) "portfolio") (in (lower .Title) "derivative") (in (lower .Title) "rate") (in (lower (delimit .Params.tags " ")) "quant") }}
+      {{ $isControl := or (in (lower .Title) "mpc") (in (lower .Title) "control") (in (lower (delimit .Params.tags " ")) "control") }}
+      {{ $isMl := or (in (lower .Title) "neural") (in (lower .Title) "pinn") (in (lower .Title) "super resolution") (in (lower .Title) "cosmic") (in (lower .Title) "wildlife") (in (lower .Title) "ssm") (in (lower (delimit .Params.tags " ")) "machine learning") }}
+      <div class="project-filter-item" data-category="{{ if $isQuant }}quant{{ end }} {{ if $isControl }}control{{ end }} {{ if $isMl }}ml{{ end }}">
+        {{ partial "unified_card.html" . }}
+      </div>
     {{ end }}
   </div>
 </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const items = document.querySelectorAll(".project-filter-item");
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const filter = btn.getAttribute("data-filter");
+
+      items.forEach(item => {
+        if (filter === "all") {
+          item.style.display = "";
+        } else {
+          const cats = item.getAttribute("data-category") || "";
+          item.style.display = cats.includes(filter) ? "" : "none";
+        }
+      });
+    });
+  });
+});
+</script>
 {{ end }}

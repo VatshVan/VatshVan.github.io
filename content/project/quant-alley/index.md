@@ -1,24 +1,26 @@
 ---
-title: Chicago Quant Alley Trading Simulator and Optimizer
+title: Chicago Quant Alley: Crypto Trading Simulator & Optimizer
+organization: Seasons of Code, Web and Coding Club | IIT Bombay
+date: 2025-05-01
+date_end: 2025-07-31
+draft: false
+summary: Engineered a mid-frequency Bitcoin options/futures simulator with slippage modeling, async ccxt API execution, dynamic strike selection, and Multi-Armed Bandit hyperparameter optimization.
 tags:
+  - Quantitative Finance
   - Crypto Derivatives
   - Options Trading
   - Multi-Armed Bandits
-  - Backtesting
-organization: Web and Coding CLub (Seasons of Code Program)
-date: 2025-01-05
-date_end: 2025-01-07
-draft: false
-# image:
-#   filename: featured.svg
-#   focal_point: Smart
-#   preview_only: false
+  - Async CCXT
+  - Backtesting Engine
 ---
 
-Designed and implemented a modular Python-based framework for developing, simulating, and optimizing algorithmic trading strategies in cryptocurrency markets.
-This end-to-end system comprises three core modules:
-* Historical Data Acquisition: Integrated with Delta Exchange API to fetch granular tick-level and order book data for futures and options.
-* Event-Driven Simulation Engine: Built a high-fidelity backtester that models slippage, transaction costs, and execution mechanics. Supports both directional and complex derivatives strategies.
-* Strategy Optimization: Leveraged Multi-Armed Bandit (MAB) algorithms to efficiently navigate the parameter search space, improving convergence and robustness of strategies.
-* Showcased strategies included a dynamic trend-following system and a multi-leg options volatility strategy. Delivered performance analytics including Sharpe, Sortino, max drawdown and trade logs for each backtest iteration.
-* Project GitHub: github.com/VatshVan/Chicago-Quant-Alley-Crypto-Trading-Simulator-Strategy-Optimizer
+Designed and deployed a modular, high-throughput Python framework for developing, simulating, and systematically optimizing quantitative trading strategies in cryptocurrency derivative markets.
+
+### Architecture & System Modules
+* **Asynchronous Market Data Pipeline**: Built an event-driven data ingestion layer integrating with the **Delta Exchange API** and `ccxt` async routines to capture granular tick-level trades, order book depth, and implied volatility surfaces with minimal latency.
+* **Realistic Execution Simulation**: Formulated a simulation engine that faithfully replicates market microstructure frictions:
+  - Models non-linear market impact, dynamic slippage, and tiered taker/maker fee schedules.
+  - Implements realistic order queue priority and partial fill mechanics for limit orders.
+* **Dynamic Options Lifecycle & Greeks Management**: Engineered dynamic strike selection and continuous risk monitoring covering real-time portfolio Greeks (Delta, Gamma, Vega, Theta), margin utilization, automated roll strategies, and drawdown controls.
+* **Multi-Armed Bandit (MAB) Strategy Tuning**: Deployed Upper Confidence Bound (UCB) and Thompson Sampling algorithms to optimize strategy hyperparameters, balancing exploration of parameter regimes with exploitation of top-performing parameter sets for rapid convergence.
+* **Repository**: [GitHub: Chicago-Quant-Alley](https://github.com/VatshVan/Chicago-Quant-Alley-Crypto-Trading-Simulator-Strategy-Optimizer)

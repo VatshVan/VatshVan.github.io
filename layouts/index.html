@@ -1,69 +1,430 @@
 {{ define "main" }}
-<div id="terminal-entry" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0b0c10; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 2rem; font-family: 'Fira Code', monospace; color: #00ffff; overflow: hidden; background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px); background-size: 30px 30px;">
-  <div id="terminal-content" style="max-width: 800px; margin: 0 auto; width: 100%;"></div>
-</div>
+{{ $author := site.GetPage "authors/admin" }}
+{{ $avatar := false }}
+{{ with $author }}
+  {{ $avatar = .Resources.GetMatch "avatar.*" }}
+{{ end }}
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const terminalEntry = document.getElementById("terminal-entry");
-  const terminalContent = document.getElementById("terminal-content");
-  
-  // Check if we already played the animation in this session
-  if (sessionStorage.getItem("entryAnimationPlayed")) {
-    window.location.replace("{{ "home/" | relURL }}");
-    return;
-  }
-  
-  // Hide topbar and footer from baseof if they exist
-  const topbar = document.querySelector(".topbar");
-  const footer = document.querySelector(".footer");
-  if (topbar) topbar.style.display = "none";
-  if (footer) footer.style.display = "none";
+<!-- Hero Section -->
+<section class="hero" id="overview">
+  <div class="hero-copy">
+    <div class="eyebrow-badge">
+      <span class="pulse-dot-cyan"></span>
+      <span>IIT BOMBAY &bull; QUANT &bull; AUTONOMOUS SYSTEMS</span>
+    </div>
+    <h1>Quantitative Alpha Research & Autonomous Controls</h1>
+    <p class="lede">
+      Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. 
+      Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="{{ "project/" | relURL }}">
+        <span>EXPLORE PROJECTS</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="button button-secondary" href="{{ "experience/" | relURL }}">
+        <span>EXPERIENCE</span>
+      </a>
+      <a class="button button-outline" href="{{ "resume/" | relURL }}">
+        <span>CURRICULUM VITAE</span>
+      </a>
+    </div>
+  </div>
 
-  const lines = [
-    "> INITIALIZING SYSTEM ARCHITECTURE...",
-    "> LOADING DEPENDENCIES: [QUANT_FINANCE, AUTONOMOUS_CONTROL, MACHINE_LEARNING]",
-    "> ESTABLISHING SECURE CONNECTION...",
-    "> VERIFYING CREDENTIALS: VATSH VAN",
-    "> STATUS: ACCESS GRANTED.",
-    "> ROUTING TO MAIN INTERFACE..."
-  ];
+  <aside class="profile-card">
+    <div class="profile-header">
+      <div class="profile-title">
+        <span class="card-kicker">RESEARCH DOSSIER</span>
+        <h2>Vatsh Van</h2>
+        <p class="profile-affiliation">IIT Bombay &bull; B.Tech '28</p>
+      </div>
+      <div class="status-badge-inline">
+        <span class="status-dot"></span>
+        <span>ONLINE</span>
+      </div>
+    </div>
 
-  let lineIndex = 0;
-  let charIndex = 0;
-  let currentLineElement = null;
+    <div class="profile-spec-grid">
+      <div class="spec-item">
+        <span class="spec-label">INSTITUTION</span>
+        <strong class="spec-value">IIT Bombay</strong>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">ACADEMIC CPI</span>
+        <strong class="spec-value">8.27 / 10.0</strong>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">PRIMARY FOCUS</span>
+        <strong class="spec-value">Quantitative Finance</strong>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">SECONDARY FOCUS</span>
+        <strong class="spec-value">Autonomous Control</strong>
+      </div>
+    </div>
 
-  function typeWriter() {
-    if (lineIndex < lines.length) {
-      if (!currentLineElement) {
-        currentLineElement = document.createElement("p");
-        currentLineElement.style.margin = "0.5rem 0";
-        currentLineElement.style.fontWeight = "500";
-        terminalContent.appendChild(currentLineElement);
-      }
+    <div class="profile-affiliations">
+      <span class="affil-tag">WorldQuant BRAIN (Master Consultant)</span>
+      <span class="affil-tag">SeDriCa UMIC (Controls & Manager)</span>
+      <span class="affil-tag">Centre for Machine Intelligence & Data Science</span>
+    </div>
+  </aside>
+</section>
 
-      if (charIndex < lines[lineIndex].length) {
-        currentLineElement.innerHTML += lines[lineIndex].charAt(charIndex);
-        charIndex++;
-        setTimeout(typeWriter, Math.random() * 20 + 10); // typing speed (faster for quant feel)
-      } else {
-        currentLineElement.innerHTML += "<br>";
-        lineIndex++;
-        charIndex = 0;
-        currentLineElement = null;
-        setTimeout(typeWriter, 150); // delay between lines
-      }
-    } else {
-      // Animation complete
-      sessionStorage.setItem("entryAnimationPlayed", "true");
-      setTimeout(() => {
-        window.location.replace("{{ "home/" | relURL }}");
-      }, 400);
-    }
-  }
+<!-- Scholastic & Quantitative Metrics Ticker -->
+<section class="metrics-bar">
+  <div class="metric-card">
+    <span class="metric-label">WORLDQUANT BRAIN</span>
+    <div class="metric-value text-cyan">42 <span class="metric-sub">/ 5,700+</span></div>
+    <span class="metric-detail">Global Rank in Power Pool Alpha Competition (11th in India)</span>
+  </div>
+  <div class="metric-card">
+    <span class="metric-label">JEE MAINS '24</span>
+    <div class="metric-value text-green">99.72<span class="metric-sub">%ile</span></div>
+    <span class="metric-detail">Top 0.28% out of 1.4 Million candidates nationwide</span>
+  </div>
+  <div class="metric-card">
+    <span class="metric-label">OUT-OF-SAMPLE IR</span>
+    <div class="metric-value text-amber">2.39</div>
+    <span class="metric-detail">Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)</span>
+  </div>
+  <div class="metric-card">
+    <span class="metric-label">REAL-TIME CONTROL</span>
+    <div class="metric-value text-cyan">100 <span class="metric-sub">Hz</span></div>
+    <span class="metric-detail">LibTorch-Acados learned-dynamics HyperMPC control loop</span>
+  </div>
+</section>
 
-  // Start typing
-  setTimeout(typeWriter, 400);
-});
-</script>
+<!-- Core Engagements Spotlight -->
+<section class="panel">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">PROFESSIONAL TRAJECTORY</p>
+      <h2>Core Engagements</h2>
+    </div>
+    <a href="{{ "experience/" | relURL }}" class="link-arrow">
+      <span>View all experience</span> &rarr;
+    </a>
+  </div>
+
+  <div class="grid-2">
+    <!-- WorldQuant BRAIN Card -->
+    <article class="featured-card">
+      <div class="featured-card-header">
+        <div>
+          <span class="card-badge badge-green">QUANTITATIVE ALPHA RESEARCH</span>
+          <h3>WorldQuant BRAIN</h3>
+          <p class="role-title">Research Consultant (Master Consultant &bull; Top 10%)</p>
+        </div>
+        <span class="date-badge">Feb 2025 &ndash; Present</span>
+      </div>
+      <p class="featured-card-summary">
+        Selected as 1 of 12 global consultants to attend the Global IQC'25 Finals in Singapore.
+        Engineered a diversified alpha portfolio yielding an after-cost out-of-sample IR of 2.39 across 320+ submitted alphas with self-correlation &le; 0.25.
+      </p>
+      <div class="metric-row">
+        <div class="mini-stat">
+          <span class="stat-num">2.39</span>
+          <span class="stat-lbl">Out-Sample IR</span>
+        </div>
+        <div class="mini-stat">
+          <span class="stat-num">320+</span>
+          <span class="stat-lbl">Submitted Alphas</span>
+        </div>
+        <div class="mini-stat">
+          <span class="stat-num">6.47</span>
+          <span class="stat-lbl">Max Fitness Score</span>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Alpha Synthesis</span>
+        <span class="tag">Genetic Algorithms</span>
+        <span class="tag">LLM Signal Pipelines</span>
+        <span class="tag">Orthogonalization</span>
+      </div>
+    </article>
+
+    <!-- SeDriCa Card -->
+    <article class="featured-card">
+      <div class="featured-card-header">
+        <div>
+          <span class="card-badge badge-cyan">AUTONOMOUS VEHICLES</span>
+          <h3>SeDriCa (UMIC) &bull; IIT Bombay</h3>
+          <p class="role-title">Controls & State Estimation Engineer &bull; Team Manager</p>
+        </div>
+        <span class="date-badge">Sep 2025 &ndash; Present</span>
+      </div>
+      <p class="featured-card-summary">
+        Developing India's first Level 5 autonomous car in a 30+ engineer team. 
+        Engineered 100 Hz HyperMPC on LibTorch-Acados C++ for F1TENTH racing and a Joint EKF fusing RTK GNSS and IMU for full-scale vehicle localization.
+      </p>
+      <div class="metric-row">
+        <div class="mini-stat">
+          <span class="stat-num">100 Hz</span>
+          <span class="stat-lbl">HyperMPC Loop</span>
+        </div>
+        <div class="mini-stat">
+          <span class="stat-num">RTK+EKF</span>
+          <span class="stat-lbl">State Estimation</span>
+        </div>
+        <div class="mini-stat">
+          <span class="stat-num">INR 4M+</span>
+          <span class="stat-lbl">Budget Managed</span>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">HyperMPC</span>
+        <span class="tag">LibTorch-Acados</span>
+        <span class="tag">Joint EKF</span>
+        <span class="tag">RTK GNSS</span>
+        <span class="tag">ROS 2</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Featured Projects Grid -->
+<section class="panel">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">RESEARCH & IMPLEMENTATIONS</p>
+      <h2>Featured Technical Projects</h2>
+    </div>
+    <a href="{{ "project/" | relURL }}" class="link-arrow">
+      <span>View all 10 projects</span> &rarr;
+    </a>
+  </div>
+
+  <div class="grid-3">
+    <!-- Project 1: Regime Aware Portfolio Optimization -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-green">QUANT FINANCE</span>
+        <span class="date-tag">Jun &ndash; Jul '26</span>
+      </div>
+      <h3><a href="{{ "project/regime-portfolio-optimization/" | relURL }}">Regime-Aware Portfolio Optimization</a></h3>
+      <p>
+        Integrated Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities. 
+        Engineered 250+ alpha features, CUSUM sampling, and Purged 5-Fold CV with 1% embargoes.
+      </p>
+      <div class="tag-row">
+        <span class="tag">HMMs</span>
+        <span class="tag">Convex Optimization</span>
+        <span class="tag">Purged CV</span>
+      </div>
+    </article>
+
+    <!-- Project 2: Spatial Hyper-MPC -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-cyan">AUTONOMOUS CONTROLS</span>
+        <span class="date-tag">Mar &ndash; Apr '26</span>
+      </div>
+      <h3><a href="{{ "project/spatial-hyper-mpc/" | relURL }}">Spatial Hyper-MPC with Neural Policy</a></h3>
+      <p>
+        Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF. 
+        Distilled a 40-step MPC into a 4,736-parameter policy with 20k expert trajectories, cutting peak angular velocity by 3x.
+      </p>
+      <div class="tag-row">
+        <span class="tag">HyperMPC</span>
+        <span class="tag">OSQP</span>
+        <span class="tag">Joint EKF</span>
+      </div>
+    </article>
+
+    <!-- Project 3: Chicago Quant Alley -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-green">QUANT FINANCE</span>
+        <span class="date-tag">May &ndash; Jul '25</span>
+      </div>
+      <h3><a href="{{ "project/quant-alley/" | relURL }}">Chicago Quant Alley: Options Simulator</a></h3>
+      <p>
+        Mid-frequency Bitcoin options/futures trading simulator with slippage modeling, async ccxt API execution, dynamic strike selection, and Multi-Armed Bandit tuning.
+      </p>
+      <div class="tag-row">
+        <span class="tag">Options Trading</span>
+        <span class="tag">Multi-Armed Bandits</span>
+        <span class="tag">CCXT</span>
+      </div>
+    </article>
+
+    <!-- Project 4: Inverse Elasticity PINN -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-amber">MACHINE LEARNING</span>
+        <span class="date-tag">Mar &ndash; Apr '26</span>
+      </div>
+      <h3><a href="{{ "project/inverse-elasticity-pinn/" | relURL }}">Inverse Elasticity Physics-Informed NN</a></h3>
+      <p>
+        Direct Hybrid Collocation PINN estimating Young's modulus fields across 3 AM lattice specimens. Unified 8 DIC anchors with 10,000+ Sobol points enforcing 2D Cauchy Momentum PDEs.
+      </p>
+      <div class="tag-row">
+        <span class="tag">PINN</span>
+        <span class="tag">Cauchy Momentum</span>
+        <span class="tag">Sobol Points</span>
+      </div>
+    </article>
+
+    <!-- Project 5: The Cosmic Detective -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-amber">AI & SYSTEMS</span>
+        <span class="date-tag">May '26 &ndash; Present</span>
+      </div>
+      <h3><a href="{{ "project/cosmic-detective/" | relURL }}">The Cosmic Detective: Multi-Agent AI</a></h3>
+      <p>
+        Multi-agent AI system for autonomous sky survey exploration, transient detection, and hypothesis generation. Built Gemini benchmark, Neo4j knowledge graph, and Swift FITS pipeline.
+      </p>
+      <div class="tag-row">
+        <span class="tag">Multi-Agent</span>
+        <span class="tag">Neo4j</span>
+        <span class="tag">FITS Data</span>
+      </div>
+    </article>
+
+    <!-- Project 6: Single Image Super Resolution -->
+    <article class="project-card-mini">
+      <div class="card-top">
+        <span class="card-badge badge-amber">DEEP LEARNING</span>
+        <span class="date-tag">Mar &ndash; Apr '26</span>
+      </div>
+      <h3><a href="{{ "project/super-resolution/" | relURL }}">Single Image Super Resolution (EDSR)</a></h3>
+      <p>
+        EDSR with 32 residual blocks and PyTorch AMP. Trained over 290k iterations, achieving 34.84 dB PSNR on DIV2K and 37.47 dB PSNR benchmarking SRCNN on Sen2Venus satellite imagery.
+      </p>
+      <div class="tag-row">
+        <span class="tag">EDSR</span>
+        <span class="tag">PyTorch AMP</span>
+        <span class="tag">DIV2K</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Technical Competencies Matrix -->
+<section class="panel">
+  <div class="section-heading">
+    <p class="eyebrow">CAPABILITIES MATRIX</p>
+    <h2>Technical Competencies</h2>
+  </div>
+  <div class="grid-4">
+    <article class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon text-cyan">&lambda;</span>
+        <h3>Quantitative Methods</h3>
+      </div>
+      <ul>
+        <li>Alpha Synthesis & Orthogonalization</li>
+        <li>Black-Scholes PDE & Martingale Pricing</li>
+        <li>Convex Optimization & Markowitz CVaR</li>
+        <li>CUSUM Sampling & Triple Barrier Labeling</li>
+        <li>Stochastic Calculus & Monte Carlo Methods</li>
+        <li>Vasicek Term Structure Modeling</li>
+      </ul>
+    </article>
+
+    <article class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon text-green">&psi;</span>
+        <h3>Machine Learning & AI</h3>
+      </div>
+      <ul>
+        <li>Physics-Informed Neural Nets (PINNs)</li>
+        <li>Reinforcement Learning (PPO, DQN, MAB)</li>
+        <li>Time-Series Forecasting & HMMs</li>
+        <li>Super Resolution (EDSR, PyTorch AMP)</li>
+        <li>State Space Models (SSM & Mamba)</li>
+        <li>XGBoost, Random Forest, SMOTE</li>
+      </ul>
+    </article>
+
+    <article class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon text-amber">&delta;</span>
+        <h3>Autonomous Control</h3>
+      </div>
+      <ul>
+        <li>Learned-Dynamics HyperMPC (100 Hz)</li>
+        <li>Joint EKF State Estimation & Sensor Fusion</li>
+        <li>RTK GNSS & Dual IMU Fusion</li>
+        <li>LibTorch-Acados C++ Embedded Runtime</li>
+        <li>ROS 2, Gazebo & LiDAR Data Pipelines</li>
+        <li>OSQP Convex Quadratic Programming</li>
+      </ul>
+    </article>
+
+    <article class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-icon text-cyan">&theta;</span>
+        <h3>Systems & Infrastructure</h3>
+      </div>
+      <ul>
+        <li>Modern C++ (STL, LibTorch, High-Perf)</li>
+        <li>Python (NumPy, Pandas, PyTorch, SciPy)</li>
+        <li>Linux, Shell, HPC Clusters & Docker</li>
+        <li>CCXT & Delta Exchange Trading APIs</li>
+        <li>Neo4j Graph DB & Swift FITS Parsing</li>
+        <li>Git, CI/CD, MATLAB, LaTeX</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<!-- Scholastic Honors & Education -->
+<section class="panel">
+  <div class="section-heading split">
+    <div>
+      <p class="eyebrow">ACADEMIC EXCELLENCE</p>
+      <h2>Scholastic Honors & Education</h2>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="education-card">
+      <span class="card-badge badge-cyan">ACADEMIC PROFILE</span>
+      <h3 style="margin-top: 1rem;">Indian Institute of Technology Bombay</h3>
+      <p class="edu-degree"><strong>B.Tech in Mechanical Engineering</strong> &bull; Class of 2028 &bull; CPI: <strong>8.27</strong></p>
+      <p class="edu-degree"><strong>Minor in Artificial Intelligence & Data Science</strong> &bull; Centre for Machine Intelligence and Data Science (CMInDS)</p>
+      
+      <div class="coursework-block" style="margin-top: 1.5rem;">
+        <span class="spec-label">KEY COURSEWORK</span>
+        <div class="tag-row" style="margin-top: 0.5rem;">
+          <span class="tag">Statistical ML & Data Mining</span>
+          <span class="tag">Applied Data Science & ML</span>
+          <span class="tag">Control Systems</span>
+          <span class="tag">Numerical Analysis</span>
+          <span class="tag">Linear Algebra & Diff Eq</span>
+          <span class="tag">Financial Engineering</span>
+          <span class="tag">Calculus</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="honors-card">
+      <span class="card-badge badge-green">COMPETITIVE HONORS</span>
+      <ul class="honors-list" style="margin-top: 1rem;">
+        <li>
+          <strong>WorldQuant BRAIN Power Pool Alpha Competition:</strong> 
+          Ranked <span class="highlight-val">42 of 5.7K+ globally</span> (11th in India) (Apr '25 &ndash; May '25).
+        </li>
+        <li>
+          <strong>JEE Mains 2024:</strong> 
+          Secured <span class="highlight-val">99.72 percentile</span> nationwide over 1.4 million candidates.
+        </li>
+        <li>
+          <strong>JEE Advanced 2024:</strong> 
+          Secured <span class="highlight-val">98.36 percentile</span> over 180,000+ candidates.
+        </li>
+        <li>
+          <strong>IISc Bangalore BS (Research):</strong> 
+          Secured admission among India's top applicants ('24).
+        </li>
+        <li>
+          <strong>Gujarat Common Entrance Test (GUJCET):</strong> 
+          Ranked in top <span class="highlight-val">2.47%</span> out of 48,000+ candidates.
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 {{ end }}
