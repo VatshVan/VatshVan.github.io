@@ -1,0 +1,1454 @@
+{{ define "main" }}
+<div class="terminal-page-wrapper">
+  <!-- Terminal Outer Frame -->
+  <div class="terminal-shell" id="term-shell">
+    <!-- Title Bar -->
+    <div class="term-titlebar">
+      <div class="term-controls">
+        <span class="term-btn term-btn-red" title="Close / Reset" onclick="resetTerminal()"></span>
+        <span class="term-btn term-btn-yellow" title="Minimize / Clear" onclick="clearTerminal()"></span>
+        <span class="term-btn term-btn-green" title="Maximize / Fullscreen" onclick="toggleFullscreen()"></span>
+      </div>
+
+      <div class="term-header-info">
+        <span class="term-shield-icon">&#x1F6E1;</span>
+        <span class="term-title-text" id="term-title-text">SANDBOX_JAIL // SECURE_RUNTIME [ISOLATED]</span>
+      </div>
+
+      <div class="term-actions">
+        <!-- Shell Mode Toggle -->
+        <div class="term-mode-selector">
+          <label for="shell-mode-select">SHELL:</label>
+          <select id="shell-mode-select" onchange="changeShellMode(this.value)">
+            <option value="cmd">CMD</option>
+            <option value="bash" selected>BASH</option>
+            <option value="powershell">POWERSHELL</option>
+          </select>
+        </div>
+
+        <!-- CRT Effect Toggle -->
+        <button class="term-action-btn" id="crt-toggle-btn" onclick="toggleCRT()" title="Toggle Retro CRT Scanlines">
+          CRT: OFF
+        </button>
+
+        <!-- Theme Selector -->
+        <select id="term-theme-select" class="term-select" onchange="changeTermTheme(this.value)" title="Terminal Color Palette">
+          <option value="pitch_black">PITCH BLACK</option>
+          <option value="matrix">MATRIX GREEN</option>
+          <option value="amber">AMBER PHOSPHOR</option>
+          <option value="stark_white">STARK WHITE</option>
+        </select>
+
+        <!-- Maximize Button -->
+        <button class="term-action-btn" onclick="toggleFullscreen()" title="Toggle Fullscreen">
+          <span id="fullscreen-btn-icon">&#x26F6;</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Terminal Screen Body -->
+    <div class="term-screen" id="term-screen" onclick="focusTerminalInput()">
+      <!-- CRT Overlay Effect Layer -->
+      <div class="term-crt-scanlines" id="crt-overlay"></div>
+
+      <!-- Terminal Output Area -->
+      <div class="term-output" id="term-output">
+        <!-- Banner will be rendered by JS -->
+      </div>
+
+      <!-- Active Input Line -->
+      <div class="term-input-line" id="term-input-line">
+        <span class="term-prompt" id="term-prompt"></span>
+        <div class="term-input-wrapper">
+          <span class="term-input-text" id="term-input-display"></span><span class="term-cursor" id="term-cursor"></span>
+          <input type="text" id="term-real-input" class="term-hidden-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal Status Bar -->
+    <div class="term-statusbar">
+      <div class="term-status-left">
+        <span class="status-indicator-dot"></span>
+        <span id="jail-status-label">JAIL: ACTIVE &bull; BOUNDARY: STRICT &bull; DIR: .</span>
+      </div>
+      <div class="term-status-right">
+        <span id="term-clock"></span> &bull; <span>SANDBOX PROTOCOL v4.2</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Isolated Sandboxed Iframe for Zero-Leakage JavaScript Execution -->
+<!-- NOTE: sandbox="allow-scripts" without "allow-same-origin" guarantees that the iframe is treated as an opaque origin -->
+<!-- It has ZERO access to window.parent, localStorage, sessionStorage, cookies, or host DOM -->
+<iframe id="isolated-sandbox-frame" sandbox="allow-scripts" style="display: none;" srcdoc="
+<!DOCTYPE html>
+<html>
+<head><meta charset='utf-8'></head>
+<body>
+<script>
+window.addEventListener('message', function(e) {
+  var id = e.data.id;
+  var code = e.data.code;
+  var logs = [];
+  var origLog = console.log;
+  var origWarn = console.warn;
+  var origError = console.error;
+
+  console.log = function() {
+    var args = Array.prototype.slice.call(arguments);
+    logs.push({ type: 'log', text: args.map(function(a) {
+      return (typeof a === 'object') ? JSON.stringify(a, null, 2) : String(a);
+    }).join(' ') });
+    origLog.apply(console, arguments);
+  };
+  console.warn = function() {
+    var args = Array.prototype.slice.call(arguments);
+    logs.push({ type: 'warn', text: args.map(function(a) {
+      return (typeof a === 'object') ? JSON.stringify(a, null, 2) : String(a);
+    }).join(' ') });
+    origWarn.apply(console, arguments);
+  };
+  console.error = function() {
+    var args = Array.prototype.slice.call(arguments);
+    logs.push({ type: 'error', text: args.map(function(a) {
+      return (typeof a === 'object') ? JSON.stringify(a, null, 2) : String(a);
+    }).join(' ') });
+    origError.apply(console, arguments);
+  };
+
+  try {
+    var result = (function() {
+      'use strict';
+      return eval(code);
+    })();
+
+    var formattedResult = undefined;
+    if (result !== undefined) {
+      try {
+        formattedResult = (typeof result === 'object') ? JSON.stringify(result, null, 2) : String(result);
+      } catch(err) {
+        formattedResult = String(result);
+      }
+    }
+
+    e.source.postMessage({ id: id, success: true, result: formattedResult, logs: logs }, '*');
+  } catch(err) {
+    e.source.postMessage({ id: id, success: false, error: err.name + ': ' + err.message, logs: logs }, '*');
+  } finally {
+    console.log = origLog;
+    console.warn = origWarn;
+    console.error = origError;
+  }
+});
+</script>
+</body>
+</html>
+"></iframe>
+
+<style>
+/* ==========================================================================
+   SECURE TERMINAL SANDBOX STYLING
+   ========================================================================== */
+.terminal-page-wrapper {
+  max-width: 1180px;
+  margin: 1.5rem auto 4rem;
+  padding: 0 1rem;
+}
+
+.terminal-shell {
+  background: #020408;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 25px rgba(0, 230, 153, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.25s ease;
+  min-height: 640px;
+}
+
+.terminal-shell.fullscreen-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  margin: 0;
+  border-radius: 0;
+  z-index: 999999;
+  border: none;
+}
+
+/* Title Bar */
+.term-titlebar {
+  background: #090e17;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  user-select: none;
+  flex-wrap: wrap;
+}
+
+.term-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.term-btn {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+
+.term-btn:hover { opacity: 0.8; }
+.term-btn-red { background: #f43f5e; box-shadow: 0 0 6px rgba(244, 63, 94, 0.6); }
+.term-btn-yellow { background: #fbbf24; box-shadow: 0 0 6px rgba(251, 191, 36, 0.6); }
+.term-btn-green { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+
+.term-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: #a1a1aa;
+  letter-spacing: 0.06em;
+}
+
+.term-shield-icon {
+  font-size: 0.85rem;
+  color: #10b981;
+}
+
+.term-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.term-mode-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: #71717a;
+}
+
+.term-mode-selector select,
+.term-select {
+  background: #020408;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e4e4e7;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+}
+
+.term-action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e4e4e7;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.22rem 0.55rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.term-action-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+/* Screen */
+.term-screen {
+  background: #000000;
+  flex: 1;
+  padding: 1.25rem 1.5rem;
+  overflow-y: auto;
+  position: relative;
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #d4d4d8;
+  min-height: 480px;
+  max-height: 72vh;
+  cursor: text;
+}
+
+.terminal-shell.fullscreen-mode .term-screen {
+  max-height: calc(100vh - 75px);
+}
+
+/* CRT Scanlines Overlay */
+.term-crt-scanlines {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.4) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  z-index: 10;
+}
+
+.term-crt-scanlines.active {
+  display: block;
+}
+
+/* Terminal Themes */
+.term-screen.theme-pitch_black {
+  --term-text: #e4e4e7;
+  --term-prompt-user: #10b981;
+  --term-prompt-path: #f59e0b;
+  --term-accent: #00e699;
+  --term-dim: #71717a;
+  --term-error: #f43f5e;
+  --term-warn: #fbbf24;
+  --term-cursor: #00e699;
+}
+
+.term-screen.theme-matrix {
+  background: #010a05;
+  --term-text: #22c55e;
+  --term-prompt-user: #4ade80;
+  --term-prompt-path: #86efac;
+  --term-accent: #22c55e;
+  --term-dim: #15803d;
+  --term-error: #ef4444;
+  --term-warn: #eab308;
+  --term-cursor: #22c55e;
+}
+
+.term-screen.theme-amber {
+  background: #0d0801;
+  --term-text: #fbbf24;
+  --term-prompt-user: #f59e0b;
+  --term-prompt-path: #fcd34d;
+  --term-accent: #f59e0b;
+  --term-dim: #92400e;
+  --term-error: #f43f5e;
+  --term-warn: #f59e0b;
+  --term-cursor: #fbbf24;
+}
+
+.term-screen.theme-stark_white {
+  background: #000000;
+  --term-text: #ffffff;
+  --term-prompt-user: #ffffff;
+  --term-prompt-path: #a1a1aa;
+  --term-accent: #ffffff;
+  --term-dim: #71717a;
+  --term-error: #fb7185;
+  --term-warn: #fde047;
+  --term-cursor: #ffffff;
+}
+
+/* Terminal Output Items */
+.term-line {
+  margin-bottom: 0.35rem;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.term-line.cmd-echo {
+  color: #a1a1aa;
+  margin-top: 0.4rem;
+}
+
+.term-line.stdout {
+  color: var(--term-text);
+}
+
+.term-line.stderr {
+  color: var(--term-error);
+  background: rgba(244, 63, 94, 0.08);
+  padding: 0.25rem 0.5rem;
+  border-left: 3px solid var(--term-error);
+}
+
+.term-line.warn {
+  color: var(--term-warn);
+}
+
+.term-line.success {
+  color: var(--term-accent);
+}
+
+.term-line.dim {
+  color: var(--term-dim);
+}
+
+/* Tables & Directory Grid */
+.term-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.term-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.45rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.term-grid-item.dir {
+  color: var(--term-prompt-path);
+  font-weight: 600;
+}
+
+.term-grid-item.file {
+  color: var(--term-text);
+}
+
+.term-grid-item.protected {
+  color: var(--term-error);
+  border-color: rgba(244, 63, 94, 0.3);
+}
+
+.term-item-badge {
+  font-size: 0.65rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #a1a1aa;
+}
+
+.term-item-badge.badge-lock {
+  background: rgba(244, 63, 94, 0.2);
+  color: #fb7185;
+}
+
+/* Input Line */
+.term-input-line {
+  display: flex;
+  align-items: baseline;
+  margin-top: 0.5rem;
+  position: relative;
+}
+
+.term-prompt {
+  font-weight: 600;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.prompt-user {
+  color: var(--term-prompt-user);
+}
+
+.prompt-path {
+  color: var(--term-prompt-path);
+}
+
+.term-input-wrapper {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  margin-left: 0.4rem;
+  min-height: 1.2em;
+}
+
+.term-input-text {
+  color: #ffffff;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.term-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.1em;
+  background: var(--term-cursor);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: term-blink 1s step-end infinite;
+}
+
+@keyframes term-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.term-hidden-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: text;
+}
+
+/* Status Bar */
+.term-statusbar {
+  background: #05080e;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.35rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: #71717a;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.term-status-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #a1a1aa;
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+}
+
+.cmd-clickable {
+  color: var(--term-accent);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.cmd-clickable:hover {
+  filter: brightness(1.25);
+}
+
+@media (max-width: 768px) {
+  .term-actions { width: 100%; justify-content: flex-start; }
+  .term-screen { font-size: 0.78rem; padding: 1rem; }
+  .term-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+// ==========================================================================
+// SECURE JAILED VIRTUAL FILESYSTEM & CLI ENGINE
+// ==========================================================================
+(function() {
+  // Strict Jailed Virtual Filesystem
+  // Current directory is rigidly locked and always rendered as '.'
+  const VFS = {
+    ".": {
+      type: "dir",
+      files: {
+        "overview.txt": {
+          type: "file",
+          desc: "Executive research dossier & background",
+          content: `RESEARCH OVERVIEW // SECURE DOSSIER
+===============================================================================
+Affiliation: Indian Institute of Technology Bombay (IIT Bombay)
+Degree:      B.Tech in Mechanical Engineering (Class of 2028)
+Minor:       Artificial Intelligence & Data Science (CMInDS)
+Core Focus:  Quantitative Alpha Research • Stochastic Systems • Autonomous Controls
+
+Key Highlights:
+- WorldQuant BRAIN Master Consultant (Top 10% Global, 320+ submitted alphas, out-of-sample IR: 2.39).
+- Global IQC '25 Finalist (Selected as 1 of 12 consultants globally for Singapore Finals).
+- SeDriCa (UMIC) Controls & State Estimation Engineer & Team Manager (100 Hz HyperMPC on LibTorch-Acados).
+- SSRN Author (Author ID: 10485196) & ORCID (0009-0001-7236-8213).`
+        },
+        "contact.txt": {
+          type: "file",
+          desc: "Verified communication channels & identifiers",
+          content: `VERIFIED CHANNELS & IDENTIFIERS
+===============================================================================
+Institutional Email: 24b2259@iitb.ac.in
+GitHub Profile:      https://github.com/VatshVan
+LinkedIn Network:    https://www.linkedin.com/in/vatsh-van-iit-bombay/
+SSRN Author Profile: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196
+ORCID Record:        https://orcid.org/0009-0001-7236-8213
+Location:            Mumbai, India`
+        },
+        "resume.pdf": {
+          type: "file",
+          desc: "Downloadable 2-page curriculum vitae",
+          content: `CURRICULUM VITAE (PDF)
+===============================================================================
+Download Link: https://github.com/VatshVan/vatshvan.github.io/raw/main/Technology_2_Pager.pdf
+Direct Route:  /resume/`
+        },
+        "metrics.json": {
+          type: "file",
+          desc: "Live verified quantitative & control metrics",
+          content: `{
+  "worldquant_brain": {
+    "global_rank": "42 / 5,700+",
+    "india_rank": "11th",
+    "status": "Master Consultant",
+    "out_of_sample_ir": 2.39,
+    "submitted_alphas": "320+",
+    "max_fitness": 6.47,
+    "average_self_correlation": "<= 0.25"
+  },
+  "autonomous_controls": {
+    "runtime": "LibTorch-Acados C++",
+    "control_loop_frequency": "100 Hz",
+    "algorithm": "HyperMPC with GRU Parameter Distillation",
+    "state_estimation": "Joint EKF (RTK GNSS + Dual IMU)"
+  }
+}`
+        },
+        "projects": {
+          type: "dir",
+          desc: "Technical engineering & algorithmic projects",
+          files: {
+            "regime-portfolio-optimization.txt": {
+              type: "file",
+              content: `REGIME-AWARE PORTFOLIO OPTIMIZATION
+Domain: Quantitative Finance • HMMs • Convex Optimization
+- Integrated Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities.
+- CUSUM sampling & Triple Barrier labeling filtering microstructural noise with 5-day horizon and 1.5x dynamic ATR.
+- Purged 5-fold CV with 1% embargoes eliminating temporal lookahead leakage.`
+            },
+            "spatial-hyper-mpc.txt": {
+              type: "file",
+              content: `SPATIAL HYPER-MPC WITH NEURAL POLICY DISTILLATION
+Domain: Autonomous Controls • Model Predictive Control • OSQP
+- Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF.
+- Distilled 40-step online MPC into a 4,736-parameter MLP with 20,000 expert trajectories, cutting peak angular velocity by 3x at 100+ Hz.`
+            },
+            "quant-alley.txt": {
+              type: "file",
+              content: `CHICAGO QUANT ALLEY: OPTIONS & FUTURES SIMULATOR
+Domain: Quantitative Finance • Derivatives • Multi-Armed Bandits
+- Mid-frequency Bitcoin options/futures trading simulator with slippage modeling and async CCXT execution.
+- Dynamic strike selection & trade lifecycle management with automated PnL, turnover, and Greek exposures.`
+            },
+            "inverse-elasticity-pinn.txt": {
+              type: "file",
+              content: `INVERSE ELASTICITY PHYSICS-INFORMED NEURAL NETWORK
+Domain: Machine Learning • Scientific ML • Cauchy Momentum
+- Direct Hybrid Collocation PINN estimating Young's modulus fields across additive manufacturing lattice specimens.
+- Enforced 2D Cauchy Momentum PDEs with Sobol quasi-random collocation sampling.`
+            },
+            "cosmic-detective.txt": {
+              type: "file",
+              content: `THE COSMIC DETECTIVE: MULTI-AGENT ASTRONOMICAL AI
+Domain: Multi-Agent Systems • Neo4j • Knowledge Graphs
+- Multi-agent autonomous system combining Gemini models, Neo4j knowledge graphs, and Swift FITS astronomical parsing for transient event detection.`
+            },
+            "super-resolution.txt": {
+              type: "file",
+              content: `SINGLE IMAGE SUPER RESOLUTION (EDSR)
+Domain: Deep Learning • Computer Vision • PyTorch AMP
+- Enhanced Deep Residual Network with 32 residual blocks and PyTorch AMP.
+- Achieved 34.84 dB PSNR on DIV2K and 37.47 dB PSNR on Sen2Venus satellite imagery.`
+            }
+          }
+        },
+        "research": {
+          type: "dir",
+          desc: "Academic publications & research pre-prints",
+          files: {
+            "derivative-pricing.txt": {
+              type: "file",
+              content: `MATHEMATICS OF DERIVATIVE PRICING: THEORY AND IMPLEMENTATION
+Venue: SSRN Electronic Journal (Pre-Print ID: 6439720) & IIT Bombay
+- Rigorous derivations and finite-difference schemes for Black-Scholes PDEs, Feynman-Kac theorems, and risk-neutral pricing.
+- Greeks sensitivity analysis and Monte Carlo martingale pricing simulations.`
+            },
+            "stochastic-calculus.txt": {
+              type: "file",
+              content: `STOCHASTIC PROCESSES & TERM STRUCTURE MODELING
+Venue: Independent Quantitative Research
+- Analytical explorations of Ito's Lemma, Vasicek interest rate term structures, and mean-reverting Ornstein-Uhlenbeck processes.`
+            }
+          }
+        },
+        "competencies": {
+          type: "dir",
+          desc: "Technical capabilities matrix",
+          files: {
+            "quantitative-methods.txt": {
+              type: "file",
+              content: `[QUANTITATIVE METHODS]
+- Alpha Synthesis & Orthogonalization
+- Black-Scholes PDE & Martingale Pricing
+- Convex Optimization & Markowitz CVaR
+- CUSUM Sampling & Triple Barrier Labeling
+- Stochastic Calculus & Monte Carlo Methods
+- Vasicek Term Structure Modeling`
+            },
+            "machine-learning.txt": {
+              type: "file",
+              content: `[MACHINE LEARNING & AI]
+- Physics-Informed Neural Nets (PINNs)
+- Reinforcement Learning (PPO, DQN, MAB)
+- Time-Series Forecasting & HMMs
+- Super Resolution (EDSR, PyTorch AMP)
+- State Space Models (SSM & Mamba)
+- XGBoost, Random Forest, Scikit-Learn`
+            },
+            "autonomous-control.txt": {
+              type: "file",
+              content: `[AUTONOMOUS CONTROL]
+- Learned-Dynamics HyperMPC (100 Hz Loop)
+- Joint EKF State Estimation & Sensor Fusion
+- RTK GNSS & Dual IMU Fusion
+- LibTorch-Acados C++ Embedded Runtime
+- ROS 2, Gazebo & LiDAR Data Pipelines
+- OSQP Convex Quadratic Programming`
+            },
+            "systems-infrastructure.txt": {
+              type: "file",
+              content: `[SYSTEMS & INFRASTRUCTURE]
+- Modern C++ (STL, LibTorch, High-Performance)
+- Python (NumPy, Pandas, PyTorch, SciPy)
+- Linux, Shell Scripting, HPC Clusters & Docker
+- CCXT & Delta Exchange Trading APIs
+- Neo4j Graph DB & Swift FITS Parsing
+- Git, CI/CD, MATLAB, LaTeX`
+            }
+          }
+        },
+        ".sys": {
+          type: "dir",
+          protected: true,
+          desc: "PROTECTED SYSTEM CORE CONFIGURATION",
+          files: {
+            "kernel.conf": {
+              type: "file",
+              content: `SECURE KERNEL ENVIRONMENT CONFIGURATION
+===============================================================================
+SECURITY_LEVEL=STRICT_JAIL
+ROOT_TRAVERSAL=DISABLED
+EXECUTION_SANDBOX=ISOLATED_IFRAME_NULL_ORIGIN
+ESCAPE_VECTOR_DEFENSE=ACTIVE`
+            },
+            "root_access.key": {
+              type: "file",
+              content: `SYSTEM AUTHORIZATION KEY
+===============================================================================
+STATUS: ELEVATED SESSION ACTIVE`
+            }
+          }
+        },
+        "vault": {
+          type: "dir",
+          protected: true,
+          desc: "RESTRICTED ENCRYPTED STORAGE",
+          files: {
+            "credentials.enc": {
+              type: "file",
+              content: `ENCRYPTED VAULT PAYLOAD:
+[0x9F, 0x12, 0xA4, 0x88, 0x11, 0x00, 0x7E, 0xBC, 0x5D, 0x33, 0x90, 0x1A]`
+            }
+          }
+        }
+      }
+    }
+  };
+
+  // State
+  let shellMode = "bash"; // bash | cmd | powershell
+  let currentTheme = "pitch_black";
+  let crtActive = false;
+  let commandHistory = [];
+  let historyIndex = -1;
+  let isPasswordPrompt = false;
+  let passwordCallback = null;
+  let isElevated = false;
+  let activeDir = "."; // Rigidly locked to '.'
+
+  // DOM Elements
+  const termScreen = document.getElementById("term-screen");
+  const termOutput = document.getElementById("term-output");
+  const termInputLine = document.getElementById("term-input-line");
+  const termPrompt = document.getElementById("term-prompt");
+  const termInputDisplay = document.getElementById("term-input-display");
+  const termRealInput = document.getElementById("term-real-input");
+  const termClock = document.getElementById("term-clock");
+  const crtOverlay = document.getElementById("crt-overlay");
+  const crtToggleBtn = document.getElementById("crt-toggle-btn");
+  const termShell = document.getElementById("term-shell");
+  const sandboxFrame = document.getElementById("isolated-sandbox-frame");
+
+  // Format Prompt (Completely Anonymized with zero personal names)
+  function updatePrompt() {
+    let promptHtml = "";
+    if (shellMode === "cmd") {
+      promptHtml = '<span class="prompt-path">C:\\sandbox\\.</span>&gt;&nbsp;';
+    } else if (shellMode === "powershell") {
+      promptHtml = '<span class="prompt-user">PS</span> <span class="prompt-path">.\\</span>&gt;&nbsp;';
+    } else {
+      // Default: Bash
+      promptHtml = '<span class="prompt-user">guest@sandbox</span>:<span class="prompt-path">.</span>$&nbsp;';
+    }
+    termPrompt.innerHTML = promptHtml;
+  }
+
+  // Focus input
+  window.focusTerminalInput = function() {
+    termRealInput.focus();
+  };
+
+  // Update Clock
+  function updateClock() {
+    const now = new Date();
+    const utcStr = now.toISOString().substring(11, 19) + " UTC";
+    if (termClock) termClock.textContent = utcStr;
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Print helper
+  function printLine(className, text, isHtml = false) {
+    const div = document.createElement("div");
+    div.className = "term-line " + className;
+    if (isHtml) {
+      div.innerHTML = text;
+    } else {
+      div.textContent = text;
+    }
+    termOutput.appendChild(div);
+    termScreen.scrollTop = termScreen.scrollHeight;
+  }
+
+  // Print Banner
+  function printBanner() {
+    const banner = `
+========================================================================================
+   ____  ___    _   ______  ____  ______  __   _______ _____ _     _     
+  / ___|/ _ \\  / | / / __ \\/ __ )/ __ \\ \\/ /  / ____/ // / /| |   | |    
+  \\___ / /_\\ \\/  |/ / / / / __  / / / /\\  /  / /   / // / / | |   | |    
+   ___/ / ___  / /|  / /_/ / /_/ / /_/ / / /  / /___/ // / /  | |___| |___ 
+  |____/_/   \\/_/ |_/_____/_____/\\____/ /_/   \\____/_//_/_/   |_____|_____|
+========================================================================================
+ [SYSTEM STATUS]: SECURE SANDBOX ACTIVE // JAIL BOUNDARY STRICT
+ [ENVIRONMENT]  : RIGID VIRTUAL RUNTIME • CURRENT DIRECTORY LOCKED TO '.'
+ [USER PRIV]    : UNPRIVILEGED GUEST (ROLE: VISITOR)
+ [ISOLATION]    : NULL-ORIGIN IFRAME JS RUNTIME (NO HOST ESCAPE)
+
+ Type <span class="cmd-clickable" onclick="executeFromSuggestion('help')">help</span> or <span class="cmd-clickable" onclick="executeFromSuggestion('?')">?</span> for available commands.
+ Type <span class="cmd-clickable" onclick="executeFromSuggestion('ls')">ls</span> to inspect directory contents.
+ Type <span class="cmd-clickable" onclick="executeFromSuggestion('whoami')">whoami</span> for session permissions.
+========================================================================================`;
+    printLine("stdout", banner, true);
+  }
+
+  // Switch Shell Mode
+  window.changeShellMode = function(mode) {
+    shellMode = mode;
+    updatePrompt();
+    printLine("dim", `[SHELL] Environment switched to: ${mode.toUpperCase()}`);
+    focusTerminalInput();
+  };
+
+  // Switch Terminal Theme
+  window.changeTermTheme = function(theme) {
+    currentTheme = theme;
+    termScreen.className = "term-screen theme-" + theme;
+    focusTerminalInput();
+  };
+
+  // Toggle CRT Effect
+  window.toggleCRT = function() {
+    crtActive = !crtActive;
+    if (crtActive) {
+      crtOverlay.classList.add("active");
+      crtToggleBtn.textContent = "CRT: ON";
+      crtToggleBtn.style.color = "#10b981";
+    } else {
+      crtOverlay.classList.remove("active");
+      crtToggleBtn.textContent = "CRT: OFF";
+      crtToggleBtn.style.color = "#e4e4e7";
+    }
+    focusTerminalInput();
+  };
+
+  // Toggle Fullscreen Mode
+  window.toggleFullscreen = function() {
+    termShell.classList.toggle("fullscreen-mode");
+    const icon = document.getElementById("fullscreen-btn-icon");
+    if (termShell.classList.contains("fullscreen-mode")) {
+      icon.innerHTML = "&#x2715;"; // Close mark
+    } else {
+      icon.innerHTML = "&#x26F6;"; // Fullscreen icon
+    }
+    focusTerminalInput();
+  };
+
+  // Clear Terminal
+  window.clearTerminal = function() {
+    termOutput.innerHTML = "";
+    focusTerminalInput();
+  };
+
+  // Reset Terminal (Exit / Reboot)
+  window.resetTerminal = function() {
+    clearTerminal();
+    printLine("dim", "[REBOOT] Recycling sandbox container...");
+    setTimeout(() => {
+      clearTerminal();
+      printBanner();
+      updatePrompt();
+      focusTerminalInput();
+    }, 400);
+  };
+
+  // Suggestion Click Handler
+  window.executeFromSuggestion = function(cmd) {
+    termRealInput.value = cmd;
+    termInputDisplay.textContent = cmd;
+    handleCommand(cmd);
+    termRealInput.value = "";
+    termInputDisplay.textContent = "";
+  };
+
+  // Command Execution Dispatcher
+  function handleCommand(rawCmd) {
+    const trimmed = rawCmd.trim();
+    if (!trimmed) {
+      printLine("cmd-echo", `${termPrompt.innerText} `);
+      return;
+    }
+
+    // Echo command
+    printLine("cmd-echo", `${termPrompt.innerText} ${trimmed}`);
+
+    // History tracking
+    commandHistory.push(trimmed);
+    historyIndex = commandHistory.length;
+
+    // Handle Password Prompt if active
+    if (isPasswordPrompt) {
+      const cb = passwordCallback;
+      isPasswordPrompt = false;
+      passwordCallback = null;
+      termRealInput.type = "text";
+      if (cb) cb(trimmed);
+      return;
+    }
+
+    // Parse command and args
+    const parts = trimmed.split(/\s+/);
+    const cmd = parts[0].toLowerCase();
+    const args = parts.slice(1);
+    const fullArgStr = trimmed.substring(cmd.length).trim();
+
+    // Command Handlers
+    switch(cmd) {
+      case "help":
+      case "?":
+        renderHelp();
+        break;
+
+      case "whoami":
+        printLine("stdout", `guest\n(role: sandbox_visitor, permissions: unprivileged, jail_dir: ., sandbox_id: sbx-${Math.random().toString(36).substring(2, 8)})`);
+        break;
+
+      case "pwd":
+        // Rigid requirement: Directory path is truncated as '.' and never released
+        printLine("stdout", ".");
+        break;
+
+      case "ls":
+      case "dir":
+        handleListDir(args[0]);
+        break;
+
+      case "cd":
+        handleCd(args[0]);
+        break;
+
+      case "cat":
+      case "type":
+        handleCat(args[0]);
+        break;
+
+      case "clear":
+      case "cls":
+        clearTerminal();
+        break;
+
+      case "date":
+      case "time":
+        const now = new Date();
+        printLine("stdout", `UTC: ${now.toUTCString()}\nIST: ${now.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}`);
+        break;
+
+      case "echo":
+        printLine("stdout", fullArgStr);
+        break;
+
+      case "history":
+        commandHistory.forEach((h, i) => {
+          printLine("dim", `  ${(i + 1).toString().padStart(3, " ")}  ${h}`);
+        });
+        break;
+
+      case "calc":
+        handleCalc(fullArgStr);
+        break;
+
+      case "js":
+      case "eval":
+      case "run":
+        handleJsExecution(fullArgStr);
+        break;
+
+      case "auth":
+      case "unlock":
+      case "su":
+      case "sudo":
+        promptPassword(function(pass) {
+          if (pass === "quant2028") {
+            isElevated = true;
+            printLine("success", "[AUTHORIZATION SUCCESSFUL] Elevated permissions active for restricted storage.");
+          } else {
+            printLine("stderr", "[ACCESS DENIED] Passphrase mismatch. Incident recorded in telemetry.");
+          }
+        });
+        break;
+
+      case "theme":
+        if (args[0] && ["pitch_black", "matrix", "amber", "stark_white"].includes(args[0])) {
+          changeTermTheme(args[0]);
+          document.getElementById("term-theme-select").value = args[0];
+          printLine("success", `[THEME] Switched to ${args[0]}`);
+        } else {
+          printLine("stdout", "Available themes: pitch_black, matrix, amber, stark_white\nUsage: theme <name>");
+        }
+        break;
+
+      case "mode":
+        if (args[0] && ["cmd", "bash", "powershell"].includes(args[0].toLowerCase())) {
+          changeShellMode(args[0].toLowerCase());
+          document.getElementById("shell-mode-select").value = args[0].toLowerCase();
+        } else {
+          printLine("stdout", "Available modes: cmd, bash, powershell\nUsage: mode <mode>");
+        }
+        break;
+
+      case "exit":
+      case "quit":
+        // Rigid requirement: no exit to sandbox, resets the sandbox session
+        printLine("dim", "[SESSION] Resetting jailed terminal session...");
+        setTimeout(resetTerminal, 400);
+        break;
+
+      case "matrix":
+        runMatrixEffect();
+        break;
+
+      default:
+        printLine("stderr", `Command not recognized: '${cmd}'. Type 'help' for permitted commands.`);
+        break;
+    }
+  }
+
+  // Help Manual
+  function renderHelp() {
+    const helpText = `
+SECURE SANDBOX COMMAND MANUAL
+========================================================================================
+NAVIGATION & INSPECTION:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('ls')">ls</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('dir')">dir</span> [dir]       List files in current jailed directory (.)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('pwd')">pwd</span>                 Display current working directory (locked to .)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('cd projects')">cd</span> &lt;dir&gt;             Navigate allowed child directories (root traversal blocked)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('cat overview.txt')">cat</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('cat contact.txt')">type</span> &lt;file&gt;     Read contents of allowed virtual files
+  <span class="cmd-clickable" onclick="executeFromSuggestion('whoami')">whoami</span>              Display session credentials and permissions
+
+ISOLATED CODE & CALCULATION RUNTIME:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('calc Math.sqrt(256) * Math.PI')">calc</span> &lt;expression&gt;   Evaluate mathematical and financial expressions safely
+  <span class="cmd-clickable" onclick="executeFromSuggestion('js [1,2,3,4].map(x => x**2)')">js</span> &lt;code&gt;            Execute JavaScript in an isolated, null-origin sandbox
+  <span class="cmd-clickable" onclick="executeFromSuggestion('auth')">auth</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('unlock')">unlock</span>       Enter passphrase to unlock restricted storage (.sys, vault)
+
+TERMINAL ENVIRONMENT & UTILITIES:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('theme matrix')">theme</span> &lt;name&gt;        Switch palette (pitch_black, matrix, amber, stark_white)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('mode cmd')">mode</span> &lt;cmd|bash|ps&gt;   Switch shell prompt flavor (CMD, BASH, POWERSHELL)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('clear')">clear</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('cls')">cls</span>           Clear screen buffer
+  <span class="cmd-clickable" onclick="executeFromSuggestion('date')">date</span>                Show current UTC and IST time
+  <span class="cmd-clickable" onclick="executeFromSuggestion('history')">history</span>             Display recent command history
+  <span class="cmd-clickable" onclick="executeFromSuggestion('matrix')">matrix</span>              Run digital rain stream
+  <span class="cmd-clickable" onclick="executeFromSuggestion('exit')">exit</span>                Reset jailed sandbox session
+========================================================================================`;
+    printLine("stdout", helpText, true);
+  }
+
+  // Strict List Directory Handler
+  function handleListDir(target) {
+    // Rigid requirement: Directory path is truncated as '.' and never released
+    let dirKey = ".";
+    if (target) {
+      const cleanTarget = target.trim().replace(/^\.\//, "").replace(/\/$/, "");
+      if (cleanTarget === ".." || cleanTarget.startsWith("/") || cleanTarget.startsWith("\\")) {
+        printLine("stderr", "PERMISSION DENIED: Jail boundary violation. Traversal outside '.' prohibited.");
+        return;
+      }
+      if (cleanTarget === "." || cleanTarget === "") {
+        dirKey = ".";
+      } else if (VFS["."].files[cleanTarget] && VFS["."].files[cleanTarget].type === "dir") {
+        if (VFS["."].files[cleanTarget].protected && !isElevated) {
+          printLine("stderr", `ACCESS DENIED: Directory '${cleanTarget}' is strictly password-protected.\nType 'auth' to unlock.`);
+          return;
+        }
+        renderDirListing(cleanTarget, VFS["."].files[cleanTarget].files);
+        return;
+      } else {
+        printLine("stderr", `Directory not found: '${target}'`);
+        return;
+      }
+    }
+
+    renderDirListing(".", VFS["."].files);
+  }
+
+  function renderDirListing(dirName, fileObj) {
+    let gridHtml = '<div class="term-grid">';
+    for (const [name, meta] of Object.entries(fileObj)) {
+      const isDir = meta.type === "dir";
+      const isProt = meta.protected;
+      const itemClass = isProt ? "protected" : (isDir ? "dir" : "file");
+      const icon = isDir ? "&#x1F4C1;" : "&#x1F4C4;";
+      const displayName = `./${name}${isDir ? "/" : ""}`;
+      const badge = isProt ? '<span class="term-item-badge badge-lock">&#x1F512; LOCKED</span>' : (isDir ? '<span class="term-item-badge">DIR</span>' : '<span class="term-item-badge">FILE</span>');
+
+      gridHtml += `
+        <div class="term-grid-item ${itemClass}">
+          <span>${icon}</span>
+          <span style="flex: 1; cursor: pointer;" onclick="executeFromSuggestion('${isDir ? 'cd ' + name : 'cat ' + name}')">${displayName}</span>
+          ${badge}
+        </div>`;
+    }
+    gridHtml += '</div>';
+    printLine("stdout", `Directory listing of . :`, false);
+    printLine("stdout", gridHtml, true);
+  }
+
+  // Strict CD Handler
+  function handleCd(target) {
+    if (!target || target === "." || target === "./") {
+      printLine("dim", "[CD] Directory maintained at .");
+      return;
+    }
+
+    const clean = target.trim().replace(/\/$/, "");
+
+    // Anti-traversal check
+    if (clean === ".." || clean.startsWith("..") || clean.startsWith("/") || clean.startsWith("\\") || clean === "~") {
+      printLine("stderr", "PERMISSION DENIED: Jail boundary violation. Root traversal prohibited.");
+      return;
+    }
+
+    const simpleName = clean.replace(/^\.\//, "");
+    if (VFS["."].files[simpleName] && VFS["."].files[simpleName].type === "dir") {
+      if (VFS["."].files[simpleName].protected && !isElevated) {
+        printLine("stderr", `ACCESS DENIED: Directory '${simpleName}' is strictly password-protected.\nType 'auth' to unlock.`);
+        return;
+      }
+      // Rigid requirement: Directory is truncated as '.' and never released
+      printLine("dim", `[CD] Active scope: ./`);
+    } else {
+      printLine("stderr", `Directory not found or inaccessible: '${target}'`);
+    }
+  }
+
+  // Strict CAT / TYPE Handler
+  function handleCat(target) {
+    if (!target) {
+      printLine("stderr", "Usage: cat <filename>");
+      return;
+    }
+
+    const clean = target.trim().replace(/^\.\//, "");
+
+    // Anti-traversal check
+    if (clean.includes("..") || clean.startsWith("/") || clean.startsWith("\\")) {
+      printLine("stderr", "PERMISSION DENIED: Jail boundary violation. Path traversal blocked.");
+      return;
+    }
+
+    // Direct file in .
+    if (VFS["."].files[clean] && VFS["."].files[clean].type === "file") {
+      printLine("stdout", VFS["."].files[clean].content);
+      return;
+    }
+
+    // Subdirectory search
+    const slashIdx = clean.indexOf("/");
+    if (slashIdx !== -1) {
+      const parentDir = clean.substring(0, slashIdx);
+      const subFile = clean.substring(slashIdx + 1);
+
+      if (VFS["."].files[parentDir] && VFS["."].files[parentDir].type === "dir") {
+        if (VFS["."].files[parentDir].protected && !isElevated) {
+          printLine("stderr", `ACCESS DENIED: Directory '${parentDir}' is strictly password-protected.\nType 'auth' to unlock.`);
+          return;
+        }
+
+        const subObj = VFS["."].files[parentDir].files[subFile];
+        if (subObj && subObj.type === "file") {
+          printLine("stdout", subObj.content);
+          return;
+        }
+      }
+    }
+
+    // Check if user is trying to access protected directory
+    if (VFS["."].files[clean] && VFS["."].files[clean].protected) {
+      printLine("stderr", `ACCESS DENIED: '${clean}' is a protected directory. Cannot cat a directory.`);
+      return;
+    }
+
+    printLine("stderr", `File not found: '${target}'`);
+  }
+
+  // Safe Calculator
+  function handleCalc(expr) {
+    if (!expr) {
+      printLine("stderr", "Usage: calc <mathematical expression>\nExample: calc Math.sqrt(256) * Math.PI");
+      return;
+    }
+
+    // Whitelist check
+    const sanitized = expr.replace(/Math\./g, "");
+    if (/[^0-9+\-*/()., %^eEPIsqrtcosinaglpbMath]/.test(expr)) {
+      printLine("stderr", "ERROR: Invalid characters in mathematical expression.");
+      return;
+    }
+
+    try {
+      // Run inside sandbox iframe
+      handleJsExecution("Math." + expr.replace(/^Math\./, ""));
+    } catch(err) {
+      printLine("stderr", "Calculation Error: " + err.message);
+    }
+  }
+
+  // Isolated JavaScript Sandbox Execution
+  function handleJsExecution(code) {
+    if (!code) {
+      printLine("stderr", "Usage: js <javascript code>\nExample: js [1, 2, 3].map(x => x * 10)");
+      return;
+    }
+
+    const callId = "call_" + Math.random().toString(36).substring(2, 9);
+    let timedOut = false;
+
+    // Watchdog Timer (1000ms strict limit to kill infinite loops)
+    const timer = setTimeout(() => {
+      timedOut = true;
+      window.removeEventListener("message", onMessage);
+      printLine("stderr", "[EXECUTION TIMEOUT] Execution exceeded 1000ms threshold. Execution aborted.");
+    }, 1000);
+
+    function onMessage(e) {
+      if (!e.data || e.data.id !== callId) return;
+      clearTimeout(timer);
+      window.removeEventListener("message", onMessage);
+      if (timedOut) return;
+
+      // Print any console logs captured
+      if (e.data.logs && e.data.logs.length > 0) {
+        e.data.logs.forEach(l => {
+          printLine(l.type === "error" ? "stderr" : (l.type === "warn" ? "warn" : "stdout"), l.text);
+        });
+      }
+
+      if (e.data.success) {
+        if (e.data.result !== undefined) {
+          printLine("success", "=> " + e.data.result);
+        }
+      } else {
+        printLine("stderr", "Runtime Error: " + e.data.error);
+      }
+    }
+
+    window.addEventListener("message", onMessage);
+
+    try {
+      sandboxFrame.contentWindow.postMessage({ id: callId, code: code }, "*");
+    } catch(err) {
+      clearTimeout(timer);
+      window.removeEventListener("message", onMessage);
+      printLine("stderr", "Sandbox Dispatch Error: " + err.message);
+    }
+  }
+
+  // Password Prompt
+  function promptPassword(callback) {
+    isPasswordPrompt = true;
+    passwordCallback = callback;
+    termRealInput.type = "password";
+    printLine("warn", "[SECURITY CHALLENGE] Enter Authorization Passphrase:");
+    termPrompt.innerHTML = '<span class="prompt-user">PASS:</span>&nbsp;';
+    termInputDisplay.textContent = "";
+    termRealInput.value = "";
+    focusTerminalInput();
+  }
+
+  // Matrix Rain Animation
+  function runMatrixEffect() {
+    printLine("success", "[MATRIX STREAM INITIATED] Rendering quantum alpha streams...");
+    const canvas = document.createElement("canvas");
+    canvas.style.position = "absolute";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.pointerEvents = "none";
+    canvas.style.zIndex = "5";
+    termScreen.appendChild(canvas);
+
+    canvas.width = termScreen.clientWidth;
+    canvas.height = termScreen.clientHeight;
+    const ctx = canvas.getContext("2d");
+
+    const chars = "0123456789ABCDEFλψδθΣΠΩαβγ";
+    const fontSize = 14;
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = [];
+    for (let i = 0; i < columns; i++) drops[i] = Math.floor(Math.random() * -50);
+
+    let frames = 0;
+    const interval = setInterval(() => {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00e699";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+
+      frames++;
+      if (frames > 150) {
+        clearInterval(interval);
+        canvas.remove();
+        printLine("dim", "[MATRIX STREAM TERMINATED]");
+      }
+    }, 40);
+  }
+
+  // Keybindings & Input Sync
+  termRealInput.addEventListener("input", function() {
+    if (isPasswordPrompt) {
+      termInputDisplay.textContent = "•".repeat(termRealInput.value.length);
+    } else {
+      termInputDisplay.textContent = termRealInput.value;
+    }
+  });
+
+  termRealInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const val = termRealInput.value;
+      termRealInput.value = "";
+      termInputDisplay.textContent = "";
+      handleCommand(val);
+      updatePrompt();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (commandHistory.length > 0 && historyIndex > 0) {
+        historyIndex--;
+        termRealInput.value = commandHistory[historyIndex];
+        termInputDisplay.textContent = termRealInput.value;
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (historyIndex < commandHistory.length - 1) {
+        historyIndex++;
+        termRealInput.value = commandHistory[historyIndex];
+        termInputDisplay.textContent = termRealInput.value;
+      } else {
+        historyIndex = commandHistory.length;
+        termRealInput.value = "";
+        termInputDisplay.textContent = "";
+      }
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      handleTabCompletion();
+    } else if (e.ctrlKey && e.key.toLowerCase() === "l") {
+      e.preventDefault();
+      clearTerminal();
+    } else if (e.ctrlKey && e.key.toLowerCase() === "c") {
+      e.preventDefault();
+      printLine("cmd-echo", `${termPrompt.innerText} ${termRealInput.value}^C`);
+      termRealInput.value = "";
+      termInputDisplay.textContent = "";
+      if (isPasswordPrompt) {
+        isPasswordPrompt = false;
+        termRealInput.type = "text";
+        updatePrompt();
+      }
+    }
+  });
+
+  // Tab Completion
+  function handleTabCompletion() {
+    const val = termRealInput.value;
+    const parts = val.split(" ");
+    if (parts.length === 1) {
+      const candidates = ["help", "ls", "dir", "pwd", "cd", "cat", "type", "clear", "cls", "calc", "js", "whoami", "auth", "theme", "mode", "date", "history", "matrix", "exit"];
+      const match = candidates.filter(c => c.startsWith(parts[0].toLowerCase()));
+      if (match.length === 1) {
+        termRealInput.value = match[0] + " ";
+        termInputDisplay.textContent = termRealInput.value;
+      }
+    } else if (parts.length === 2 && (parts[0] === "cat" || parts[0] === "cd" || parts[0] === "type" || parts[0] === "ls")) {
+      const fileCandidates = Object.keys(VFS["."].files);
+      const partial = parts[1].replace(/^\.\//, "").toLowerCase();
+      const match = fileCandidates.filter(f => f.toLowerCase().startsWith(partial));
+      if (match.length === 1) {
+        const isDir = VFS["."].files[match[0]].type === "dir";
+        termRealInput.value = parts[0] + " " + match[0] + (isDir ? "/" : "");
+        termInputDisplay.textContent = termRealInput.value;
+      }
+    }
+  }
+
+  // Initialize
+  printBanner();
+  updatePrompt();
+  focusTerminalInput();
+})();
+</script>
+{{ end }}

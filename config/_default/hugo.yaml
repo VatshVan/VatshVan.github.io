@@ -19,6 +19,9 @@ menu:
     - name: Resume
       url: '/resume/'
       weight: 50
+    - name: Terminal
+      url: '/cmd/'
+      weight: 60
 
 minify:
   disableXML: true
