@@ -24,9 +24,6 @@ sections:
 profile:
   role_short: "Undergrad • BTech'28"
   specs:
-    - label: "INSTITUTION"
-      value: "IIT Bombay"
-      link: ""
     - label: "PRIMARY FOCUS"
       value: "OBJECTIVE → CONSTRAINTS → OPTIMUM"
       link: ""
