@@ -66,8 +66,8 @@
           <strong class="spec-value">{{ with $profile.institution }}{{ . }}{{ else }}IIT Bombay{{ end }}</strong>
         </div>
         <div class="spec-item">
-          <span class="spec-label">ACADEMIC CPI</span>
-          <strong class="spec-value">{{ with $profile.cpi }}{{ . }}{{ else }}8.27 / 10.0{{ end }}</strong>
+          <span class="spec-label">HONORS</span>
+          <strong class="spec-value">Global IQC'25 Finalist</strong>
         </div>
         <div class="spec-item">
           <span class="spec-label">PRIMARY FOCUS</span>
@@ -119,9 +119,9 @@
       <span class="metric-detail">Global Rank in Power Pool Alpha Competition (11th in India)</span>
     </div>
     <div class="metric-card">
-      <span class="metric-label">JEE MAINS '24</span>
-      <div class="metric-value text-green">99.72<span class="metric-sub">%ile</span></div>
-      <span class="metric-detail">Top 0.28% out of 1.4 Million candidates nationwide</span>
+      <span class="metric-label">GLOBAL IQC'25</span>
+      <div class="metric-value text-green">TOP 12 <span class="metric-sub">Global</span></div>
+      <span class="metric-detail">Selected among 12 Research Consultants worldwide for Singapore Finals</span>
     </div>
     <div class="metric-card">
       <span class="metric-label">OUT-OF-SAMPLE IR</span>
@@ -350,65 +350,81 @@
     <h2>{{ with $sections.competencies_title }}{{ . }}{{ else }}Technical Competencies{{ end }}</h2>
   </div>
   <div class="grid-4">
-    <article class="skill-card">
-      <div class="skill-card-header">
-        <span class="skill-icon text-white">&lambda;</span>
-        <h3>Quantitative Methods</h3>
-      </div>
-      <ul>
-        <li>Alpha Synthesis & Orthogonalization</li>
-        <li>Black-Scholes PDE & Martingale Pricing</li>
-        <li>Convex Optimization & Markowitz CVaR</li>
-        <li>CUSUM Sampling & Triple Barrier Labeling</li>
-        <li>Stochastic Calculus & Monte Carlo Methods</li>
-        <li>Vasicek Term Structure Modeling</li>
-      </ul>
-    </article>
+    {{ with site.Data.site_content.competencies }}
+      {{ range . }}
+      <article class="skill-card">
+        <div class="skill-card-header">
+          <span class="skill-icon text-{{ .color }}">{{ .icon | safeHTML }}</span>
+          <h3>{{ .title }}</h3>
+        </div>
+        <ul>
+          {{ range .skills }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+      </article>
+      {{ end }}
+    {{ else }}
+      <article class="skill-card">
+        <div class="skill-card-header">
+          <span class="skill-icon text-white">&lambda;</span>
+          <h3>Quantitative Methods</h3>
+        </div>
+        <ul>
+          <li>Alpha Synthesis & Orthogonalization</li>
+          <li>Black-Scholes PDE & Martingale Pricing</li>
+          <li>Convex Optimization & Markowitz CVaR</li>
+          <li>CUSUM Sampling & Triple Barrier Labeling</li>
+          <li>Stochastic Calculus & Monte Carlo Methods</li>
+          <li>Vasicek Term Structure Modeling</li>
+        </ul>
+      </article>
 
-    <article class="skill-card">
-      <div class="skill-card-header">
-        <span class="skill-icon text-green">&psi;</span>
-        <h3>Machine Learning & AI</h3>
-      </div>
-      <ul>
-        <li>Physics-Informed Neural Nets (PINNs)</li>
-        <li>Reinforcement Learning (PPO, DQN, MAB)</li>
-        <li>Time-Series Forecasting & HMMs</li>
-        <li>Super Resolution (EDSR, PyTorch AMP)</li>
-        <li>State Space Models (SSM & Mamba)</li>
-        <li>XGBoost, Random Forest, SMOTE</li>
-      </ul>
-    </article>
+      <article class="skill-card">
+        <div class="skill-card-header">
+          <span class="skill-icon text-green">&psi;</span>
+          <h3>Machine Learning & AI</h3>
+        </div>
+        <ul>
+          <li>Physics-Informed Neural Nets (PINNs)</li>
+          <li>Reinforcement Learning (PPO, DQN, MAB)</li>
+          <li>Time-Series Forecasting & HMMs</li>
+          <li>Super Resolution (EDSR, PyTorch AMP)</li>
+          <li>State Space Models (SSM & Mamba)</li>
+          <li>XGBoost, Random Forest, SMOTE</li>
+        </ul>
+      </article>
 
-    <article class="skill-card">
-      <div class="skill-card-header">
-        <span class="skill-icon text-amber">&delta;</span>
-        <h3>Autonomous Control</h3>
-      </div>
-      <ul>
-        <li>Learned-Dynamics HyperMPC (100 Hz)</li>
-        <li>Joint EKF State Estimation & Sensor Fusion</li>
-        <li>RTK GNSS & Dual IMU Fusion</li>
-        <li>LibTorch-Acados C++ Embedded Runtime</li>
-        <li>ROS 2, Gazebo & LiDAR Data Pipelines</li>
-        <li>OSQP Convex Quadratic Programming</li>
-      </ul>
-    </article>
+      <article class="skill-card">
+        <div class="skill-card-header">
+          <span class="skill-icon text-amber">&delta;</span>
+          <h3>Autonomous Control</h3>
+        </div>
+        <ul>
+          <li>Learned-Dynamics HyperMPC (100 Hz)</li>
+          <li>Joint EKF State Estimation & Sensor Fusion</li>
+          <li>RTK GNSS & Dual IMU Fusion</li>
+          <li>LibTorch-Acados C++ Embedded Runtime</li>
+          <li>ROS 2, Gazebo & LiDAR Data Pipelines</li>
+          <li>OSQP Convex Quadratic Programming</li>
+        </ul>
+      </article>
 
-    <article class="skill-card">
-      <div class="skill-card-header">
-        <span class="skill-icon text-white">&theta;</span>
-        <h3>Systems & Infrastructure</h3>
-      </div>
-      <ul>
-        <li>Modern C++ (STL, LibTorch, High-Perf)</li>
-        <li>Python (NumPy, Pandas, PyTorch, SciPy)</li>
-        <li>Linux, Shell, HPC Clusters & Docker</li>
-        <li>CCXT & Delta Exchange Trading APIs</li>
-        <li>Neo4j Graph DB & Swift FITS Parsing</li>
-        <li>Git, CI/CD, MATLAB, LaTeX</li>
-      </ul>
-    </article>
+      <article class="skill-card">
+        <div class="skill-card-header">
+          <span class="skill-icon text-white">&theta;</span>
+          <h3>Systems & Infrastructure</h3>
+        </div>
+        <ul>
+          <li>Modern C++ (STL, LibTorch, High-Perf)</li>
+          <li>Python (NumPy, Pandas, PyTorch, SciPy)</li>
+          <li>Linux, Shell, HPC Clusters & Docker</li>
+          <li>CCXT & Delta Exchange Trading APIs</li>
+          <li>Neo4j Graph DB & Swift FITS Parsing</li>
+          <li>Git, CI/CD, MATLAB, LaTeX</li>
+        </ul>
+      </article>
+    {{ end }}
   </div>
 </section>
 
@@ -423,20 +439,26 @@
   <div class="grid-2">
     <div class="education-card">
       <span class="card-badge badge-white">ACADEMIC PROFILE</span>
-      <h3 style="margin-top: 1rem;">Indian Institute of Technology Bombay</h3>
-      <p class="edu-degree"><strong>B.Tech in Mechanical Engineering</strong> &bull; Class of 2028 &bull; CPI: <strong>8.27</strong></p>
-      <p class="edu-degree"><strong>Minor in Artificial Intelligence & Data Science</strong> &bull; Centre for Machine Intelligence and Data Science (CMInDS)</p>
+      <h3 style="margin-top: 1rem;">{{ with site.Data.site_content.education.institution }}{{ . }}{{ else }}Indian Institute of Technology Bombay{{ end }}</h3>
+      <p class="edu-degree"><strong>{{ with site.Data.site_content.education.degree }}{{ . | safeHTML }}{{ else }}B.Tech in Mechanical Engineering &bull; Class of 2028{{ end }}</strong></p>
+      <p class="edu-degree"><strong>{{ with site.Data.site_content.education.minor }}{{ . | safeHTML }}{{ else }}Minor in Artificial Intelligence & Data Science &bull; Centre for Machine Intelligence and Data Science (CMInDS){{ end }}</strong></p>
       
       <div class="coursework-block" style="margin-top: 1.5rem;">
         <span class="spec-label">KEY COURSEWORK</span>
         <div class="tag-row" style="margin-top: 0.5rem;">
-          <span class="tag">Statistical ML & Data Mining</span>
-          <span class="tag">Applied Data Science & ML</span>
-          <span class="tag">Control Systems</span>
-          <span class="tag">Numerical Analysis</span>
-          <span class="tag">Linear Algebra & Diff Eq</span>
-          <span class="tag">Financial Engineering</span>
-          <span class="tag">Calculus</span>
+          {{ with site.Data.site_content.education.coursework }}
+            {{ range . }}
+            <span class="tag">{{ . }}</span>
+            {{ end }}
+          {{ else }}
+            <span class="tag">Statistical ML & Data Mining</span>
+            <span class="tag">Applied Data Science & ML</span>
+            <span class="tag">Control Systems</span>
+            <span class="tag">Numerical Analysis</span>
+            <span class="tag">Linear Algebra & Diff Eq</span>
+            <span class="tag">Financial Engineering</span>
+            <span class="tag">Calculus</span>
+          {{ end }}
         </div>
       </div>
     </div>
@@ -444,26 +466,34 @@
     <div class="honors-card">
       <span class="card-badge badge-green">COMPETITIVE HONORS</span>
       <ul class="honors-list" style="margin-top: 1rem;">
-        <li>
-          <strong>WorldQuant BRAIN Power Pool Alpha Competition:</strong> 
-          Ranked <span class="highlight-val">42 of 5.7K+ globally</span> (11th in India) (Apr '25 &ndash; May '25).
-        </li>
-        <li>
-          <strong>JEE Mains 2024:</strong> 
-          Secured <span class="highlight-val">99.72 percentile</span> nationwide over 1.4 million candidates.
-        </li>
-        <li>
-          <strong>JEE Advanced 2024:</strong> 
-          Secured <span class="highlight-val">98.36 percentile</span> over 180,000+ candidates.
-        </li>
-        <li>
-          <strong>IISc Bangalore BS (Research):</strong> 
-          Secured admission among India's top applicants ('24).
-        </li>
-        <li>
-          <strong>Gujarat Common Entrance Test (GUJCET):</strong> 
-          Ranked in top <span class="highlight-val">2.47%</span> out of 48,000+ candidates.
-        </li>
+        {{ with site.Data.site_content.honors }}
+          {{ range . }}
+          <li>
+            <strong>{{ .title }}:</strong> 
+            {{ .detail }}
+            {{ if .highlight }}
+              <span class="highlight-val">({{ .highlight }})</span>
+            {{ end }}
+          </li>
+          {{ end }}
+        {{ else }}
+          <li>
+            <strong>WorldQuant BRAIN Power Pool Alpha Competition:</strong> 
+            Ranked <span class="highlight-val">42 of 5.7K+ globally</span> (11th in India) (Apr '25 &ndash; May '25).
+          </li>
+          <li>
+            <strong>Global IQC '25 Finalist:</strong> 
+            Selected as 1 of 12 consultants globally to attend Singapore Finals ('25).
+          </li>
+          <li>
+            <strong>IISc Bangalore BS (Research):</strong> 
+            Secured admission among India's top applicants ('24).
+          </li>
+          <li>
+            <strong>Gujarat Common Entrance Test (GUJCET):</strong> 
+            Ranked in top <span class="highlight-val">2.47%</span> out of 48,000+ candidates.
+          </li>
+        {{ end }}
       </ul>
     </div>
   </div>

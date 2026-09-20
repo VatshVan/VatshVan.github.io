@@ -1,4 +1,14 @@
 {{ define "main" }}
+{{ $content := site.Data.site_content }}
+{{ $hero := $content.hero }}
+{{ $sections := $content.sections }}
+{{ $profile := $content.profile }}
+{{ $appearance := $content.appearance }}
+{{ $metrics := site.Data.metrics }}
+{{ $competencies := $content.competencies }}
+{{ $education := $content.education }}
+{{ $honors := $content.honors }}
+
 <div class="console-wrapper" id="console-app">
   <!-- Auth Gate Overlay -->
   <div class="console-auth-overlay" id="auth-modal">
@@ -119,17 +129,23 @@
       <button class="console-tab" data-tab="tab-metrics" onclick="switchTab('tab-metrics')">
         [03] SLIDES & METRICS
       </button>
+      <button class="console-tab" data-tab="tab-competencies" onclick="switchTab('tab-competencies')">
+        [04] COMPETENCIES MATRIX
+      </button>
+      <button class="console-tab" data-tab="tab-scholastic" onclick="switchTab('tab-scholastic')">
+        [05] SCHOLASTIC & EDUCATION
+      </button>
       <button class="console-tab" data-tab="tab-projects" onclick="switchTab('tab-projects')">
-        [04] PROJECTS MANAGER
+        [06] PROJECTS MANAGER
       </button>
       <button class="console-tab" data-tab="tab-publications" onclick="switchTab('tab-publications')">
-        [05] PUBLICATIONS MANAGER
+        [07] PUBLICATIONS MANAGER
       </button>
       <button class="console-tab" data-tab="tab-experience" onclick="switchTab('tab-experience')">
-        [06] EXPERIENCES MANAGER
+        [08] EXPERIENCES MANAGER
       </button>
       <button class="console-tab" data-tab="tab-audit" onclick="switchTab('tab-audit')">
-        [07] TERMINAL & AUDIT
+        [09] TERMINAL & AUDIT
       </button>
     </div>
 
@@ -156,11 +172,11 @@
           <div class="form-group">
             <label>SELECT FONT PAIRING</label>
             <select id="app-font-pair" onchange="previewCurrentAppearance()">
-              <option value="fraunces_space" selected>Fraunces (Serif) + Space Grotesk (Tech) [Default]</option>
-              <option value="inter_jetbrains">Inter (Neo-Grotesque) + JetBrains Mono (Hacker)</option>
-              <option value="jakarta_roboto">Plus Jakarta Sans (Modern) + Roboto Mono (Clean)</option>
-              <option value="playfair_fira">Playfair Display (Editorial) + Inter + Fira Code</option>
-              <option value="space_space">Space Grotesk (Pure Geometry) + JetBrains Mono</option>
+              <option value="fraunces_space" {{ if or (eq $appearance.font_pair "fraunces_space") (not $appearance.font_pair) }}selected{{ end }}>Fraunces (Serif) + Space Grotesk (Tech) [Default]</option>
+              <option value="inter_jetbrains" {{ if eq $appearance.font_pair "inter_jetbrains" }}selected{{ end }}>Inter (Neo-Grotesque) + JetBrains Mono (Hacker)</option>
+              <option value="jakarta_roboto" {{ if eq $appearance.font_pair "jakarta_roboto" }}selected{{ end }}>Plus Jakarta Sans (Modern) + Roboto Mono (Clean)</option>
+              <option value="playfair_fira" {{ if eq $appearance.font_pair "playfair_fira" }}selected{{ end }}>Playfair Display (Editorial) + Inter + Fira Code</option>
+              <option value="space_space" {{ if eq $appearance.font_pair "space_space" }}selected{{ end }}>Space Grotesk (Pure Geometry) + JetBrains Mono</option>
             </select>
             <span class="form-help">Applies across all headers, body text, badges, and code snippets.</span>
           </div>
@@ -171,11 +187,11 @@
           <div class="form-group">
             <label>SELECT ACCENT PALETTE</label>
             <select id="app-accent-theme" onchange="previewCurrentAppearance()">
-              <option value="pitch_black" selected>Pitch Black (WorldQuant & Jane Street #000000) [Default]</option>
-              <option value="white">Stark White (Jane Street Clean Light #FFFFFF)</option>
-              <option value="emerald_alpha">Emerald Alpha (Dark Forest + Emerald Green + Mint)</option>
-              <option value="amber_terminal">Amber Terminal (Phosphor Gold + Warm Amber + Charcoal)</option>
-              <option value="monochrome_matrix">Monochrome Matrix (Pure Obsidian + Titanium + Silver)</option>
+              <option value="pitch_black" {{ if or (eq $appearance.accent_theme "pitch_black") (not $appearance.accent_theme) }}selected{{ end }}>Pitch Black (WorldQuant & Jane Street #000000) [Default]</option>
+              <option value="white" {{ if eq $appearance.accent_theme "white" }}selected{{ end }}>Stark White (Jane Street Clean Light #FFFFFF)</option>
+              <option value="emerald_alpha" {{ if eq $appearance.accent_theme "emerald_alpha" }}selected{{ end }}>Emerald Alpha (Dark Forest + Emerald Green + Mint)</option>
+              <option value="amber_terminal" {{ if eq $appearance.accent_theme "amber_terminal" }}selected{{ end }}>Amber Terminal (Phosphor Gold + Warm Amber + Charcoal)</option>
+              <option value="monochrome_matrix" {{ if eq $appearance.accent_theme "monochrome_matrix" }}selected{{ end }}>Monochrome Matrix (Pure Obsidian + Titanium + Silver)</option>
             </select>
             <span class="form-help">Recolors primary buttons, badges, glowing accents, and cards.</span>
           </div>
@@ -186,10 +202,10 @@
           <div class="form-group">
             <label>SELECT GRID STYLE</label>
             <select id="app-grid-style" onchange="previewCurrentAppearance()">
-              <option value="coordinate" selected>Coordinate Grid (40px Cartesian hairline)</option>
-              <option value="dots">Dot Matrix (24px Precision Points)</option>
-              <option value="blueprint">Blueprint Dual Grid (20px / 100px Architecture)</option>
-              <option value="minimal">Minimal Studio (Clean Ambient Glow, No Grid)</option>
+              <option value="coordinate" {{ if or (eq $appearance.grid_style "coordinate") (not $appearance.grid_style) }}selected{{ end }}>Coordinate Grid (40px Cartesian hairline)</option>
+              <option value="dots" {{ if eq $appearance.grid_style "dots" }}selected{{ end }}>Dot Matrix (24px Precision Points)</option>
+              <option value="blueprint" {{ if eq $appearance.grid_style "blueprint" }}selected{{ end }}>Blueprint Dual Grid (20px / 100px Architecture)</option>
+              <option value="minimal" {{ if eq $appearance.grid_style "minimal" }}selected{{ end }}>Minimal Studio (Clean Ambient Glow, No Grid)</option>
             </select>
             <span class="form-help">Pure CSS background texture with static zero-CPU ambient radial gradients.</span>
           </div>
@@ -227,28 +243,28 @@
         <div class="edit-card-title">FLAGSHIP HERO SECTION</div>
         <div class="form-group">
           <label>HERO EYEBROW BADGE</label>
-          <input type="text" id="h-eyebrow" value="IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS">
+          <input type="text" id="h-eyebrow" value="{{ with $hero.eyebrow }}{{ . }}{{ else }}IIT BOMBAY • QUANT • AUTONOMOUS SYSTEMS{{ end }}">
         </div>
         <div class="form-group">
           <label>HERO MAIN HEADLINE</label>
-          <input type="text" id="h-heading" value="Quantitative Alpha Research & Autonomous Controls">
+          <input type="text" id="h-heading" value="{{ with $hero.heading }}{{ . }}{{ else }}Quantitative Alpha Research & Autonomous Controls{{ end }}">
         </div>
         <div class="form-group">
           <label>HERO LEDE PARAGRAPH (HTML ALLOWED)</label>
-          <textarea id="h-lede" rows="3">Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.</textarea>
+          <textarea id="h-lede" rows="3">{{ with $hero.lede }}{{ . }}{{ else }}Mechanical Engineering undergraduate at <strong>IIT Bombay</strong> with a Minor in <strong>AI & Data Science (CMInDS)</strong>. Bridging stochastic modeling, portfolio optimization, and machine learning with ultra-low-latency autonomous control runtimes.{{ end }}</textarea>
         </div>
         <div class="form-row">
           <div class="form-group" style="flex: 1;">
             <label>PRIMARY BUTTON TEXT</label>
-            <input type="text" id="h-btn-primary" value="EXPLORE PROJECTS">
+            <input type="text" id="h-btn-primary" value="{{ with $hero.primary_btn_text }}{{ . }}{{ else }}EXPLORE PROJECTS{{ end }}">
           </div>
           <div class="form-group" style="flex: 1;">
             <label>SECONDARY BUTTON TEXT</label>
-            <input type="text" id="h-btn-secondary" value="EXPERIENCE">
+            <input type="text" id="h-btn-secondary" value="{{ with $hero.secondary_btn_text }}{{ . }}{{ else }}EXPERIENCE{{ end }}">
           </div>
           <div class="form-group" style="flex: 1;">
             <label>CV BUTTON TEXT</label>
-            <input type="text" id="h-btn-cv" value="CURRICULUM VITAE">
+            <input type="text" id="h-btn-cv" value="{{ with $hero.cv_btn_text }}{{ . }}{{ else }}CURRICULUM VITAE{{ end }}">
           </div>
         </div>
       </div>
@@ -258,23 +274,23 @@
           <div class="edit-card-title">SECTION HEADINGS</div>
           <div class="form-group">
             <label>EXPERIENCE EYEBROW & TITLE</label>
-            <input type="text" id="sec-exp-eye" value="PROFESSIONAL TRAJECTORY" style="margin-bottom: 0.35rem;">
-            <input type="text" id="sec-exp-title" value="Core Engagements">
+            <input type="text" id="sec-exp-eye" value="{{ with $sections.experience_eyebrow }}{{ . }}{{ else }}PROFESSIONAL TRAJECTORY{{ end }}" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-exp-title" value="{{ with $sections.experience_title }}{{ . }}{{ else }}Core Engagements{{ end }}">
           </div>
           <div class="form-group">
             <label>PROJECTS EYEBROW & TITLE</label>
-            <input type="text" id="sec-proj-eye" value="RESEARCH & IMPLEMENTATIONS" style="margin-bottom: 0.35rem;">
-            <input type="text" id="sec-proj-title" value="Featured Technical Projects">
+            <input type="text" id="sec-proj-eye" value="{{ with $sections.projects_eyebrow }}{{ . }}{{ else }}RESEARCH & IMPLEMENTATIONS{{ end }}" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-proj-title" value="{{ with $sections.projects_title }}{{ . }}{{ else }}Featured Technical Projects{{ end }}">
           </div>
           <div class="form-group">
             <label>COMPETENCIES EYEBROW & TITLE</label>
-            <input type="text" id="sec-comp-eye" value="CAPABILITIES MATRIX" style="margin-bottom: 0.35rem;">
-            <input type="text" id="sec-comp-title" value="Technical Competencies">
+            <input type="text" id="sec-comp-eye" value="{{ with $sections.competencies_eyebrow }}{{ . }}{{ else }}CAPABILITIES MATRIX{{ end }}" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-comp-title" value="{{ with $sections.competencies_title }}{{ . }}{{ else }}Technical Competencies{{ end }}">
           </div>
           <div class="form-group">
             <label>SCHOLASTIC EYEBROW & TITLE</label>
-            <input type="text" id="sec-sch-eye" value="ACADEMIC EXCELLENCE" style="margin-bottom: 0.35rem;">
-            <input type="text" id="sec-sch-title" value="Scholastic Honors & Education">
+            <input type="text" id="sec-sch-eye" value="{{ with $sections.scholastic_eyebrow }}{{ . }}{{ else }}ACADEMIC EXCELLENCE{{ end }}" style="margin-bottom: 0.35rem;">
+            <input type="text" id="sec-sch-title" value="{{ with $sections.scholastic_title }}{{ . }}{{ else }}Scholastic Honors & Education{{ end }}">
           </div>
         </div>
 
@@ -282,7 +298,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
             <div>
               <div class="edit-card-title" style="margin: 0;">RESEARCH DOSSIER PROFILE BLOCKS</div>
-              <span class="form-help">Add, edit, or delete any block (Institution, CPI, ORCID, SSRN, etc.) in the hero profile card.</span>
+              <span class="form-help">Add, edit, or delete any block (Institution, Honors, ORCID, SSRN, etc.) in the hero profile card.</span>
             </div>
             <button class="button button-secondary" type="button" onclick="addNewSpec()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
               <span>+ ADD SPEC BLOCK</span>
@@ -291,7 +307,7 @@
 
           <div class="form-group" style="margin-bottom: 1.25rem;">
             <label>ROLE / DEGREE SHORT BADGE</label>
-            <input type="text" id="prof-role-short" value="Undergrad • BTech'28">
+            <input type="text" id="prof-role-short" value="{{ with $profile.role_short }}{{ . }}{{ else }}Undergrad • BTech'28{{ end }}">
           </div>
 
           <div id="dynamic-specs-container" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
@@ -344,7 +360,92 @@
       </div>
     </div>
 
-    <!-- TAB 4: PROJECTS MANAGER -->
+    <!-- TAB 4: COMPETENCIES MATRIX -->
+    <div class="console-pane" id="tab-competencies">
+      <div class="pane-header">
+        <div>
+          <h3>Technical Competencies Matrix Editor</h3>
+          <p class="pane-desc">Add, remove, or customize competency domains, icons, colors, and skill items shown in the Capabilities Matrix on the homepage.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-secondary" type="button" onclick="addNewCompetencyDomain()">
+            <span>+ ADD DOMAIN</span>
+          </button>
+          <button class="button button-primary" type="button" onclick="deployCompetencies()">
+            <span>SAVE & DEPLOY COMPETENCIES</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="metrics-editor-grid" id="dynamic-competencies-container">
+        <!-- Rendered dynamically by JS with Add/Delete Domain & Add/Delete Skills -->
+      </div>
+    </div>
+
+    <!-- TAB 5: SCHOLASTIC & EDUCATION -->
+    <div class="console-pane" id="tab-scholastic">
+      <div class="pane-header">
+        <div>
+          <h3>Scholastic Honors & Education Editor</h3>
+          <p class="pane-desc">Edit degree details, coursework tags, and competitive scholastic honors with dynamic add/delete capabilities.</p>
+        </div>
+        <div class="pane-actions">
+          <button class="button button-primary" type="button" onclick="deployScholastic()">
+            <span>SAVE & DEPLOY SCHOLASTIC</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="metrics-editor-grid">
+        <!-- Education Card -->
+        <div class="metric-edit-card">
+          <div class="edit-card-title">ACADEMIC PROFILE & DEGREE</div>
+          <div class="form-group">
+            <label>INSTITUTION NAME</label>
+            <input type="text" id="edu-inst" value="{{ with $education.institution }}{{ . }}{{ else }}Indian Institute of Technology Bombay{{ end }}">
+          </div>
+          <div class="form-group">
+            <label>DEGREE PROGRAM & CLASS</label>
+            <input type="text" id="edu-degree" value="{{ with $education.degree }}{{ . }}{{ else }}B.Tech in Mechanical Engineering • Class of 2028{{ end }}">
+          </div>
+          <div class="form-group">
+            <label>MINOR PROGRAM & DEPARTMENT</label>
+            <input type="text" id="edu-minor" value="{{ with $education.minor }}{{ . }}{{ else }}Minor in Artificial Intelligence & Data Science • Centre for Machine Intelligence and Data Science (CMInDS){{ end }}">
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.25rem; margin-top: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <label style="margin: 0; font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted);">KEY COURSEWORK TAGS</label>
+              <button class="button button-secondary" type="button" onclick="addNewCoursework()" style="padding: 0.25rem 0.6rem; font-size: 0.7rem;">
+                <span>+ ADD COURSEWORK</span>
+              </button>
+            </div>
+            <div id="dynamic-coursework-container" style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <!-- Rendered dynamically by JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Competitive Honors Card -->
+        <div class="metric-edit-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div>
+              <div class="edit-card-title" style="margin: 0;">COMPETITIVE HONORS</div>
+              <span class="form-help">Add, edit, or delete any scholastic honor or competition rank.</span>
+            </div>
+            <button class="button button-secondary" type="button" onclick="addNewHonor()" style="padding: 0.35rem 0.75rem; font-size: 0.75rem;">
+              <span>+ ADD HONOR</span>
+            </button>
+          </div>
+
+          <div id="dynamic-honors-container" style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: PROJECTS MANAGER -->
     <div class="console-pane" id="tab-projects">
       <div class="pane-header">
         <div>
@@ -1080,13 +1181,74 @@ Engineered a linear-complexity generative audio architecture replacing quadratic
   }
 };
 
-// Initial Slides Data
-let currentSlides = [
-  { label: "WORLDQUANT BRAIN", val: "42", sub: "/ 5,700+", col: "green", det: "Global Rank in Power Pool Alpha Competition (11th in India)" },
-  { label: "JEE MAINS '24", val: "99.72", sub: "%ile", col: "green", det: "Top 0.28% out of 1.4 Million candidates nationwide" },
-  { label: "OUT-OF-SAMPLE IR", val: "2.39", sub: "", col: "amber", det: "Master Consultant via 320+ orthogonal alphas (fitness up to 6.47)" },
-  { label: "REAL-TIME CONTROL", val: "100", sub: "Hz", col: "white", det: "LibTorch-Acados learned-dynamics HyperMPC control loop" }
-];
+// Dynamic Hugo Data Injection
+const INITIAL_SITE_CONTENT = {{ site.Data.site_content | jsonify }};
+const INITIAL_METRICS = {{ site.Data.metrics | jsonify }};
+
+let currentSpecs = (INITIAL_SITE_CONTENT && INITIAL_SITE_CONTENT.profile && INITIAL_SITE_CONTENT.profile.specs) ? JSON.parse(JSON.stringify(INITIAL_SITE_CONTENT.profile.specs)) : [];
+let currentAffiliations = (INITIAL_SITE_CONTENT && INITIAL_SITE_CONTENT.profile && INITIAL_SITE_CONTENT.profile.affiliations) ? JSON.parse(JSON.stringify(INITIAL_SITE_CONTENT.profile.affiliations)) : [];
+let currentSlides = (INITIAL_METRICS && INITIAL_METRICS.items) ? JSON.parse(JSON.stringify(INITIAL_METRICS.items)) : [];
+let currentCompetencies = (INITIAL_SITE_CONTENT && INITIAL_SITE_CONTENT.competencies) ? JSON.parse(JSON.stringify(INITIAL_SITE_CONTENT.competencies)) : [];
+let currentEducation = (INITIAL_SITE_CONTENT && INITIAL_SITE_CONTENT.education) ? JSON.parse(JSON.stringify(INITIAL_SITE_CONTENT.education)) : {
+  institution: "Indian Institute of Technology Bombay",
+  degree: "B.Tech in Mechanical Engineering • Class of 2028",
+  minor: "Minor in Artificial Intelligence & Data Science • Centre for Machine Intelligence and Data Science (CMInDS)",
+  coursework: []
+};
+let currentHonors = (INITIAL_SITE_CONTENT && INITIAL_SITE_CONTENT.honors) ? JSON.parse(JSON.stringify(INITIAL_SITE_CONTENT.honors)) : [];
+
+function loadCachedState() {
+  try {
+    const cachedContent = localStorage.getItem("cached_site_content");
+    if (cachedContent) {
+      const data = JSON.parse(cachedContent);
+      if (data.hero) {
+        if (data.hero.eyebrow && document.getElementById("h-eyebrow")) document.getElementById("h-eyebrow").value = data.hero.eyebrow;
+        if (data.hero.heading && document.getElementById("h-heading")) document.getElementById("h-heading").value = data.hero.heading;
+        if (data.hero.lede && document.getElementById("h-lede")) document.getElementById("h-lede").value = data.hero.lede;
+        if (data.hero.primary_btn_text && document.getElementById("h-btn-primary")) document.getElementById("h-btn-primary").value = data.hero.primary_btn_text;
+        if (data.hero.secondary_btn_text && document.getElementById("h-btn-secondary")) document.getElementById("h-btn-secondary").value = data.hero.secondary_btn_text;
+        if (data.hero.cv_btn_text && document.getElementById("h-btn-cv")) document.getElementById("h-btn-cv").value = data.hero.cv_btn_text;
+      }
+      if (data.sections) {
+        if (data.sections.experience_eyebrow && document.getElementById("sec-exp-eye")) document.getElementById("sec-exp-eye").value = data.sections.experience_eyebrow;
+        if (data.sections.experience_title && document.getElementById("sec-exp-title")) document.getElementById("sec-exp-title").value = data.sections.experience_title;
+        if (data.sections.projects_eyebrow && document.getElementById("sec-proj-eye")) document.getElementById("sec-proj-eye").value = data.sections.projects_eyebrow;
+        if (data.sections.projects_title && document.getElementById("sec-proj-title")) document.getElementById("sec-proj-title").value = data.sections.projects_title;
+        if (data.sections.competencies_eyebrow && document.getElementById("sec-comp-eye")) document.getElementById("sec-comp-eye").value = data.sections.competencies_eyebrow;
+        if (data.sections.competencies_title && document.getElementById("sec-comp-title")) document.getElementById("sec-comp-title").value = data.sections.competencies_title;
+        if (data.sections.scholastic_eyebrow && document.getElementById("sec-sch-eye")) document.getElementById("sec-sch-eye").value = data.sections.scholastic_eyebrow;
+        if (data.sections.scholastic_title && document.getElementById("sec-sch-title")) document.getElementById("sec-sch-title").value = data.sections.scholastic_title;
+      }
+      if (data.appearance) {
+        if (data.appearance.font_pair && document.getElementById("app-font-pair")) document.getElementById("app-font-pair").value = data.appearance.font_pair;
+        if (data.appearance.accent_theme && document.getElementById("app-accent-theme")) document.getElementById("app-accent-theme").value = data.appearance.accent_theme;
+        if (data.appearance.grid_style && document.getElementById("app-grid-style")) document.getElementById("app-grid-style").value = data.appearance.grid_style;
+      }
+      if (data.profile) {
+        if (data.profile.role_short && document.getElementById("prof-role-short")) document.getElementById("prof-role-short").value = data.profile.role_short;
+        if (Array.isArray(data.profile.specs)) currentSpecs = data.profile.specs;
+        if (Array.isArray(data.profile.affiliations)) currentAffiliations = data.profile.affiliations;
+      }
+      if (Array.isArray(data.competencies)) currentCompetencies = data.competencies;
+      if (data.education) {
+        currentEducation = data.education;
+        if (data.education.institution && document.getElementById("edu-inst")) document.getElementById("edu-inst").value = data.education.institution;
+        if (data.education.degree && document.getElementById("edu-degree")) document.getElementById("edu-degree").value = data.education.degree;
+        if (data.education.minor && document.getElementById("edu-minor")) document.getElementById("edu-minor").value = data.education.minor;
+      }
+      if (Array.isArray(data.honors)) currentHonors = data.honors;
+    }
+
+    const cachedMetrics = localStorage.getItem("cached_metrics");
+    if (cachedMetrics) {
+      const metricsData = JSON.parse(cachedMetrics);
+      if (Array.isArray(metricsData)) currentSlides = metricsData;
+    }
+  } catch(e) {
+    console.error("Error loading cached state:", e);
+  }
+}
 
 // Login handler
 function handleLogin(e) {
@@ -1173,11 +1335,15 @@ function unlockConsole() {
     if (ind) ind.textContent = "KEY ACTIVE: " + savedToken.slice(0, 7) + "••••";
   }
 
+  loadCachedState();
   logTerm("info", "[AUTH] Operator access granted as 'vatshvan'.");
   checkGitHubApi();
   renderDynamicSpecs();
   renderDynamicAffils();
   renderDynamicSlides();
+  renderDynamicCompetencies();
+  renderDynamicCoursework();
+  renderDynamicHonors();
   populateProjectsDropdown();
   populatePublicationsDropdown();
   handleSelectProject("regime-portfolio-optimization");
@@ -1369,22 +1535,6 @@ function downloadTextFile(filename, text) {
   a.click();
 }
 
-// Dynamic Research Dossier Data
-let currentSpecs = [
-  { label: "INSTITUTION", value: "IIT Bombay", link: "" },
-  { label: "ACADEMIC CPI", value: "8.27 / 10.0", link: "" },
-  { label: "PRIMARY FOCUS", value: "OBJECTIVE → CONSTRAINTS → OPTIMUM", link: "" },
-  { label: "SECONDARY FOCUS", value: "LEARN → VALIDATE → GENERALIZE", link: "" },
-  { label: "ORCID", value: "0009-0001-7236-8213", link: "https://orcid.org/0009-0001-7236-8213" },
-  { label: "SSRN AUTHOR", value: "ID: 10485196", link: "https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196" }
-];
-
-let currentAffiliations = [
-  "WorldQuant BRAIN (Master Consultant)",
-  "SeDriCa UMIC (Controls & Manager)",
-  "Centre for Machine Intelligence & Data Science"
-];
-
 function renderDynamicSpecs() {
   const container = document.getElementById("dynamic-specs-container");
   if (!container) return;
@@ -1484,54 +1634,340 @@ function previewCurrentAppearance() {
   logTerm("info", `[PREVIEW] Switched browser view to font=${font}, theme=${theme}, grid=${grid}.`);
 }
 
-function deployAppearance() {
-  const font = document.getElementById("app-font-pair").value;
-  const theme = document.getElementById("app-accent-theme").value;
-  const grid = document.getElementById("app-grid-style").value;
+function saveSiteContentCache() {
+  const cacheObj = {
+    appearance: {
+      font_pair: document.getElementById("app-font-pair") ? document.getElementById("app-font-pair").value : "fraunces_space",
+      accent_theme: document.getElementById("app-accent-theme") ? document.getElementById("app-accent-theme").value : "pitch_black",
+      grid_style: document.getElementById("app-grid-style") ? document.getElementById("app-grid-style").value : "coordinate"
+    },
+    hero: {
+      eyebrow: document.getElementById("h-eyebrow") ? document.getElementById("h-eyebrow").value : "",
+      heading: document.getElementById("h-heading") ? document.getElementById("h-heading").value : "",
+      lede: document.getElementById("h-lede") ? document.getElementById("h-lede").value : "",
+      primary_btn_text: document.getElementById("h-btn-primary") ? document.getElementById("h-btn-primary").value : "EXPLORE PROJECTS",
+      secondary_btn_text: document.getElementById("h-btn-secondary") ? document.getElementById("h-btn-secondary").value : "EXPERIENCE",
+      cv_btn_text: document.getElementById("h-btn-cv") ? document.getElementById("h-btn-cv").value : "CURRICULUM VITAE"
+    },
+    sections: {
+      experience_eyebrow: document.getElementById("sec-exp-eye") ? document.getElementById("sec-exp-eye").value : "",
+      experience_title: document.getElementById("sec-exp-title") ? document.getElementById("sec-exp-title").value : "",
+      projects_eyebrow: document.getElementById("sec-proj-eye") ? document.getElementById("sec-proj-eye").value : "",
+      projects_title: document.getElementById("sec-proj-title") ? document.getElementById("sec-proj-title").value : "",
+      competencies_eyebrow: document.getElementById("sec-comp-eye") ? document.getElementById("sec-comp-eye").value : "",
+      competencies_title: document.getElementById("sec-comp-title") ? document.getElementById("sec-comp-title").value : "",
+      scholastic_eyebrow: document.getElementById("sec-sch-eye") ? document.getElementById("sec-sch-eye").value : "",
+      scholastic_title: document.getElementById("sec-sch-title") ? document.getElementById("sec-sch-title").value : ""
+    },
+    profile: {
+      role_short: document.getElementById("prof-role-short") ? document.getElementById("prof-role-short").value : "Undergrad • BTech'28",
+      specs: currentSpecs,
+      affiliations: currentAffiliations
+    },
+    competencies: currentCompetencies,
+    education: currentEducation,
+    honors: currentHonors
+  };
+  localStorage.setItem("cached_site_content", JSON.stringify(cacheObj));
+}
 
-  const specsYaml = currentSpecs.map(s => `    - label: "${s.label.replace(/"/g, '\\"')}"
-      value: "${s.value.replace(/"/g, '\\"')}"
+function generateSiteContentYaml() {
+  const font = document.getElementById("app-font-pair") ? document.getElementById("app-font-pair").value : "fraunces_space";
+  const theme = document.getElementById("app-accent-theme") ? document.getElementById("app-accent-theme").value : "pitch_black";
+  const grid = document.getElementById("app-grid-style") ? document.getElementById("app-grid-style").value : "coordinate";
+
+  const eyebrow = (document.getElementById("h-eyebrow") ? document.getElementById("h-eyebrow").value : "").replace(/"/g, '\\"');
+  const heading = (document.getElementById("h-heading") ? document.getElementById("h-heading").value : "").replace(/"/g, '\\"');
+  const lede = (document.getElementById("h-lede") ? document.getElementById("h-lede").value : "").replace(/"/g, '\\"');
+  const btnPrimary = (document.getElementById("h-btn-primary") ? document.getElementById("h-btn-primary").value : "EXPLORE PROJECTS").replace(/"/g, '\\"');
+  const btnSecondary = (document.getElementById("h-btn-secondary") ? document.getElementById("h-btn-secondary").value : "EXPERIENCE").replace(/"/g, '\\"');
+  const btnCv = (document.getElementById("h-btn-cv") ? document.getElementById("h-btn-cv").value : "CURRICULUM VITAE").replace(/"/g, '\\"');
+
+  const expEye = (document.getElementById("sec-exp-eye") ? document.getElementById("sec-exp-eye").value : "").replace(/"/g, '\\"');
+  const expTitle = (document.getElementById("sec-exp-title") ? document.getElementById("sec-exp-title").value : "").replace(/"/g, '\\"');
+  const projEye = (document.getElementById("sec-proj-eye") ? document.getElementById("sec-proj-eye").value : "").replace(/"/g, '\\"');
+  const projTitle = (document.getElementById("sec-proj-title") ? document.getElementById("sec-proj-title").value : "").replace(/"/g, '\\"');
+  const compEye = (document.getElementById("sec-comp-eye") ? document.getElementById("sec-comp-eye").value : "").replace(/"/g, '\\"');
+  const compTitle = (document.getElementById("sec-comp-title") ? document.getElementById("sec-comp-title").value : "").replace(/"/g, '\\"');
+  const schEye = (document.getElementById("sec-sch-eye") ? document.getElementById("sec-sch-eye").value : "").replace(/"/g, '\\"');
+  const schTitle = (document.getElementById("sec-sch-title") ? document.getElementById("sec-sch-title").value : "").replace(/"/g, '\\"');
+
+  const roleShort = (document.getElementById("prof-role-short") ? document.getElementById("prof-role-short").value : "Undergrad • BTech'28").replace(/"/g, '\\"');
+
+  const specsYaml = currentSpecs.map(s => `    - label: "${(s.label || '').replace(/"/g, '\\"')}"
+      value: "${(s.value || '').replace(/"/g, '\\"')}"
       link: "${(s.link || '').replace(/"/g, '\\"')}"`).join('\n');
 
   const affilsYaml = currentAffiliations.map(a => `    - "${a.replace(/"/g, '\\"')}"`).join('\n');
 
-  const yaml = `appearance:
+  const compYaml = currentCompetencies.map(c => `  - icon: "${(c.icon || '').replace(/"/g, '\\"')}"
+    title: "${(c.title || '').replace(/"/g, '\\"')}"
+    color: "${c.color || 'white'}"
+    skills:
+${(c.skills || []).map(sk => `      - "${sk.replace(/"/g, '\\"')}"`).join('\n')}`).join('\n');
+
+  const eduInst = (document.getElementById("edu-inst") ? document.getElementById("edu-inst").value : (currentEducation.institution || "Indian Institute of Technology Bombay")).replace(/"/g, '\\"');
+  const eduDeg = (document.getElementById("edu-degree") ? document.getElementById("edu-degree").value : (currentEducation.degree || "B.Tech in Mechanical Engineering • Class of 2028")).replace(/"/g, '\\"');
+  const eduMinor = (document.getElementById("edu-minor") ? document.getElementById("edu-minor").value : (currentEducation.minor || "Minor in Artificial Intelligence & Data Science • Centre for Machine Intelligence and Data Science (CMInDS)")).replace(/"/g, '\\"');
+  const coursework = currentEducation.coursework || [];
+  const cwYaml = coursework.map(cw => `    - "${cw.replace(/"/g, '\\"')}"`).join('\n');
+
+  const honorsYaml = currentHonors.map(h => `  - title: "${(h.title || '').replace(/"/g, '\\"')}"
+    detail: "${(h.detail || '').replace(/"/g, '\\"')}"
+    highlight: "${(h.highlight || '').replace(/"/g, '\\"')}"`).join('\n');
+
+  return `appearance:
   font_pair: "${font}"
   accent_theme: "${theme}"
   grid_style: "${grid}"
 
 hero:
-  eyebrow: "${document.getElementById("h-eyebrow").value.replace(/"/g, '\\"')}"
-  heading: "${document.getElementById("h-heading").value.replace(/"/g, '\\"')}"
-  lede: "${document.getElementById("h-lede").value.replace(/"/g, '\\"')}"
-  primary_btn_text: "${document.getElementById("h-btn-primary").value.replace(/"/g, '\\"')}"
-  secondary_btn_text: "${document.getElementById("h-btn-secondary").value.replace(/"/g, '\\"')}"
-  cv_btn_text: "${document.getElementById("h-btn-cv").value.replace(/"/g, '\\"')}"
+  eyebrow: "${eyebrow}"
+  heading: "${heading}"
+  lede: "${lede}"
+  primary_btn_text: "${btnPrimary}"
+  secondary_btn_text: "${btnSecondary}"
+  cv_btn_text: "${btnCv}"
 
 sections:
-  experience_eyebrow: "${document.getElementById("sec-exp-eye").value.replace(/"/g, '\\"')}"
-  experience_title: "${document.getElementById("sec-exp-title").value.replace(/"/g, '\\"')}"
-  projects_eyebrow: "${document.getElementById("sec-proj-eye").value.replace(/"/g, '\\"')}"
-  projects_title: "${document.getElementById("sec-proj-title").value.replace(/"/g, '\\"')}"
-  competencies_eyebrow: "${document.getElementById("sec-comp-eye").value.replace(/"/g, '\\"')}"
-  competencies_title: "${document.getElementById("sec-comp-title").value.replace(/"/g, '\\"')}"
-  scholastic_eyebrow: "${document.getElementById("sec-sch-eye").value.replace(/"/g, '\\"')}"
-  scholastic_title: "${document.getElementById("sec-sch-title").value.replace(/"/g, '\\"')}"
+  experience_eyebrow: "${expEye}"
+  experience_title: "${expTitle}"
+  projects_eyebrow: "${projEye}"
+  projects_title: "${projTitle}"
+  competencies_eyebrow: "${compEye}"
+  competencies_title: "${compTitle}"
+  scholastic_eyebrow: "${schEye}"
+  scholastic_title: "${schTitle}"
 
 profile:
-  role_short: "${document.getElementById("prof-role-short").value.replace(/"/g, '\\"')}"
+  role_short: "${roleShort}"
   specs:
 ${specsYaml}
   affiliations:
 ${affilsYaml}
-`;
 
-  commitFileToGitHub("data/site_content.yaml", yaml, "Update site appearance & content via Console");
+competencies:
+${compYaml}
+
+education:
+  institution: "${eduInst}"
+  degree: "${eduDeg}"
+  minor: "${eduMinor}"
+  coursework:
+${cwYaml}
+
+honors:
+${honorsYaml}
+`;
+}
+
+function deployAppearance() {
+  saveSiteContentCache();
+  commitFileToGitHub("data/site_content.yaml", generateSiteContentYaml(), "Update site appearance & content via Console");
 }
 
 // TAB 2: HEADINGS MANAGEMENT
 function deployHeadings() {
-  deployAppearance(); // Both sync to data/site_content.yaml seamlessly
+  saveSiteContentCache();
+  commitFileToGitHub("data/site_content.yaml", generateSiteContentYaml(), "Update site headings & hero via Console");
+}
+
+// TAB 4: COMPETENCIES MATRIX
+function renderDynamicCompetencies() {
+  const container = document.getElementById("dynamic-competencies-container");
+  if (!container) return;
+
+  container.innerHTML = currentCompetencies.map((c, dIdx) => `
+    <div class="metric-edit-card" id="comp-card-${dIdx}">
+      <div class="edit-card-title">
+        <span>DOMAIN #${dIdx + 1} // ${c.title || "COMPETENCY"}</span>
+        <button type="button" class="button button-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeCompetencyDomain(${dIdx})">
+          DELETE DOMAIN
+        </button>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>DOMAIN TITLE</label>
+          <input type="text" id="comp-title-${dIdx}" value="${c.title || ''}" oninput="syncCompetencyDomain(${dIdx})">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>ICON (&amp;lambda;, &amp;psi;, etc.)</label>
+          <input type="text" id="comp-icon-${dIdx}" value="${c.icon || ''}" oninput="syncCompetencyDomain(${dIdx})">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>COLOR</label>
+          <select id="comp-color-${dIdx}" onchange="syncCompetencyDomain(${dIdx})">
+            <option value="white" ${c.color === 'white' ? 'selected' : ''}>White</option>
+            <option value="green" ${c.color === 'green' ? 'selected' : ''}>Green</option>
+            <option value="amber" ${c.color === 'amber' ? 'selected' : ''}>Amber</option>
+          </select>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 0.75rem; margin-top: 0.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+          <label style="margin: 0; font-size: 0.75rem; color: var(--text-muted);">SKILLS LIST</label>
+          <button type="button" class="button button-secondary" onclick="addSkillToDomain(${dIdx})" style="padding: 0.2rem 0.5rem; font-size: 0.7rem;">
+            + ADD SKILL
+          </button>
+        </div>
+        <div id="skills-list-${dIdx}" style="display: flex; flex-direction: column; gap: 0.4rem;">
+          ${(c.skills || []).map((sk, sIdx) => `
+            <div style="display: flex; gap: 0.4rem; align-items: center;">
+              <input type="text" id="skill-val-${dIdx}-${sIdx}" value="${sk}" style="flex: 1; padding: 0.4rem 0.6rem; font-size: 0.8rem;" oninput="syncSkill(${dIdx}, ${sIdx})">
+              <button type="button" class="button button-outline" style="padding: 0.3rem 0.5rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeSkillFromDomain(${dIdx}, ${sIdx})">
+                &times;
+              </button>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function syncCompetencyDomain(dIdx) {
+  currentCompetencies[dIdx].title = document.getElementById(`comp-title-${dIdx}`).value.trim();
+  currentCompetencies[dIdx].icon = document.getElementById(`comp-icon-${dIdx}`).value.trim();
+  currentCompetencies[dIdx].color = document.getElementById(`comp-color-${dIdx}`).value;
+}
+
+function syncSkill(dIdx, sIdx) {
+  currentCompetencies[dIdx].skills[sIdx] = document.getElementById(`skill-val-${dIdx}-${sIdx}`).value.trim();
+}
+
+function addNewCompetencyDomain() {
+  currentCompetencies.push({
+    icon: "&theta;",
+    title: "New Competency Domain",
+    color: "white",
+    skills: ["First Skill Item", "Second Skill Item"]
+  });
+  renderDynamicCompetencies();
+  logTerm("info", `[COMPETENCIES] Added new domain. Total domains: ${currentCompetencies.length}.`);
+}
+
+function removeCompetencyDomain(dIdx) {
+  if (currentCompetencies.length <= 1) {
+    alert("You must keep at least 1 competency domain.");
+    return;
+  }
+  const removed = currentCompetencies.splice(dIdx, 1);
+  renderDynamicCompetencies();
+  logTerm("info", `[COMPETENCIES] Removed domain: ${removed[0].title}.`);
+}
+
+function addSkillToDomain(dIdx) {
+  if (!currentCompetencies[dIdx].skills) currentCompetencies[dIdx].skills = [];
+  currentCompetencies[dIdx].skills.push("New Skill");
+  renderDynamicCompetencies();
+}
+
+function removeSkillFromDomain(dIdx, sIdx) {
+  currentCompetencies[dIdx].skills.splice(sIdx, 1);
+  renderDynamicCompetencies();
+}
+
+function deployCompetencies() {
+  saveSiteContentCache();
+  commitFileToGitHub("data/site_content.yaml", generateSiteContentYaml(), "Update competencies matrix via Console");
+}
+
+// TAB 5: SCHOLASTIC & EDUCATION
+function renderDynamicCoursework() {
+  const container = document.getElementById("dynamic-coursework-container");
+  if (!container) return;
+  if (!currentEducation.coursework) currentEducation.coursework = [];
+
+  container.innerHTML = currentEducation.coursework.map((cw, idx) => `
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <input type="text" id="cw-val-${idx}" value="${cw}" style="flex: 1; padding: 0.45rem 0.65rem; font-size: 0.8rem;" oninput="syncCoursework(${idx})">
+      <button type="button" class="button button-outline" style="padding: 0.35rem 0.6rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeCoursework(${idx})">
+        &times;
+      </button>
+    </div>
+  `).join('');
+}
+
+function syncCoursework(idx) {
+  currentEducation.coursework[idx] = document.getElementById(`cw-val-${idx}`).value.trim();
+}
+
+function addNewCoursework() {
+  if (!currentEducation.coursework) currentEducation.coursework = [];
+  currentEducation.coursework.push("New Course / Subject");
+  renderDynamicCoursework();
+}
+
+function removeCoursework(idx) {
+  currentEducation.coursework.splice(idx, 1);
+  renderDynamicCoursework();
+}
+
+function renderDynamicHonors() {
+  const container = document.getElementById("dynamic-honors-container");
+  if (!container) return;
+
+  container.innerHTML = currentHonors.map((h, idx) => `
+    <div class="metric-edit-card" id="honor-card-${idx}" style="background: var(--bg-secondary);">
+      <div class="edit-card-title">
+        <span>HONOR #${idx + 1} // ${h.title || "HONOR"}</span>
+        <button type="button" class="button button-outline" style="padding: 0.2rem 0.5rem; font-size: 0.7rem; color: #f43f5e; border-color: rgba(244,63,94,0.3);" onclick="removeHonor(${idx})">
+          DELETE
+        </button>
+      </div>
+      <div class="form-group">
+        <label>TITLE</label>
+        <input type="text" id="honor-title-${idx}" value="${h.title || ''}" oninput="syncHonor(${idx})">
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="flex: 2;">
+          <label>DETAIL DESCRIPTION</label>
+          <input type="text" id="honor-detail-${idx}" value="${h.detail || ''}" oninput="syncHonor(${idx})">
+        </div>
+        <div class="form-group" style="flex: 1;">
+          <label>HIGHLIGHT (OPTIONAL)</label>
+          <input type="text" id="honor-hl-${idx}" value="${h.highlight || ''}" placeholder="e.g. Top 12 Globally" oninput="syncHonor(${idx})">
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function syncHonor(idx) {
+  currentHonors[idx] = {
+    title: document.getElementById(`honor-title-${idx}`).value.trim(),
+    detail: document.getElementById(`honor-detail-${idx}`).value.trim(),
+    highlight: document.getElementById(`honor-hl-${idx}`).value.trim()
+  };
+}
+
+function addNewHonor() {
+  currentHonors.push({
+    title: "New Scholastic Honor / Competition",
+    detail: "Description of the rank, achievement, and date",
+    highlight: ""
+  });
+  renderDynamicHonors();
+  logTerm("info", `[HONORS] Added new honor block. Total honors: ${currentHonors.length}.`);
+}
+
+function removeHonor(idx) {
+  if (currentHonors.length <= 1) {
+    alert("You must keep at least 1 honor item.");
+    return;
+  }
+  const removed = currentHonors.splice(idx, 1);
+  renderDynamicHonors();
+  logTerm("info", `[HONORS] Removed honor: ${removed[0].title}.`);
+}
+
+function deployScholastic() {
+  currentEducation.institution = document.getElementById("edu-inst").value.trim();
+  currentEducation.degree = document.getElementById("edu-degree").value.trim();
+  currentEducation.minor = document.getElementById("edu-minor").value.trim();
+
+  saveSiteContentCache();
+  commitFileToGitHub("data/site_content.yaml", generateSiteContentYaml(), "Update scholastic honors & education via Console");
 }
 
 // TAB 3: DYNAMIC SLIDES & METRICS
@@ -1626,6 +2062,7 @@ function updateMetricsPreview() {
 }
 
 function deployMetrics() {
+  localStorage.setItem("cached_metrics", JSON.stringify(currentSlides));
   let yaml = "items:\n";
   currentSlides.forEach(s => {
     yaml += `  - label: "${s.label.replace(/"/g, '\\"')}"\n`;

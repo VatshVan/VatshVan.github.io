@@ -26,7 +26,7 @@ organizations:
 # Academic Trajectory
 education:
   courses:
-    - course: "B.Tech in Mechanical Engineering (CPI 8.27)"
+    - course: "B.Tech in Mechanical Engineering"
       institution: "Indian Institute of Technology Bombay"
       year: 2028
     - course: "Minor in Artificial Intelligence & Data Science (CMInDS)"
@@ -43,10 +43,8 @@ education:
 achievements:
   - title: "Ranked 42 of 5.7K+ Globally (11th India)"
     detail: "WorldQuant BRAIN Power Pool Alpha Competition (Apr '25 – May '25)"
-  - title: "99.72 Percentile"
-    detail: "Joint Entrance Examination (JEE) Mains over 1.4 million candidates nationwide ('24)"
-  - title: "98.36 Percentile"
-    detail: "Joint Entrance Examination (JEE) Advanced over 180,000+ candidates ('24)"
+  - title: "Global IQC '25 Finalist"
+    detail: "Selected as 1 of 12 consultants globally to attend Singapore Finals ('25)"
   - title: "IISc Bangalore BS (Research) Selection"
     detail: "Secured admission among India's top applicants ('24)"
   - title: "Top 2.47% Gujarat CET"
