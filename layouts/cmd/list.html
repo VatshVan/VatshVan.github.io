@@ -601,6 +601,31 @@ SSRN Author Profile: https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10
 ORCID Record:        https://orcid.org/0009-0001-7236-8213
 Location:            Mumbai, India`
         },
+        "resume.txt": {
+          type: "file",
+          desc: "Curriculum vitae text summary",
+          content: `CURRICULUM VITAE // TEXT DOSSIER
+===============================================================================
+Vatsh Van • Indian Institute of Technology Bombay (IIT Bombay)
+B.Tech Mechanical Engineering '28 • Minor in AI & Data Science (CMInDS)
+
+1. ACADEMIC EXCELLENCE:
+   - Graduation (B.Tech): IIT Bombay (Pursuing, Class of 2028)
+   - Minor: Centre for Machine Intelligence and Data Science (CMInDS)
+   - Intermediate: GSHSEB (89.40%) • Matriculation: GSHSEB (89.00%)
+
+2. COMPETITIVE HONORS:
+   - WorldQuant BRAIN Power Pool Alpha: Ranked 42 of 5,700+ globally (11th in India)
+   - Global IQC '25 Finalist: Top 12 research consultants globally (Singapore Finals)
+   - IISc Bangalore BS (Research): Selected among top applicants in India ('24)
+   - Gujarat Common Entrance Test (GUJCET): Top 2.47% out of 48,000+ candidates
+
+3. RESEARCH & WORK EXPERIENCE:
+   - WorldQuant BRAIN: Master Consultant, 320+ alphas, out-of-sample IR: 2.39
+   - SeDriCa (UMIC): Controls & State Estimation Engineer, Team Manager (INR 4M+ budget)
+
+Download full PDF: https://github.com/VatshVan/vatshvan.github.io/raw/main/Technology_2_Pager.pdf`
+        },
         "resume.pdf": {
           type: "file",
           desc: "Downloadable 2-page curriculum vitae",
@@ -630,70 +655,309 @@ Direct Route:  /resume/`
   }
 }`
         },
+        "site_manifest.json": {
+          type: "file",
+          desc: "Portfolio architecture & technical manifest",
+          content: `{
+  "site_name": "Vatsh Van Portfolio",
+  "engine": "Hugo v0.125.4 Extended + Custom Blox",
+  "theme_modes": ["pitch_black", "white"],
+  "math_engine": "KaTeX v0.16.11 (LaTeX)",
+  "sections": {
+    "projects": 11,
+    "experience": 3,
+    "research": 4,
+    "scholastic": 3,
+    "competencies": 4
+  },
+  "security": "Strictly Read-Only Client-Side Sandbox Jailed to '.'"
+}`
+        },
         "projects": {
           type: "dir",
-          desc: "Technical engineering & algorithmic projects",
+          desc: "All 11 technical engineering & algorithmic projects",
           files: {
             "regime-portfolio-optimization.txt": {
               type: "file",
               content: `REGIME-AWARE PORTFOLIO OPTIMIZATION
-Domain: Quantitative Finance • HMMs • Convex Optimization
-- Integrated Gaussian HMMs, Random Forest meta-models, and convex allocation across 503 equities.
-- CUSUM sampling & Triple Barrier labeling filtering microstructural noise with 5-day horizon and 1.5x dynamic ATR.
-- Purged 5-fold CV with 1% embargoes eliminating temporal lookahead leakage.`
+===============================================================================
+Venue:  Summer of Quant, Quant Club | IIT Bombay
+Date:   Jun 2026 – Jul 2026
+Tags:   Quantitative Finance, Hidden Markov Models, Convex Optimization, CUSUM
+
+- Integrated Gaussian Hidden Markov Models (HMMs), Random Forest meta-models, and convex allocation across 503 equities (2018–2024).
+- Engineered CUSUM sampling & Triple Barrier Method filtering microstructural noise with 5-day horizon and 1.5x dynamic ATR thresholds.
+- Implemented Purged 5-Fold Cross-Validation with 1% embargo periods preventing lookahead information leakage.
+- Transitioned dynamically between Maximum Sharpe (bullish) and Hierarchical Risk Parity (high-volatility).`
             },
             "spatial-hyper-mpc.txt": {
               type: "file",
               content: `SPATIAL HYPER-MPC WITH NEURAL POLICY DISTILLATION
-Domain: Autonomous Controls • Model Predictive Control • OSQP
+===============================================================================
+Venue:  ME444 Course Project | Guide: Prof. Seshu Pasumarthy, IIT Bombay
+Date:   Mar 2026 – Apr 2026
+Tags:   Autonomous Controls, Model Predictive Control, Neural Policy, OSQP
+
 - Hybrid Neural-MPC controller for 6-DOF active suspension using OSQP and Joint EKF.
-- Distilled 40-step online MPC into a 4,736-parameter MLP with 20,000 expert trajectories, cutting peak angular velocity by 3x at 100+ Hz.`
+- Formulated a 40-step horizon quadratic program with dynamic state constraints.
+- Distilled the online MPC solver into a 4,736-parameter MLP with 20,000 expert trajectories, cutting peak angular velocity by 3x at 100+ Hz.`
             },
             "quant-alley.txt": {
               type: "file",
-              content: `CHICAGO QUANT ALLEY: OPTIONS & FUTURES SIMULATOR
-Domain: Quantitative Finance • Derivatives • Multi-Armed Bandits
-- Mid-frequency Bitcoin options/futures trading simulator with slippage modeling and async CCXT execution.
-- Dynamic strike selection & trade lifecycle management with automated PnL, turnover, and Greek exposures.`
+              content: `CHICAGO QUANT ALLEY: CRYPTO STRATEGY SIMULATOR
+===============================================================================
+Venue:  Seasons of Code, WnCC | IIT Bombay
+Date:   May 2025 – Jul 2025
+Tags:   Options Trading, CCXT, Multi-Armed Bandits, Risk Management
+
+- Mid-frequency Bitcoin options and futures trading simulator with slippage modeling and async CCXT execution.
+- Multi-Armed Bandit (UCB / Thompson Sampling) parameter tuning optimizing delta hedging frequencies and dynamic strike selection.
+- Trade lifecycle management with automated PnL, turnover, slippage, and Greek exposures.`
             },
             "inverse-elasticity-pinn.txt": {
               type: "file",
               content: `INVERSE ELASTICITY PHYSICS-INFORMED NEURAL NETWORK
-Domain: Machine Learning • Scientific ML • Cauchy Momentum
-- Direct Hybrid Collocation PINN estimating Young's modulus fields across additive manufacturing lattice specimens.
-- Enforced 2D Cauchy Momentum PDEs with Sobol quasi-random collocation sampling.`
+===============================================================================
+Venue:  ME218 Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay
+Date:   Mar 2026 – Apr 2026
+Tags:   Machine Learning, PINNs, Inverse Elasticity, Sobol Points, Cauchy Momentum
+
+- Direct Hybrid Collocation PINN estimating Young's modulus fields across 3 Additive Manufacturing lattice specimens.
+- Unified 8 DIC anchors with 10,000+ Sobol collocation points, strictly enforcing 2D Cauchy Momentum PDE equilibrium constraints.
+- Solved the ill-posed inverse elasticity problem via a 7-objective composite loss reconstructing displacement, stress, strain, and modulus fields.`
             },
             "cosmic-detective.txt": {
               type: "file",
               content: `THE COSMIC DETECTIVE: MULTI-AGENT ASTRONOMICAL AI
-Domain: Multi-Agent Systems • Neo4j • Knowledge Graphs
-- Multi-agent autonomous system combining Gemini models, Neo4j knowledge graphs, and Swift FITS astronomical parsing for transient event detection.`
+===============================================================================
+Venue:  Krittika Summer Projects, Krittika Astronomy Club | IIT Bombay
+Date:   May 2026 – Present
+Tags:   Multi-Agent AI, Knowledge Graphs, Neo4j, Gemini Pro, FITS Parsing
+
+- Created a multi-agent AI system for autonomous sky exploration, transient detection, and hypothesis generation in a 7-member team.
+- Built an astronomy benchmark pipeline integrating Google Gemini with academic literature retrieval and fault-tolerant orchestration.
+- Constructed a semantic Neo4j knowledge graph using transformer claim de-duplication with 95% similarity threshold.
+- Engineered a high-throughput Swift FITS pipeline extracting temporal, spectral, and physical features from observations.`
             },
             "super-resolution.txt": {
               type: "file",
               content: `SINGLE IMAGE SUPER RESOLUTION (EDSR)
-Domain: Deep Learning • Computer Vision • PyTorch AMP
-- Enhanced Deep Residual Network with 32 residual blocks and PyTorch AMP.
-- Achieved 34.84 dB PSNR on DIV2K and 37.47 dB PSNR on Sen2Venus satellite imagery.`
+===============================================================================
+Venue:  ME228 Course Project | Guide: Prof. Neeraj Kumbhakarna, IIT Bombay
+Date:   Mar 2026 – Apr 2026
+Tags:   Deep Learning, Computer Vision, EDSR, PyTorch AMP, Satellite Imagery
+
+- Enhanced Deep Residual Network with 32 residual blocks and 256 feature channels.
+- Accelerated training throughput via mixed-precision (FP16/FP32) with PyTorch AMP across 290k iterations.
+- Achieved 34.84 dB PSNR on DIV2K and 37.47 dB PSNR benchmarking SRCNN on Sen2Venus satellite imagery.`
+            },
+            "spatial-anc.txt": {
+              type: "file",
+              content: `SPATIAL ACTIVE NOISE CONTROL (ANC)
+===============================================================================
+Venue:  ME791 Course Project | Guide: Prof. Sripriya Ramamoorthy, IIT Bombay
+Date:   Mar 2026 – May 2026
+Tags:   Signal Processing, Adaptive Filters, FxLMS, ObsTasNet, Virtual Sensing
+
+- Designed and simulated a multi-zone spatial Active Noise Control system utilizing multichannel Filtered-X LMS algorithms.
+- Built a virtual sensing framework using signals from 4 remote microphones for zone pressure reconstruction.
+- Trained an ObsTasNet observation-filter on 400 simulated acoustic scenes (12.6x faster than kernel methods).`
+            },
+            "wildlife-hotspot-detector.txt": {
+              type: "file",
+              content: `WILDLIFE HOTSPOT DETECTOR
+===============================================================================
+Venue:  Edge AI & Computer Vision Initiative
+Date:   Nov 2025
+Tags:   Edge AI, Computer Vision, YOLO, Thermal Imaging, Conflict Mitigation
+
+- Low-power edge AI detection system fusing thermal and visible imagery for real-time human-wildlife conflict mitigation.
+- Optimized lightweight YOLO models for low-power edge compute boards (Jetson / RPi).`
+            },
+            "derivatives-math.txt": {
+              type: "file",
+              content: `MATHEMATICS OF DERIVATIVE PRICING: THEORY & IMPLEMENTATION
+===============================================================================
+Venue:  Summer of Science, Maths & Physics Club | IIT Bombay
+Date:   May 2025 – Jul 2025
+Tags:   Quantitative Finance, Stochastic Calculus, Black-Scholes, Martingales
+
+- Implemented the Black-Scholes model for European options using stochastic processes and risk-neutral valuation in Python.
+- Analytical derivations and numerical finite-difference schemes for European, American, and Asian option pricing.
+- Evaluated Greeks sensitivities (Delta, Gamma, Vega, Theta, Rho) and explored martingale representations.`
+            },
+            "ssmphony.txt": {
+              type: "file",
+              content: `SSMPHONY: SUB-QUADRATIC GENERATIVE AUDIO SYNTHESIS
+===============================================================================
+Venue:  Generative AI Research
+Date:   Apr 2026
+Tags:   Generative AI, State Space Models, Mamba, S4, Audio Waveforms
+
+- Sub-quadratic generative audio synthesis utilizing Structured State Space (S4 / Mamba) layers for long-range audio waveforms.
+- Replaced quadratic attention mechanisms with discretized state space representations for ultra-long acoustic sequence generation.`
+            },
+            "interest-rate-hikes.txt": {
+              type: "file",
+              content: `EFFECTS OF INTEREST RATE HIKES (VASICEK TERM STRUCTURE)
+===============================================================================
+Venue:  Quantitative Macro & Term Structure Study
+Date:   Jul 2025
+Tags:   Financial Engineering, Vasicek Model, Mean Reversion, Yield Curves
+
+- Modeled short-rate trajectories and yield curve dynamics under the Vasicek mean-reverting stochastic framework.
+- Evaluated bond pricing sensitivities, convexity, and duration shifts under aggressive central bank rate hike scenarios.`
+            }
+          }
+        },
+        "experience": {
+          type: "dir",
+          desc: "Professional research engagements & leadership roles",
+          files: {
+            "worldquant.txt": {
+              type: "file",
+              content: `WORLDQUANT BRAIN // QUANTITATIVE ALPHA RESEARCH CONSULTANT
+===============================================================================
+Role:     Research Consultant (Master Consultant • Top 10% Globally)
+Period:   Feb 2025 – Present (Remote)
+Venue:    WorldQuant BRAIN Quantitative Platform
+
+Key Achievements:
+- Selected as 1 of 12 global consultants (Rising Stars cohort) to attend Global IQC'25 Finals in Singapore.
+- Ranked 42 of 5,700+ globally (11th in India) in the WorldQuant BRAIN Power Pool Alpha Competition.
+- Engineered diversified alpha portfolio yielding an after-cost out-of-sample Information Ratio (IR) of 2.39.
+- Submitted 320+ orthogonal alphas with average self-correlation <= 0.25 and out-of-sample fitness up to 6.47.
+- Engineered 90+ composite alpha strategies combining orthogonal equity signals.
+- Built an automated research pipeline using LLM-driven iterative refinement for systematic signal generation.`
+            },
+            "sedrica.txt": {
+              type: "file",
+              content: `SEDRICA (UMIC) // CONTROLS & STATE ESTIMATION ENGINEER & TEAM MANAGER
+===============================================================================
+Role:     Controls & State Estimation Engineer • Team Manager
+Period:   Sep 2025 – Present | IIT Bombay
+Venue:    Unmesh Mashruwala Innovation Cell (UMIC), IIT Bombay
+
+Key Achievements:
+- Developing India's first Level 5 autonomous car in a 30+ engineer cross-functional team.
+- Engineering a LibTorch-Acados C++ runtime deploying learned-dynamics HyperMPC at 100 Hz on an F1TENTH racecar.
+- Developing a GRU-based Hyper-Param network with B-spline control encoding to learn horizon-varying tire & kinematic parameters.
+- Building an autonomous localization stack using high-precision RTK GNSS.
+- Developing a Joint Extended Kalman Filter (EKF) fusing RTK GNSS and IMU measurements to estimate 6-DOF pose, linear velocity, and heading.
+- Managing an annual operating budget of INR 4+ Million as Team Manager; spearheaded recruitment for 100+ aspirants.`
+            },
+            "leadership-mentorship.txt": {
+              type: "file",
+              content: `POSITIONS OF RESPONSIBILITY & MENTORSHIP
+===============================================================================
+1. Team Manager | SeDriCa UMIC (Apr 2026 – Present)
+   - Managing INR 4+ Million operating budget and cross-subsystem execution for Level 5 autonomous vehicle development.
+2. Student Mentor | Summer of Science, Maths & Physics Club (May 2026 – Jul 2026)
+   - Guided 9 students through mathematical foundations of Algorithmic Trading and Derivative Pricing.
+3. Project Mentor | Build the Algorithmic Black Box, Analytics Club (Dec 2025 – Jan 2026)
+   - Mentored 20+ students in building algo-trading protocols and validating quantitative execution runtimes.`
             }
           }
         },
         "research": {
           type: "dir",
-          desc: "Academic publications & research pre-prints",
+          desc: "Academic publications, SSRN pre-prints & monographs",
           files: {
             "derivative-pricing.txt": {
               type: "file",
               content: `MATHEMATICS OF DERIVATIVE PRICING: THEORY AND IMPLEMENTATION
-Venue: SSRN Electronic Journal (Pre-Print ID: 6439720) & IIT Bombay
-- Rigorous derivations and finite-difference schemes for Black-Scholes PDEs, Feynman-Kac theorems, and risk-neutral pricing.
-- Greeks sensitivity analysis and Monte Carlo martingale pricing simulations.`
+===============================================================================
+Venue:       SSRN Electronic Journal (Pre-Print ID: 6439720) & IIT Bombay
+Date:        Jul 2025
+Author ID:   SSRN: 10485196 | ORCID: 0009-0001-7236-8213
+Paper Link:  https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6439720
+
+Abstract:
+  Rigorous derivations and numerical schemes for Black-Scholes PDEs, Feynman-Kac
+  theorems, and risk-neutral pricing. Evaluates Greeks sensitivities (Delta, Gamma,
+  Vega, Theta, Rho) and finite-difference solvers for European and American options.`
             },
             "stochastic-calculus.txt": {
               type: "file",
-              content: `STOCHASTIC PROCESSES & TERM STRUCTURE MODELING
-Venue: Independent Quantitative Research
-- Analytical explorations of Ito's Lemma, Vasicek interest rate term structures, and mean-reverting Ornstein-Uhlenbeck processes.`
+              content: `STOCHASTIC CALCULUS & MARTINGALE PRICING
+===============================================================================
+Topics: Brownian Motion, Ito's Lemma, Girsanov Theorem, Martingale Valuation
+
+Mathematical Highlights:
+- Geometric Brownian Motion: dS_t = mu*S_t*dt + sigma*S_t*dW_t
+- Ito's Formula: df(t, S_t) = (df/dt + mu*S_t*df/dS + 0.5*sigma^2*S_t^2*d2f/dS2)dt + sigma*S_t*(df/dS)dW_t
+- Risk-Neutral Pricing: V_0 = E^Q [ exp(-r*T) * payoff(S_T) ]`
+            },
+            "ssrn-profile.txt": {
+              type: "file",
+              content: `SSRN SCHOLARLY AUTHOR PROFILE
+===============================================================================
+Author:     Vatsh Van
+Author ID:  10485196
+Profile:    https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=10485196
+Affil:      Indian Institute of Technology Bombay (IIT Bombay)`
+            },
+            "orcid-record.txt": {
+              type: "file",
+              content: `ORCID RESEARCHER IDENTIFIER
+===============================================================================
+Record:   https://orcid.org/0009-0001-7236-8213
+ID:       0009-0001-7236-8213
+Name:     Vatsh Van
+Affil:    IIT Bombay`
+            }
+          }
+        },
+        "scholastic": {
+          type: "dir",
+          desc: "Academic trajectory, coursework & competitive honors",
+          files: {
+            "education.txt": {
+              type: "file",
+              content: `ACADEMIC DEGREE PROFILE
+===============================================================================
+Institution: Indian Institute of Technology Bombay (IIT Bombay)
+Degree:      B.Tech in Mechanical Engineering • Class of 2028
+Minor:       Minor in Artificial Intelligence & Data Science
+Department:  Centre for Machine Intelligence and Data Science (CMInDS)
+Roll Number: 24B2259`
+            },
+            "coursework.txt": {
+              type: "file",
+              content: `KEY ACADEMIC COURSEWORK
+===============================================================================
+Data Science & AI:
+- Statistical ML and Data Mining
+- Applied Data Science & Machine Learning
+- Programming in Data Science
+
+Mathematics & Statistics:
+- Calculus
+- Linear Algebra and Differential Equations
+- Numerical Analysis
+
+Engineering & Controls:
+- Control Systems
+- Mechanical Systems Dynamics
+- Acoustic Devices & Spatial Sensing
+
+Finance & Economics:
+- Introduction to Financial Engineering
+- Economics & Market Microstructure
+- Social Learning and Herding Dynamics`
+            },
+            "competitive-honors.txt": {
+              type: "file",
+              content: `COMPETITIVE SCHOLASTIC HONORS
+===============================================================================
+1. WorldQuant BRAIN Power Pool Alpha Competition:
+   Ranked 42 of 5,700+ globally (11th in India) [Apr 2025 – May 2025].
+2. Global IQC '25 Finalist:
+   Selected as 1 of 12 consultants globally to attend Singapore Finals [2025].
+3. IISc Bangalore BS (Research) Selection:
+   Secured admission to the prestigious BS (Research) program among India's top applicants ('24).
+4. Gujarat Common Entrance Test (GUJCET):
+   Ranked in top 2.47% over a pool of 48,000+ candidates ('24).`
             }
           }
         },
@@ -790,7 +1054,7 @@ STATUS: ELEVATED SESSION ACTIVE`
   let isPasswordPrompt = false;
   let passwordCallback = null;
   let isElevated = false;
-  let activeDir = "."; // Rigidly locked to '.'
+  let currentDir = ""; // "" = root (.), otherwise folder name (e.g. "projects")
 
   // DOM Elements
   const termScreen = document.getElementById("term-screen");
@@ -1073,6 +1337,134 @@ STATUS: ELEVATED SESSION ACTIVE`
         runMatrixEffect();
         break;
 
+      // ==========================================
+      // NERDY WEBSITE EXPLORATION TOOLS
+      // ==========================================
+      case "tree":
+        renderTree();
+        break;
+
+      case "grep":
+        handleGrepCommand(args);
+        break;
+
+      case "stat":
+        handleStatCommand(args[0]);
+        break;
+
+      case "wc":
+        handleWcCommand(args[0]);
+        break;
+
+      case "head":
+        handleHeadCommand(args);
+        break;
+
+      case "tail":
+        handleTailCommand(args);
+        break;
+
+      case "site":
+        handleSiteCommand();
+        break;
+
+      case "projects":
+      case "proj":
+        handleProjectsShortcut();
+        break;
+
+      case "experience":
+      case "exp":
+        handleExperienceShortcut();
+        break;
+
+      case "research":
+      case "papers":
+      case "pubs":
+        handleResearchShortcut();
+        break;
+
+      case "scholastic":
+      case "edu":
+        handleScholasticShortcut();
+        break;
+
+      case "skills":
+      case "competencies":
+        handleSkillsShortcut();
+        break;
+
+      case "resume":
+      case "cv":
+        handleResumeShortcut();
+        break;
+
+      case "metrics":
+      case "stats":
+        handleMetricsShortcut();
+        break;
+
+      // ==========================================
+      // GAMES & SIMULATIONS
+      // ==========================================
+      case "snake":
+        startSnakeGame();
+        break;
+
+      case "trade":
+      case "quant":
+        handleTradeCommand(args);
+        break;
+
+      case "guess":
+        handleGuessCommand(args[0]);
+        break;
+
+      case "trivia":
+        handleTriviaCommand(args[0]);
+        break;
+
+      // ==========================================
+      // VIRTUAL BROWSER & NETWORK PLAYGROUND
+      // ==========================================
+      case "browse":
+      case "web":
+        handleBrowseCommand(args);
+        break;
+
+      case "browser":
+        handleBrowserConfig(args);
+        break;
+
+      case "curl":
+        handleCurlCommand(args[0]);
+        break;
+
+      case "ping":
+        handlePingCommand(args[0]);
+        break;
+
+      case "dns":
+      case "nslookup":
+        handleDnsCommand(args[0]);
+        break;
+
+      case "netstat":
+        handleNetstatCommand();
+        break;
+
+      // ==========================================
+      // EXTRAS & UTILITIES
+      // ==========================================
+      case "fortune":
+      case "quote":
+        renderRandomQuote();
+        break;
+
+      case "cowsay":
+        renderCowsay(fullArgStr || "The quantitative sandbox is strictly read-only!");
+        break;
+
       default:
         printLine("stderr", `Command not recognized: '${cmd}'. Type 'help' for permitted commands.`);
         break;
@@ -1082,27 +1474,58 @@ STATUS: ELEVATED SESSION ACTIVE`
   // Help Manual
   function renderHelp() {
     const helpText = `
-SECURE SANDBOX COMMAND MANUAL
+SECURE SANDBOX COMMAND MANUAL // NERDY WEBSITE EXPLORER
 ========================================================================================
-NAVIGATION & INSPECTION:
-  <span class="cmd-clickable" onclick="executeFromSuggestion('ls')">ls</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('dir')">dir</span> [dir]       List files in current jailed directory (.)
+NERDY WEBSITE EXPLORATION:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('tree')">tree</span>                Render full ASCII directory tree of the whole portfolio
+  <span class="cmd-clickable" onclick="executeFromSuggestion('ls')">ls</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('dir')">dir</span> [dir]       List files in current directory (.)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('cd projects')">cd</span> &lt;dir&gt;             Navigate into subdirectories (e.g. cd projects, cd ..)
   <span class="cmd-clickable" onclick="executeFromSuggestion('pwd')">pwd</span>                 Display current working directory (locked to .)
-  <span class="cmd-clickable" onclick="executeFromSuggestion('cd projects')">cd</span> &lt;dir&gt;             Navigate allowed child directories (root traversal blocked)
-  <span class="cmd-clickable" onclick="executeFromSuggestion('cat overview.txt')">cat</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('cat contact.txt')">type</span> &lt;file&gt;     Read contents of allowed virtual files
+  <span class="cmd-clickable" onclick="executeFromSuggestion('cat overview.txt')">cat</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('type overview.txt')">type</span> &lt;file&gt;     Read contents of any portfolio file
+  <span class="cmd-clickable" onclick="executeFromSuggestion('grep HyperMPC')">grep</span> &lt;pattern&gt;        Search text across all files on the site
+  <span class="cmd-clickable" onclick="executeFromSuggestion('stat overview.txt')">stat</span> &lt;file&gt;           Display Unix-style file metadata, inode, & SHA-256 hash
+  <span class="cmd-clickable" onclick="executeFromSuggestion('wc overview.txt')">wc</span> &lt;file&gt;             Display line, word, and character counts
+  <span class="cmd-clickable" onclick="executeFromSuggestion('head -n 5 overview.txt')">head</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('tail -n 5 overview.txt')">tail</span> &lt;file&gt;    View first or last lines of a file
+  <span class="cmd-clickable" onclick="executeFromSuggestion('site')">site</span>                Display portfolio architecture & technical manifest
   <span class="cmd-clickable" onclick="executeFromSuggestion('whoami')">whoami</span>              Display session credentials and permissions
+
+QUICK DOSSIER SHORTCUTS:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('projects')">projects</span>            List all 11 technical projects with quick view links
+  <span class="cmd-clickable" onclick="executeFromSuggestion('experience')">experience</span>          View WorldQuant BRAIN, SeDriCa, and leadership roles
+  <span class="cmd-clickable" onclick="executeFromSuggestion('research')">research</span>            View SSRN pre-prints, publications, and citations
+  <span class="cmd-clickable" onclick="executeFromSuggestion('scholastic')">scholastic</span>          View IIT Bombay degree, coursework, and competitive honors
+  <span class="cmd-clickable" onclick="executeFromSuggestion('skills')">skills</span>              Display full Technical Competencies Matrix
+  <span class="cmd-clickable" onclick="executeFromSuggestion('metrics')">metrics</span>             Display live verified quantitative performance metrics
+  <span class="cmd-clickable" onclick="executeFromSuggestion('resume')">resume</span>              Curriculum vitae overview and PDF download link
+
+GAMES & SIMULATIONS (READ-ONLY IN-MEMORY):
+  <span class="cmd-clickable" onclick="executeFromSuggestion('snake')">snake</span>               Play interactive ASCII Snake game (W/A/S/D or Arrows)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('trade')">trade</span> [buy|sell|chart] Quantitative trading simulator & portfolio manager
+  <span class="cmd-clickable" onclick="executeFromSuggestion('guess')">guess</span> [number]      Number guessing challenge (1-100)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('trivia')">trivia</span> [A|B|C|D]    Quantitative finance, math & CS trivia quiz
+
+VIRTUAL BROWSER & NETWORK PLAYGROUND:
+  <span class="cmd-clickable" onclick="executeFromSuggestion('browse home')">browse</span> &lt;page&gt;        Simulated terminal web browser (home, projects, arxiv, hn, wiki)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('browser')">browser</span> [set...]    Inspect & configure virtual browser (User-Agent, Viewport, Speed)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('curl https://api.quant.org/v1/ticker')">curl</span> &lt;url&gt;          Simulated HTTP client with headers & JSON responses
+  <span class="cmd-clickable" onclick="executeFromSuggestion('ping google.com')">ping</span> &lt;host&gt;          Simulated ICMP latency ping with jitter statistics
+  <span class="cmd-clickable" onclick="executeFromSuggestion('dns iitb.ac.in')">dns</span> &lt;domain&gt;         Simulated DNS resolver query (A, AAAA, MX, TXT)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('netstat')">netstat</span>             Display active virtual socket connections
 
 ISOLATED CODE & CALCULATION RUNTIME:
   <span class="cmd-clickable" onclick="executeFromSuggestion('calc Math.sqrt(256) * Math.PI')">calc</span> &lt;expression&gt;   Evaluate mathematical and financial expressions safely
   <span class="cmd-clickable" onclick="executeFromSuggestion('js [1,2,3,4].map(x => x**2)')">js</span> &lt;code&gt;            Execute JavaScript in an isolated, null-origin sandbox
   <span class="cmd-clickable" onclick="executeFromSuggestion('auth')">auth</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('unlock')">unlock</span>       Enter passphrase to unlock restricted storage (.sys, vault)
 
-TERMINAL ENVIRONMENT & UTILITIES:
+TERMINAL UTILITIES & EXTRAS:
   <span class="cmd-clickable" onclick="executeFromSuggestion('theme matrix')">theme</span> &lt;name&gt;        Switch palette (pitch_black, matrix, amber, stark_white)
   <span class="cmd-clickable" onclick="executeFromSuggestion('mode cmd')">mode</span> &lt;cmd|bash|ps&gt;   Switch shell prompt flavor (CMD, BASH, POWERSHELL)
+  <span class="cmd-clickable" onclick="executeFromSuggestion('fortune')">fortune</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('quote')">quote</span>     Inspirational quant, math & science quote
+  <span class="cmd-clickable" onclick="executeFromSuggestion('cowsay Hello Sandbox!')">cowsay</span> &lt;text&gt;        ASCII cow says message
+  <span class="cmd-clickable" onclick="executeFromSuggestion('matrix')">matrix</span>              Run digital rain stream
   <span class="cmd-clickable" onclick="executeFromSuggestion('clear')">clear</span> / <span class="cmd-clickable" onclick="executeFromSuggestion('cls')">cls</span>           Clear screen buffer
   <span class="cmd-clickable" onclick="executeFromSuggestion('date')">date</span>                Show current UTC and IST time
   <span class="cmd-clickable" onclick="executeFromSuggestion('history')">history</span>             Display recent command history
-  <span class="cmd-clickable" onclick="executeFromSuggestion('matrix')">matrix</span>              Run digital rain stream
   <span class="cmd-clickable" onclick="executeFromSuggestion('exit')">exit</span>                Reset jailed sandbox session
 ========================================================================================`;
     printLine("stdout", helpText, true);
@@ -1110,8 +1533,6 @@ TERMINAL ENVIRONMENT & UTILITIES:
 
   // Strict List Directory Handler
   function handleListDir(target) {
-    // Rigid requirement: Directory path is truncated as '.' and never released
-    let dirKey = ".";
     if (target) {
       const cleanTarget = target.trim().replace(/^\.\//, "").replace(/\/$/, "");
       if (cleanTarget === ".." || cleanTarget.startsWith("/") || cleanTarget.startsWith("\\")) {
@@ -1119,13 +1540,20 @@ TERMINAL ENVIRONMENT & UTILITIES:
         return;
       }
       if (cleanTarget === "." || cleanTarget === "") {
-        dirKey = ".";
-      } else if (VFS["."].files[cleanTarget] && VFS["."].files[cleanTarget].type === "dir") {
-        if (VFS["."].files[cleanTarget].protected && !isElevated) {
+        const dirObj = currentDir ? VFS["."].files[currentDir].files : VFS["."].files;
+        renderDirListing(dirObj);
+        return;
+      }
+      const targetObj = (currentDir && VFS["."].files[currentDir].files[cleanTarget]) 
+        ? VFS["."].files[currentDir].files[cleanTarget] 
+        : VFS["."].files[cleanTarget];
+
+      if (targetObj && targetObj.type === "dir") {
+        if (targetObj.protected && !isElevated) {
           printLine("stderr", `ACCESS DENIED: Directory '${cleanTarget}' is strictly password-protected.\nType 'auth' to unlock.`);
           return;
         }
-        renderDirListing(cleanTarget, VFS["."].files[cleanTarget].files);
+        renderDirListing(targetObj.files);
         return;
       } else {
         printLine("stderr", `Directory not found: '${target}'`);
@@ -1133,10 +1561,12 @@ TERMINAL ENVIRONMENT & UTILITIES:
       }
     }
 
-    renderDirListing(".", VFS["."].files);
+    // No target -> list current directory
+    const dirObj = currentDir ? VFS["."].files[currentDir].files : VFS["."].files;
+    renderDirListing(dirObj);
   }
 
-  function renderDirListing(dirName, fileObj) {
+  function renderDirListing(fileObj) {
     let gridHtml = '<div class="term-grid">';
     for (const [name, meta] of Object.entries(fileObj)) {
       const isDir = meta.type === "dir";
@@ -1168,21 +1598,36 @@ TERMINAL ENVIRONMENT & UTILITIES:
     const clean = target.trim().replace(/\/$/, "");
 
     // Anti-traversal check
-    if (clean === ".." || clean.startsWith("..") || clean.startsWith("/") || clean.startsWith("\\") || clean === "~") {
+    if (clean === ".." || clean === "../") {
+      if (currentDir !== "") {
+        currentDir = "";
+        printLine("dim", "[CD] Context returned to .");
+        return;
+      } else {
+        printLine("stderr", "PERMISSION DENIED: Jail boundary violation. Root traversal prohibited.");
+        return;
+      }
+    }
+
+    if (clean.startsWith("..") || clean.startsWith("/") || clean.startsWith("\\") || clean === "~") {
       printLine("stderr", "PERMISSION DENIED: Jail boundary violation. Root traversal prohibited.");
       return;
     }
 
     const simpleName = clean.replace(/^\.\//, "");
-    if (VFS["."].files[simpleName] && VFS["."].files[simpleName].type === "dir") {
-      if (VFS["."].files[simpleName].protected && !isElevated) {
-        printLine("stderr", `ACCESS DENIED: Directory '${simpleName}' is strictly password-protected.\nType 'auth' to unlock.`);
-        return;
+    if (currentDir === "") {
+      if (VFS["."].files[simpleName] && VFS["."].files[simpleName].type === "dir") {
+        if (VFS["."].files[simpleName].protected && !isElevated) {
+          printLine("stderr", `ACCESS DENIED: Directory '${simpleName}' is strictly password-protected.\nType 'auth' to unlock.`);
+          return;
+        }
+        currentDir = simpleName;
+        printLine("dim", `[CD] Context switched to . (sub-scope active)`);
+      } else {
+        printLine("stderr", `Directory not found: '${target}'`);
       }
-      // Rigid requirement: Directory is truncated as '.' and never released
-      printLine("dim", `[CD] Active scope: ./`);
     } else {
-      printLine("stderr", `Directory not found or inaccessible: '${target}'`);
+      printLine("stderr", `Directory not found or cannot nest beyond current jail scope.`);
     }
   }
 
@@ -1201,13 +1646,22 @@ TERMINAL ENVIRONMENT & UTILITIES:
       return;
     }
 
-    // Direct file in .
+    // Check in active sub-scope
+    if (currentDir !== "") {
+      const subFiles = VFS["."].files[currentDir].files;
+      if (subFiles[clean] && subFiles[clean].type === "file") {
+        printLine("stdout", subFiles[clean].content);
+        return;
+      }
+    }
+
+    // Direct file in root
     if (VFS["."].files[clean] && VFS["."].files[clean].type === "file") {
       printLine("stdout", VFS["."].files[clean].content);
       return;
     }
 
-    // Subdirectory search
+    // Subdirectory search from root (e.g. cat projects/regime-portfolio-optimization.txt)
     const slashIdx = clean.indexOf("/");
     if (slashIdx !== -1) {
       const parentDir = clean.substring(0, slashIdx);
@@ -1234,6 +1688,274 @@ TERMINAL ENVIRONMENT & UTILITIES:
     }
 
     printLine("stderr", `File not found: '${target}'`);
+  }
+
+  // Nerdy Tree Generator
+  function renderTree() {
+    let out = ".\n";
+    const entries = Object.entries(VFS["."].files);
+    entries.forEach(([name, meta], idx) => {
+      const isLast = idx === entries.length - 1;
+      const branch = isLast ? "└── " : "├── ";
+      const prefix = isLast ? "    " : "│   ";
+
+      if (meta.type === "dir") {
+        out += `${branch}${name}/\n`;
+        if (meta.files) {
+          const subEntries = Object.entries(meta.files);
+          subEntries.forEach(([sName, sMeta], sIdx) => {
+            const sLast = sIdx === subEntries.length - 1;
+            const sBranch = sLast ? "└── " : "├── ";
+            out += `${prefix}${sBranch}${sName}\n`;
+          });
+        }
+      } else {
+        out += `${branch}${name}\n`;
+      }
+    });
+    printLine("stdout", out);
+  }
+
+  // Nerdy Grep Search
+  function handleGrepCommand(args) {
+    if (!args || args.length === 0) {
+      printLine("stderr", "Usage: grep <pattern>\nExample: grep HyperMPC\nExample: grep Black-Scholes");
+      return;
+    }
+    const pattern = args.join(" ").toLowerCase();
+    let matches = [];
+
+    // Search root files
+    for (const [name, meta] of Object.entries(VFS["."].files)) {
+      if (meta.type === "file" && meta.content) {
+        const lines = meta.content.split("\n");
+        lines.forEach((line, lIdx) => {
+          if (line.toLowerCase().includes(pattern)) {
+            matches.push(`./${name}:${lIdx + 1}: ${line.trim()}`);
+          }
+        });
+      } else if (meta.type === "dir" && meta.files && (!meta.protected || isElevated)) {
+        for (const [subName, subMeta] of Object.entries(meta.files)) {
+          if (subMeta.type === "file" && subMeta.content) {
+            const lines = subMeta.content.split("\n");
+            lines.forEach((line, lIdx) => {
+              if (line.toLowerCase().includes(pattern)) {
+                matches.push(`./${name}/${subName}:${lIdx + 1}: ${line.trim()}`);
+              }
+            });
+          }
+        }
+      }
+    }
+
+    if (matches.length > 0) {
+      printLine("success", `Found ${matches.length} match${matches.length > 1 ? "es" : ""} for '${pattern}':`);
+      printLine("stdout", matches.slice(0, 30).join("\n"));
+      if (matches.length > 30) {
+        printLine("dim", `... and ${matches.length - 30} more matches.`);
+      }
+    } else {
+      printLine("dim", `No matches found for pattern: '${pattern}'`);
+    }
+  }
+
+  // Nerdy Stat Command
+  function handleStatCommand(file) {
+    if (!file) {
+      printLine("stderr", "Usage: stat <filename>\nExample: stat overview.txt");
+      return;
+    }
+    const clean = file.trim().replace(/^\.\//, "");
+    let meta = null;
+    let pathName = "./" + clean;
+
+    if (currentDir && VFS["."].files[currentDir].files[clean]) {
+      meta = VFS["."].files[currentDir].files[clean];
+    } else if (VFS["."].files[clean]) {
+      meta = VFS["."].files[clean];
+    } else {
+      const parts = clean.split("/");
+      if (parts.length === 2 && VFS["."].files[parts[0]] && VFS["."].files[parts[0]].files[parts[1]]) {
+        meta = VFS["."].files[parts[0]].files[parts[1]];
+      }
+    }
+
+    if (!meta) {
+      printLine("stderr", `stat: cannot stat '${file}': No such file or directory`);
+      return;
+    }
+
+    const size = meta.content ? meta.content.length : 4096;
+    const blocks = Math.ceil(size / 512);
+    const inode = Math.floor(Math.random() * 900000) + 100000;
+    const sha = Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join("");
+
+    const out = `
+  File: ${pathName}
+  Size: ${size} bytes\tBlocks: ${blocks}\tIO Block: 4096   ${meta.type === "dir" ? "directory" : "regular file"}
+Device: sbx01/jail\tInode: ${inode}\tLinks: 1
+Access: (0644/-rw-r--r--)\tUid: (1000/guest)\tGid: (1000/sandbox)
+Access: 2026-09-20 18:45:00.000000000 +0530
+Modify: 2026-09-20 18:45:00.000000000 +0530
+Change: 2026-09-20 18:45:00.000000000 +0530
+SHA-256: ${sha}`;
+    printLine("stdout", out);
+  }
+
+  // Nerdy WC Command
+  function handleWcCommand(file) {
+    if (!file) {
+      printLine("stderr", "Usage: wc <filename>");
+      return;
+    }
+    const clean = file.trim().replace(/^\.\//, "");
+    let content = "";
+
+    if (currentDir && VFS["."].files[currentDir].files[clean]) {
+      content = VFS["."].files[currentDir].files[clean].content || "";
+    } else if (VFS["."].files[clean]) {
+      content = VFS["."].files[clean].content || "";
+    } else {
+      const parts = clean.split("/");
+      if (parts.length === 2 && VFS["."].files[parts[0]] && VFS["."].files[parts[0]].files[parts[1]]) {
+        content = VFS["."].files[parts[0]].files[parts[1]].content || "";
+      }
+    }
+
+    if (!content) {
+      printLine("stderr", `wc: '${file}': No such file or file is empty`);
+      return;
+    }
+
+    const lines = content.split("\n").length;
+    const words = content.trim().split(/\s+/).length;
+    const chars = content.length;
+    printLine("stdout", `  ${lines}\t  ${words}\t  ${chars} ${file}`);
+  }
+
+  // Nerdy Head Command
+  function handleHeadCommand(args) {
+    let n = 10;
+    let file = args[0];
+    if (args[0] === "-n" && args[1]) {
+      n = parseInt(args[1], 10) || 10;
+      file = args[2];
+    }
+    if (!file) {
+      printLine("stderr", "Usage: head [-n lines] <filename>");
+      return;
+    }
+    const clean = file.trim().replace(/^\.\//, "");
+    let content = "";
+    if (currentDir && VFS["."].files[currentDir].files[clean]) {
+      content = VFS["."].files[currentDir].files[clean].content || "";
+    } else if (VFS["."].files[clean]) {
+      content = VFS["."].files[clean].content || "";
+    }
+    if (!content) {
+      printLine("stderr", `head: cannot open '${file}'`);
+      return;
+    }
+    printLine("stdout", content.split("\n").slice(0, n).join("\n"));
+  }
+
+  // Nerdy Tail Command
+  function handleTailCommand(args) {
+    let n = 10;
+    let file = args[0];
+    if (args[0] === "-n" && args[1]) {
+      n = parseInt(args[1], 10) || 10;
+      file = args[2];
+    }
+    if (!file) {
+      printLine("stderr", "Usage: tail [-n lines] <filename>");
+      return;
+    }
+    const clean = file.trim().replace(/^\.\//, "");
+    let content = "";
+    if (currentDir && VFS["."].files[currentDir].files[clean]) {
+      content = VFS["."].files[currentDir].files[clean].content || "";
+    } else if (VFS["."].files[clean]) {
+      content = VFS["."].files[clean].content || "";
+    }
+    if (!content) {
+      printLine("stderr", `tail: cannot open '${file}'`);
+      return;
+    }
+    const all = content.split("\n");
+    printLine("stdout", all.slice(Math.max(0, all.length - n)).join("\n"));
+  }
+
+  // Site Manifest
+  function handleSiteCommand() {
+    printLine("stdout", VFS["."].files["site_manifest.json"].content);
+  }
+
+  // Quick Dossier Shortcuts
+  function handleProjectsShortcut() {
+    const pFiles = VFS["."].files["projects"].files;
+    let out = `TECHNICAL PROJECTS DIRECTORY (${Object.keys(pFiles).length} PROJECTS):\n`;
+    out += `===============================================================================\n`;
+    for (const [name, meta] of Object.entries(pFiles)) {
+      const firstLine = meta.content.split("\n")[0];
+      out += `• <span class="cmd-clickable" onclick="executeFromSuggestion('cat projects/${name}')">${name}</span>\n  ${firstLine}\n\n`;
+    }
+    out += `Type 'cat projects/<name>.txt' to read any full project writeup.`;
+    printLine("stdout", out, true);
+  }
+
+  function handleExperienceShortcut() {
+    const eFiles = VFS["."].files["experience"].files;
+    let out = `CORE ENGAGEMENTS & LEADERSHIP:\n`;
+    out += `===============================================================================\n`;
+    for (const [name, meta] of Object.entries(eFiles)) {
+      const firstLine = meta.content.split("\n")[0];
+      out += `• <span class="cmd-clickable" onclick="executeFromSuggestion('cat experience/${name}')">${name}</span>\n  ${firstLine}\n\n`;
+    }
+    out += `Type 'cat experience/<name>.txt' to inspect details.`;
+    printLine("stdout", out, true);
+  }
+
+  function handleResearchShortcut() {
+    const rFiles = VFS["."].files["research"].files;
+    let out = `RESEARCH PAPERS & MONOGRAPHS:\n`;
+    out += `===============================================================================\n`;
+    for (const [name, meta] of Object.entries(rFiles)) {
+      const firstLine = meta.content.split("\n")[0];
+      out += `• <span class="cmd-clickable" onclick="executeFromSuggestion('cat research/${name}')">${name}</span>\n  ${firstLine}\n\n`;
+    }
+    out += `Type 'cat research/<name>.txt' to read any paper abstract.`;
+    printLine("stdout", out, true);
+  }
+
+  function handleScholasticShortcut() {
+    const sFiles = VFS["."].files["scholastic"].files;
+    let out = `ACADEMIC EXCELLENCE & SCHOLASTIC RECORD:\n`;
+    out += `===============================================================================\n`;
+    for (const [name, meta] of Object.entries(sFiles)) {
+      const firstLine = meta.content.split("\n")[0];
+      out += `• <span class="cmd-clickable" onclick="executeFromSuggestion('cat scholastic/${name}')">${name}</span>\n  ${firstLine}\n\n`;
+    }
+    out += `Type 'cat scholastic/<name>.txt' to inspect academic details.`;
+    printLine("stdout", out, true);
+  }
+
+  function handleSkillsShortcut() {
+    const cFiles = VFS["."].files["competencies"].files;
+    let out = `TECHNICAL COMPETENCIES MATRIX:\n`;
+    out += `===============================================================================\n`;
+    for (const [name, meta] of Object.entries(cFiles)) {
+      out += `${meta.content}\n\n`;
+    }
+    printLine("stdout", out);
+  }
+
+  function handleResumeShortcut() {
+    printLine("stdout", VFS["."].files["resume.txt"].content);
+  }
+
+  function handleMetricsShortcut() {
+    printLine("stdout", VFS["."].files["metrics.json"].content);
   }
 
   // Safe Calculator
@@ -1368,6 +2090,516 @@ TERMINAL ENVIRONMENT & UTILITIES:
     }, 40);
   }
 
+  // ==========================================================================
+  // GAMES & SIMULATIONS (READ-ONLY IN-MEMORY)
+  // ==========================================================================
+  // Snake Game State & Engine
+  let snakeActive = false;
+  let snakeInterval = null;
+  let snakeState = null;
+
+  function startSnakeGame() {
+    if (snakeActive) return;
+    snakeActive = true;
+    const width = 22;
+    const height = 10;
+    snakeState = {
+      w: width,
+      h: height,
+      snake: [{x: 5, y: 5}, {x: 4, y: 5}, {x: 3, y: 5}],
+      dir: {x: 1, y: 0},
+      food: {x: 12, y: 5},
+      score: 0
+    };
+
+    printLine("success", "[ASCII SNAKE STARTED] Controls: W/A/S/D or Arrow Keys. Press 'Q' or Ctrl+C to quit.");
+    const gameDiv = document.createElement("div");
+    gameDiv.className = "term-line stdout";
+    gameDiv.id = "snake-game-board";
+    termOutput.appendChild(gameDiv);
+
+    function placeFood() {
+      while (true) {
+        const fx = Math.floor(Math.random() * (width - 2)) + 1;
+        const fy = Math.floor(Math.random() * (height - 2)) + 1;
+        if (!snakeState.snake.some(s => s.x === fx && s.y === fy)) {
+          snakeState.food = {x: fx, y: fy};
+          break;
+        }
+      }
+    }
+
+    function renderBoard() {
+      let out = "+" + "-".repeat(width - 2) + "+\n";
+      for (let y = 1; y < height - 1; y++) {
+        out += "|";
+        for (let x = 1; x < width - 2; x++) {
+          if (snakeState.snake[0].x === x && snakeState.snake[0].y === y) {
+            out += "O";
+          } else if (snakeState.snake.some(s => s.x === x && s.y === y)) {
+            out += "■";
+          } else if (snakeState.food.x === x && snakeState.food.y === y) {
+            out += "★";
+          } else {
+            out += " ";
+          }
+        }
+        out += "|\n";
+      }
+      out += "+" + "-".repeat(width - 2) + "+\n";
+      out += ` Score: ${snakeState.score} | Length: ${snakeState.snake.length} | [W/A/S/D or Arrows] [Q: Exit]`;
+      gameDiv.textContent = out;
+      termScreen.scrollTop = termScreen.scrollHeight;
+    }
+
+    renderBoard();
+
+    snakeInterval = setInterval(() => {
+      if (!snakeActive) return;
+      const head = {
+        x: snakeState.snake[0].x + snakeState.dir.x,
+        y: snakeState.snake[0].y + snakeState.dir.y
+      };
+
+      // Collision with wall
+      if (head.x <= 0 || head.x >= width - 2 || head.y <= 0 || head.y >= height - 1) {
+        stopSnakeGame("Collision with wall!");
+        return;
+      }
+
+      // Collision with self
+      if (snakeState.snake.some(s => s.x === head.x && s.y === head.y)) {
+        stopSnakeGame("Collision with self!");
+        return;
+      }
+
+      snakeState.snake.unshift(head);
+
+      // Check food
+      if (head.x === snakeState.food.x && head.y === snakeState.food.y) {
+        snakeState.score += 10;
+        placeFood();
+      } else {
+        snakeState.snake.pop();
+      }
+
+      renderBoard();
+    }, 140);
+  }
+
+  function stopSnakeGame(reason) {
+    if (!snakeActive) return;
+    snakeActive = false;
+    if (snakeInterval) clearInterval(snakeInterval);
+    snakeInterval = null;
+    printLine("warn", `[GAME OVER] ${reason || "Game ended."} Final Score: ${snakeState ? snakeState.score : 0}`);
+    focusTerminalInput();
+  }
+
+  // Quant Paper Trading Simulator State
+  const tradeState = {
+    cash: 100000.00,
+    btc: 0.0,
+    price: 96420.00,
+    history: [94100, 94600, 95200, 95900, 96420],
+    initialCapital: 100000.00
+  };
+
+  function updateTradePrice() {
+    // Geometric Brownian Motion step
+    const drift = 0.0005;
+    const vol = 0.012;
+    const shock = (Math.random() - 0.49) * 2;
+    const ret = drift + vol * shock;
+    tradeState.price = Math.max(1000, tradeState.price * (1 + ret));
+    tradeState.history.push(tradeState.price);
+    if (tradeState.history.length > 20) tradeState.history.shift();
+  }
+
+  function handleTradeCommand(args) {
+    const sub = (args[0] || "status").toLowerCase();
+
+    if (sub === "buy") {
+      const qty = parseFloat(args[1]);
+      if (isNaN(qty) || qty <= 0) {
+        printLine("stderr", "Usage: trade buy <quantity>\nExample: trade buy 0.5");
+        return;
+      }
+      updateTradePrice();
+      const cost = qty * tradeState.price;
+      if (cost > tradeState.cash) {
+        printLine("stderr", `INSUFFICIENT FUNDS: Need $${cost.toFixed(2)}, available cash is $${tradeState.cash.toFixed(2)}.`);
+        return;
+      }
+      tradeState.cash -= cost;
+      tradeState.btc += qty;
+      printLine("success", `[ORDER FILLED] Bought ${qty} BTC @ $${tradeState.price.toFixed(2)} | Cost: $${cost.toFixed(2)}`);
+      showTradeStatus();
+    } else if (sub === "sell") {
+      const qty = parseFloat(args[1]);
+      if (isNaN(qty) || qty <= 0) {
+        printLine("stderr", "Usage: trade sell <quantity>\nExample: trade sell 0.5");
+        return;
+      }
+      updateTradePrice();
+      if (qty > tradeState.btc) {
+        printLine("stderr", `INSUFFICIENT POSITION: Trying to sell ${qty} BTC, but holding ${tradeState.btc.toFixed(4)} BTC.`);
+        return;
+      }
+      const proceeds = qty * tradeState.price;
+      tradeState.btc -= qty;
+      tradeState.cash += proceeds;
+      printLine("success", `[ORDER FILLED] Sold ${qty} BTC @ $${tradeState.price.toFixed(2)} | Proceeds: $${proceeds.toFixed(2)}`);
+      showTradeStatus();
+    } else if (sub === "chart") {
+      updateTradePrice();
+      showTradeChart();
+    } else if (sub === "tick") {
+      updateTradePrice();
+      printLine("dim", `[MARKET TICK] Spot price updated to $${tradeState.price.toFixed(2)}`);
+      showTradeStatus();
+    } else if (sub === "reset") {
+      tradeState.cash = 100000.00;
+      tradeState.btc = 0.0;
+      tradeState.price = 96420.00;
+      tradeState.history = [94100, 94600, 95200, 95900, 96420];
+      printLine("success", "[PORTFOLIO RESET] Reset paper trading capital to $100,000.00 USD.");
+      showTradeStatus();
+    } else {
+      updateTradePrice();
+      showTradeStatus();
+    }
+  }
+
+  function showTradeStatus() {
+    const portfolioVal = tradeState.cash + (tradeState.btc * tradeState.price);
+    const pnl = portfolioVal - tradeState.initialCapital;
+    const pnlPercent = (pnl / tradeState.initialCapital) * 100;
+    const pnlClass = pnl >= 0 ? "success" : "stderr";
+
+    const out = `
+QUANT PAPER TRADING // SIMULATED DESK
+===============================================================================
+Instrument:      BTC/USD (Mid-Frequency Spot)
+Current Price:   $${tradeState.price.toFixed(2)} USD
+Cash Balance:    $${tradeState.cash.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+Crypto Holdings: ${tradeState.btc.toFixed(4)} BTC ($${(tradeState.btc * tradeState.price).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})})
+Total Portfolio: $${portfolioVal.toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+Unrealized PnL:  ${pnl >= 0 ? "+" : ""}$${pnl.toFixed(2)} (${pnl >= 0 ? "+" : ""}${pnlPercent.toFixed(2)}%)
+===============================================================================
+Commands: trade buy <qty> | trade sell <qty> | trade chart | trade tick | trade reset`;
+    printLine(pnlClass, out);
+  }
+
+  function showTradeChart() {
+    const minP = Math.min(...tradeState.history);
+    const maxP = Math.max(...tradeState.history);
+    const range = maxP - minP || 1;
+    const sparkChars = [" ", "▂", "▃", "▄", "▅", "▆", "▇", "█"];
+
+    let sparkline = "";
+    tradeState.history.forEach(p => {
+      const idx = Math.min(sparkChars.length - 1, Math.floor(((p - minP) / range) * sparkChars.length));
+      sparkline += sparkChars[idx];
+    });
+
+    const out = `
+BTC/USD 20-TICK PRICE ACTION:
+High: $${maxP.toFixed(2)} | Low: $${minP.toFixed(2)} | Current: $${tradeState.price.toFixed(2)}
+[ ${sparkline} ]
+Trend: ${tradeState.history[tradeState.history.length - 1] >= tradeState.history[0] ? "▲ BULLISH" : "▼ BEARISH"}`;
+    printLine("stdout", out);
+  }
+
+  // Number Guess Game State
+  let guessTarget = Math.floor(Math.random() * 100) + 1;
+  let guessAttempts = 0;
+
+  function handleGuessCommand(arg) {
+    if (!arg) {
+      printLine("stdout", `NUMBER GUESSING CHALLENGE\n===================================================\nI have chosen a secret integer between 1 and 100.\nType 'guess <number>' to test your hypothesis!`);
+      return;
+    }
+    const val = parseInt(arg, 10);
+    if (isNaN(val) || val < 1 || val > 100) {
+      printLine("stderr", "Please enter a valid integer between 1 and 100.");
+      return;
+    }
+    guessAttempts++;
+    if (val === guessTarget) {
+      printLine("success", `🎉 TARGET CONFIRMED! The number was ${guessTarget}.\nYou solved it in ${guessAttempts} attempt${guessAttempts > 1 ? "s" : ""}!`);
+      guessTarget = Math.floor(Math.random() * 100) + 1;
+      guessAttempts = 0;
+      printLine("dim", "[NEW ROUND] A new secret number has been generated.");
+    } else if (val < guessTarget) {
+      printLine("warn", `▲ Too low! Try a higher number. (Attempt ${guessAttempts})`);
+    } else {
+      printLine("warn", `▼ Too high! Try a lower number. (Attempt ${guessAttempts})`);
+    }
+  }
+
+  // Trivia Quiz State
+  const TRIVIA_QUESTIONS = [
+    {
+      q: "In quantitative finance, which equation governs European option pricing under risk-neutral valuation?",
+      opts: ["A) Black-Scholes PDE", "B) Navier-Stokes PDE", "C) Schrödinger Equation", "D) Bellman Equation"],
+      ans: "A",
+      expl: "The Black-Scholes PDE derives the fair price of European options by constructing a risk-free delta-hedged portfolio."
+    },
+    {
+      q: "In autonomous vehicle control, what does 'MPC' stand for?",
+      opts: ["A) Multi-Process Controller", "B) Model Predictive Control", "C) Matrix Path Calculation", "D) Motion Potential Computation"],
+      ans: "B",
+      expl: "Model Predictive Control optimizes future control trajectories over a finite prediction horizon at each time step."
+    },
+    {
+      q: "In statistical machine learning, what do HMMs model?",
+      opts: ["A) Static convex boundaries", "B) Hidden Markov sequential state transitions", "C) Unsupervised clustering trees", "D) Convolutional spatial kernels"],
+      ans: "B",
+      expl: "Hidden Markov Models represent observable sequences emitted from unobserved latent regime states."
+    },
+    {
+      q: "Which mathematical filter recursively estimates 6-DOF vehicle states by fusing GNSS and IMU measurements?",
+      opts: ["A) Extended Kalman Filter (EKF)", "B) Fast Fourier Transform (FFT)", "C) Principal Component Filter", "D) K-Nearest Neighbors"],
+      ans: "A",
+      expl: "The Extended Kalman Filter linearizes non-linear vehicle kinematics to fuse noisy sensor telemetry."
+    }
+  ];
+  let currentTriviaIndex = 0;
+
+  function handleTriviaCommand(ans) {
+    if (!ans) {
+      const qObj = TRIVIA_QUESTIONS[currentTriviaIndex];
+      const out = `
+QUANT & AUTONOMY TRIVIA // QUESTION #${currentTriviaIndex + 1}
+===============================================================================
+${qObj.q}
+
+${qObj.opts.join("\n")}
+===============================================================================
+Type 'trivia <A|B|C|D>' to submit your answer.`;
+      printLine("stdout", out);
+      return;
+    }
+
+    const cleanAns = ans.toUpperCase().trim();
+    const qObj = TRIVIA_QUESTIONS[currentTriviaIndex];
+    if (cleanAns === qObj.ans) {
+      printLine("success", `CORRECT! Answer is [${qObj.ans}].\nExplanation: ${qObj.expl}`);
+      currentTriviaIndex = (currentTriviaIndex + 1) % TRIVIA_QUESTIONS.length;
+      printLine("dim", "Type 'trivia' for the next question.");
+    } else {
+      printLine("stderr", `INCORRECT. You chose [${cleanAns}].\nTry again with 'trivia <A|B|C|D>'!`);
+    }
+  }
+
+  // ==========================================================================
+  // VIRTUAL BROWSER & NETWORK LAB (READ-ONLY IN-MEMORY)
+  // ==========================================================================
+  const browserConfig = {
+    userAgent: "Mozilla/5.0 (X11; Linux x86_64; SandboxBrowser/4.2)",
+    viewport: "1920x1080",
+    speed: "5G (1 Gbps)",
+    cookies: { "session_token": "sbx_alpha_92a", "theme_pref": "pitch_black", "http_only": "true" }
+  };
+
+  function handleBrowserConfig(args) {
+    const sub = (args[0] || "status").toLowerCase();
+
+    if (sub === "set") {
+      const prop = (args[1] || "").toLowerCase();
+      const val = args.slice(2).join(" ");
+
+      if (prop === "useragent" || prop === "ua") {
+        if (val === "mobile") {
+          browserConfig.userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 Mobile/15E148";
+        } else if (val === "curl") {
+          browserConfig.userAgent = "curl/8.4.0 (x86_64-pc-none) Sandbox/1.0";
+        } else {
+          browserConfig.userAgent = val || "Mozilla/5.0 (X11; Linux x86_64; SandboxBrowser/4.2)";
+        }
+        printLine("success", `[BROWSER CONFIG] User-Agent updated to:\n${browserConfig.userAgent}`);
+      } else if (prop === "viewport" || prop === "vp") {
+        browserConfig.viewport = val || "1920x1080";
+        printLine("success", `[BROWSER CONFIG] Viewport resolution set to: ${browserConfig.viewport}`);
+      } else if (prop === "speed") {
+        browserConfig.speed = val || "5G (1 Gbps)";
+        printLine("success", `[BROWSER CONFIG] Bandwidth throttle set to: ${browserConfig.speed}`);
+      } else {
+        printLine("stderr", "Usage: browser set <useragent|viewport|speed> <value>\nExamples:\n  browser set useragent mobile\n  browser set viewport 375x812\n  browser set speed 4G");
+      }
+    } else if (sub === "cookies") {
+      let cStr = "VIRTUAL BROWSER COOKIE STORE (READ-ONLY)\n===================================================\n";
+      for (const [k, v] of Object.entries(browserConfig.cookies)) {
+        cStr += `  ${k.padEnd(16, " ")} = ${v}\n`;
+      }
+      printLine("stdout", cStr);
+    } else {
+      const out = `
+VIRTUAL BROWSER CONFIGURATION & DIAGNOSTICS
+===============================================================================
+User-Agent:       ${browserConfig.userAgent}
+Viewport Size:    ${browserConfig.viewport} (Aspect: 16:9 Desktop)
+Simulated Speed:  ${browserConfig.speed}
+Active Cookies:   ${Object.keys(browserConfig.cookies).length} session cookies
+JavaScript:       Enabled (Null-Origin Sandbox Jailed)
+Backend State:    Strictly Isolated • Zero Outbound Leakage
+===============================================================================
+Commands:
+  browser set useragent <desktop|mobile|curl>
+  browser set viewport <widthxheight>
+  browser set speed <5G|4G|3G|Dialup>
+  browser cookies`;
+      printLine("stdout", out);
+    }
+  }
+
+  function handleBrowseCommand(args) {
+    const page = (args[0] || "home").toLowerCase();
+
+    if (page === "home" || page === "/") {
+      printLine("stdout", `
+[BROWSER] Navigating to: https://sandbox.local/
+===============================================================================
+<title>Vatsh Van Portfolio</title>
+<h1>Quantitative Alpha Research & Autonomous Controls</h1>
+<p>Mechanical Engineering undergraduate at IIT Bombay with Minor in AI & Data Science (CMInDS).</p>
+<nav>
+  [1] <span class="cmd-clickable" onclick="executeFromSuggestion('browse projects')">Projects Catalog</span>
+  [2] <span class="cmd-clickable" onclick="executeFromSuggestion('browse arxiv')">arXiv Pre-prints</span>
+  [3] <span class="cmd-clickable" onclick="executeFromSuggestion('browse hn')">Hacker News Ticker</span>
+</nav>
+===============================================================================`);
+    } else if (page === "projects") {
+      printLine("stdout", `
+[BROWSER] Navigating to: https://sandbox.local/projects
+===============================================================================
+FEATURED TECHNICAL PROJECTS:
+1. Regime-Aware Portfolio Optimization (Gaussian HMMs & Convex Allocation)
+2. Spatial Hyper-MPC with Neural Policy (100 Hz LibTorch-Acados Controller)
+3. Chicago Quant Alley: Options Simulator (Mid-frequency crypto trading engine)
+4. Inverse Elasticity PINN (Cauchy Momentum PDE with Sobol sampling)
+5. The Cosmic Detective (Multi-Agent astronomical exploration system)
+6. Single Image Super Resolution (EDSR 32 residual blocks on satellite imagery)
+===============================================================================`);
+    } else if (page === "arxiv") {
+      printLine("stdout", `
+[BROWSER] Navigating to: https://arxiv.org/abs/2507.06439
+===============================================================================
+arXiv:2507.06439 [q-fin.PR]
+Title:   Mathematics of Derivative Pricing: Theory and Implementation
+Authors: Quantitative Research Cohort & IIT Bombay
+Abstract:
+  Presents rigorous derivations and numerical schemes for Black-Scholes PDEs,
+  martingale representation theorems, and Feynman-Kac connections. Evaluates
+  Greeks sensitivities and finite-difference solvers.
+===============================================================================`);
+    } else if (page === "hn" || page === "hackernews") {
+      printLine("stdout", `
+[BROWSER] Navigating to: https://news.ycombinator.com/
+===============================================================================
+HACKER NEWS SIMULATOR
+1. ▲ Show HN: 100 Hz HyperMPC in Modern C++ using LibTorch (342 pts, 88 comments)
+2. ▲ Orthogonal Alpha Factors with Genetic Algorithm Guidance (215 pts, 45 comments)
+3. ▲ Physics-Informed Neural Networks for Inverse Material Recovery (180 pts, 32 comments)
+4. ▲ Ask HN: Favorite stochastic calculus references for self-study? (95 pts, 120 comments)
+===============================================================================`);
+    } else if (page === "wiki") {
+      const topic = (args[1] || "mpc").toLowerCase();
+      let wikiBody = "";
+      if (topic.includes("mpc")) {
+        wikiBody = "Model Predictive Control (MPC) is an advanced process control method that uses a dynamic model to solve an online open-loop optimization problem at each sampling interval.";
+      } else if (topic.includes("black")) {
+        wikiBody = "The Black-Scholes model is a mathematical model for pricing derivative contracts, establishing the PDE dV/dt + 0.5*sigma^2*S^2*d2V/dS2 + r*S*dV/dS - r*V = 0.";
+      } else if (topic.includes("pinn")) {
+        wikiBody = "Physics-Informed Neural Networks (PINNs) integrate physical laws described by PDEs directly into the neural network loss function.";
+      } else {
+        wikiBody = `Topic '${topic}': Fundamental mathematical and engineering framework utilizing convex optimization and numerical approximation.`;
+      }
+      printLine("stdout", `
+[BROWSER] Enclyclopedia entry: '${topic}'
+===============================================================================
+${wikiBody}
+===============================================================================`);
+    } else {
+      printLine("stderr", `Page not found: '${page}'. Try: browse home | browse projects | browse arxiv | browse hn | browse wiki`);
+    }
+  }
+
+  function handleCurlCommand(url) {
+    const target = url || "https://api.quant.org/v1/ticker";
+    printLine("dim", `> GET ${target} HTTP/2\n> Host: ${target.replace(/https?:\/\//, "").split("/")[0]}\n> User-Agent: ${browserConfig.userAgent}\n> Accept: */*`);
+    printLine("stdout", `< HTTP/2 200 OK\n< content-type: application/json; charset=utf-8\n< date: ${new Date().toUTCString()}\n< cache-control: public, max-age=10\n< x-sandbox-security: isolated\n\n{\n  "status": "success",\n  "timestamp": ${Date.now()},\n  "symbol": "BTC/USD",\n  "bid": ${(tradeState.price - 1.5).toFixed(2)},\n  "ask": ${(tradeState.price + 1.5).toFixed(2)},\n  "volume_24h": 18452.1,\n  "volatility_30d": 0.482,\n  "sandbox_node": "iitb-edge-01"\n}`);
+  }
+
+  function handlePingCommand(host) {
+    const dest = host || "google.com";
+    printLine("stdout", `PING ${dest} (142.250.190.46): 56 data bytes`);
+    const pings = [12.4, 14.1, 11.8, 13.5];
+    pings.forEach((ms, i) => {
+      printLine("stdout", `64 bytes from 142.250.190.46: icmp_seq=${i+1} ttl=117 time=${ms} ms`);
+    });
+    printLine("stdout", `--- ${dest} ping statistics ---\n4 packets transmitted, 4 packets received, 0.0% packet loss\nround-trip min/avg/max = 11.8/12.9/14.1 ms`);
+  }
+
+  function handleDnsCommand(domain) {
+    const d = domain || "iitb.ac.in";
+    printLine("stdout", `
+; <<>> DiG 9.18.1 <<>> ${d} ANY
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 48210
+;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 1
+
+;; ANSWER SECTION:
+${d}.     300 IN  A     103.21.124.50
+${d}.     300 IN  AAAA  2404:6800:4009:803::200e
+${d}.     300 IN  MX    10 mail.${d}.
+${d}.     300 IN  TXT   "v=spf1 include:_spf.google.com ~all"
+
+;; Query time: 14 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8) (UDP)`);
+  }
+
+  function handleNetstatCommand() {
+    printLine("stdout", `
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN
+tcp        0      0 10.0.4.15:44320         142.250.190.46:443      ESTABLISHED
+tcp        0      0 10.0.4.15:51280         103.21.124.50:443       ESTABLISHED
+udp        0      0 0.0.0.0:5353            0.0.0.0:*               UNCONN`);
+  }
+
+  // ==========================================================================
+  // EXTRAS & UTILITIES
+  // ==========================================================================
+  function renderRandomQuote() {
+    const quotes = [
+      { q: "We have three criteria: If it's a model, it has to be based on math. Second, it has to be rigorously tested. Third, it has to make sense.", a: "Jim Simons (Renaissance Technologies)" },
+      { q: "In order to win, you must first survive. The biggest risk is not taking any risk.", a: "Edward O. Thorp" },
+      { q: "Information is the resolution of uncertainty.", a: "Claude Shannon" },
+      { q: "We can only see a short distance ahead, but we can see plenty there that needs to be done.", a: "Alan Turing" },
+      { q: "The first principle is that you must not fool yourself — and you are the easiest person to fool.", a: "Richard Feynman" }
+    ];
+    const item = quotes[Math.floor(Math.random() * quotes.length)];
+    printLine("stdout", `\n"${item.q}"\n  — ${item.a}\n`);
+  }
+
+  function renderCowsay(text) {
+    const len = text.length;
+    const border = "-".repeat(len + 2);
+    const cow = `
+ ${border}
+< ${text} >
+ ${border}
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||`;
+    printLine("stdout", cow);
+  }
+
   // Keybindings & Input Sync
   termRealInput.addEventListener("input", function() {
     if (isPasswordPrompt) {
@@ -1378,6 +2610,27 @@ TERMINAL ENVIRONMENT & UTILITIES:
   });
 
   termRealInput.addEventListener("keydown", function(e) {
+    // Intercept keystrokes when Snake is playing
+    if (snakeActive) {
+      if (e.key === "ArrowUp" || e.key.toLowerCase() === "w") {
+        e.preventDefault();
+        if (snakeState.dir.y === 0) snakeState.dir = {x: 0, y: -1};
+      } else if (e.key === "ArrowDown" || e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        if (snakeState.dir.y === 0) snakeState.dir = {x: 0, y: 1};
+      } else if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
+        e.preventDefault();
+        if (snakeState.dir.x === 0) snakeState.dir = {x: -1, y: 0};
+      } else if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
+        e.preventDefault();
+        if (snakeState.dir.x === 0) snakeState.dir = {x: 1, y: 0};
+      } else if (e.key.toLowerCase() === "q" || (e.ctrlKey && e.key.toLowerCase() === "c")) {
+        e.preventDefault();
+        stopSnakeGame("Exited by user.");
+      }
+      return;
+    }
+
     if (e.key === "Enter") {
       e.preventDefault();
       const val = termRealInput.value;
@@ -1427,18 +2680,26 @@ TERMINAL ENVIRONMENT & UTILITIES:
     const val = termRealInput.value;
     const parts = val.split(" ");
     if (parts.length === 1) {
-      const candidates = ["help", "ls", "dir", "pwd", "cd", "cat", "type", "clear", "cls", "calc", "js", "whoami", "auth", "theme", "mode", "date", "history", "matrix", "exit"];
+      const candidates = [
+        "help", "ls", "dir", "pwd", "cd", "cat", "type", "clear", "cls", "calc", "js",
+        "whoami", "auth", "theme", "mode", "date", "history", "matrix",
+        "tree", "grep", "stat", "wc", "head", "tail", "site",
+        "projects", "experience", "research", "scholastic", "skills", "resume", "metrics",
+        "snake", "trade", "guess", "trivia", "browse", "browser", "curl", "ping", "dns",
+        "nslookup", "netstat", "fortune", "quote", "cowsay", "exit"
+      ];
       const match = candidates.filter(c => c.startsWith(parts[0].toLowerCase()));
       if (match.length === 1) {
         termRealInput.value = match[0] + " ";
         termInputDisplay.textContent = termRealInput.value;
       }
-    } else if (parts.length === 2 && (parts[0] === "cat" || parts[0] === "cd" || parts[0] === "type" || parts[0] === "ls")) {
-      const fileCandidates = Object.keys(VFS["."].files);
+    } else if (parts.length === 2 && (parts[0] === "cat" || parts[0] === "cd" || parts[0] === "type" || parts[0] === "ls" || parts[0] === "stat" || parts[0] === "wc" || parts[0] === "head" || parts[0] === "tail")) {
+      const activeObj = currentDir ? VFS["."].files[currentDir].files : VFS["."].files;
+      const fileCandidates = Object.keys(activeObj);
       const partial = parts[1].replace(/^\.\//, "").toLowerCase();
       const match = fileCandidates.filter(f => f.toLowerCase().startsWith(partial));
       if (match.length === 1) {
-        const isDir = VFS["."].files[match[0]].type === "dir";
+        const isDir = activeObj[match[0]].type === "dir";
         termRealInput.value = parts[0] + " " + match[0] + (isDir ? "/" : "");
         termInputDisplay.textContent = termRealInput.value;
       }
