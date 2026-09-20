@@ -22,19 +22,18 @@
       <form id="login-form" class="auth-form" onsubmit="return handleLogin(event)">
         <div class="form-group">
           <label for="admin-id">OPERATOR ID</label>
-          <input type="text" id="admin-id" value="vatshvan" required autocomplete="username">
+          <input type="text" id="admin-id" placeholder="Enter Operator ID" required autocomplete="username">
         </div>
 
         <div class="form-group">
           <label for="admin-pass">SECURITY KEY (PASSWORD)</label>
-          <input type="password" id="admin-pass" value="quant2028" placeholder="Enter password" required autocomplete="current-password">
-          <span class="form-help">Default pass: <code>quant2028</code></span>
+          <input type="password" id="admin-pass" placeholder="Enter Security Key" required autocomplete="current-password">
         </div>
 
         <div class="form-group">
           <label for="github-token">GITHUB PERSONAL ACCESS TOKEN (PAT)</label>
-          <input type="password" id="github-token" placeholder="ghp_... (Saved permanently on this device)" autocomplete="off">
-          <span class="form-help">Tokens only need <strong>Contents: Read and write</strong> (or <code>repo</code> for classic). Stored permanently.</span>
+          <input type="password" id="github-token" placeholder="ghp_... (Optional, saved locally on this device)" autocomplete="off">
+          <span class="form-help">Tokens only need <strong>Contents: Read and write</strong> (or <code>repo</code> for classic). Stored locally.</span>
         </div>
 
         <div style="margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem;">
@@ -49,9 +48,6 @@
         <div class="auth-actions">
           <button type="submit" class="button button-primary" style="width: 100%;">
             <span>AUTHENTICATE // ACCESS CONSOLE</span>
-          </button>
-          <button type="button" class="button button-secondary" style="width: 100%; margin-top: 0.5rem;" onclick="bypassLogin()">
-            <span>DEMO / OFFLINE MODE</span>
           </button>
         </div>
       </form>
@@ -1248,8 +1244,16 @@ function loadCachedState() {
   }
 }
 
-// Login handler
-function handleLogin(e) {
+// Cryptographic helper for SHA-512
+async function sha512(str) {
+  const buf = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// Login handler with SHA-512 verification
+async function handleLogin(e) {
   if (e) e.preventDefault();
   const id = document.getElementById("admin-id").value.trim().toLowerCase();
   const pass = document.getElementById("admin-pass").value.trim();
@@ -1257,27 +1261,33 @@ function handleLogin(e) {
   const remember = document.getElementById("remember-me").checked;
   const errBox = document.getElementById("auth-error");
 
-  const validPass = localStorage.getItem("custom_admin_pass") || "quant2028";
+  try {
+    const idHash = await sha512(id);
+    const passHash = await sha512(pass);
 
-  if (id === "vatshvan" && (pass === "quant2028" || pass === validPass)) {
-    if (remember) {
-      localStorage.setItem("console_auth", "true");
-      if (token) localStorage.setItem("gh_pat", token);
+    // Secure SHA-512 hashes
+    const validIdHash = "16c87e7a2ffa34fed26b46a0797a33decd9498b70f81ce945369fb99f222b2524c8cd21e34972e1ff798b952ceb50340029724130efe15ece12c2ad8a8bc7365"; // operator id
+    const validPassHash = localStorage.getItem("custom_admin_sha512") || "a3eb61c5220acdb5a4b27cab6dd5f6df3eb98de866d851f23a6e226d4f7c6ce26bb19536051289413f0065c015ee9ea43caa869cdff5714bea5f0c85eef3b8fb"; // security key
+
+    if (idHash === validIdHash && passHash === validPassHash) {
+      if (remember) {
+        localStorage.setItem("console_auth", "true");
+        if (token) localStorage.setItem("gh_pat", token);
+      } else {
+        sessionStorage.setItem("console_auth", "true");
+        if (token) sessionStorage.setItem("gh_pat", token);
+      }
+      unlockConsole();
     } else {
-      sessionStorage.setItem("console_auth", "true");
-      if (token) sessionStorage.setItem("gh_pat", token);
+      errBox.textContent = "AUTHENTICATION FAILED: Invalid Operator ID or Security Key.";
+      errBox.style.display = "block";
     }
-    unlockConsole();
-  } else {
-    errBox.textContent = "INVALID CREDENTIALS: Identification or Security Key mismatch (default pass is quant2028).";
+  } catch (err) {
+    console.error("Cryptographic verification error:", err);
+    errBox.textContent = "CRYPTOGRAPHIC ERROR: Web Crypto API failure.";
     errBox.style.display = "block";
   }
   return false;
-}
-
-function bypassLogin() {
-  localStorage.setItem("console_auth", "true");
-  unlockConsole();
 }
 
 function handleLogout() {
