@@ -644,9 +644,7 @@
           <label>SELECT ROLE TO EDIT</label>
           <select id="exp-selector" onchange="handleSelectExp(this.value)">
             <option value="worldquant">WorldQuant BRAIN (Master Consultant)</option>
-            <option value="sedrica">SeDriCa (Controls & State Estimation)</option>
-            <option value="umic-manager">UMIC Team Manager (INR 4M+ Budget)</option>
-            <option value="mentorship">Quantitative & Systems Mentor</option>
+            <option value="sedrica">SeDriCa (Controls & State Estimation &bull; Team Manager)</option>
             <option value="__new__">+ Create New Experience</option>
           </select>
         </div>
@@ -2373,40 +2371,34 @@ function handleSelectExp(role) {
     document.getElementById("e-loc").value = "Remote";
     document.getElementById("e-date").value = "2025-02-01";
     document.getElementById("e-date-end").value = "present";
-    document.getElementById("e-tags").value = "Quantitative Alpha Research, Information Ratio 2.39, 320+ Alphas, Orthogonalization";
-    document.getElementById("e-summary").value = "Master Consultant (Q3'25) with an after-cost out-sample IR of 2.39 across 320+ submitted alphas with self-correlation <= 0.25.";
-    document.getElementById("e-content").value = `* **Global IQC'25 Finalist**: Selected as 1 of 12 global consultants to attend the Global IQC'25 Finals in Singapore.
-* **Alpha Generation Engine**: Formulated 320+ orthogonal alphas with max fitness score of 6.47.
-* **Algorithmic Modeling**: Built genetic programming frameworks and LLM-assisted financial signal pipelines.`;
+    document.getElementById("e-tags").value = "Quantitative Alpha Research, Information Ratio 2.39, 320+ Alphas, Global IQC'25 Finalist, Orthogonal Signals, LLM Signal Pipelines";
+    document.getElementById("e-summary").value = "Selected as 1 of 12 global consultants to attend the Global IQC'25 Finals in Singapore. Master Consultant (Q3'25) with an after-cost out-sample IR of 2.39 across 320+ submitted alphas with self-correlation <= 0.25.";
+    document.getElementById("e-content").value = `Selected as **1 of the 12 WQBRAIN Research Consultants** (Rising Stars cohort) globally to attend the **Global IQC'25 Finals in Singapore**.
+
+### Research & Engineering Experience
+* **Master Consultant (Q3'25):** Achieved Master Consultant status via a portfolio of orthogonal signals yielding an after-cost out-sample Information Ratio (**IR**) of **2.39**.
+* **320+ Submitted Alphas:** Maintained an average self-correlation of **0.25** with out-sample fitness scores up to **6.47**.
+* **Composite Strategy Architecture:** Engineered **90+ composite alpha strategies** by selecting, filtering & combining orthogonal quantitative signals.
+* **Automated Research Pipeline:** Automated alpha factor research via an LLM-driven iterative refinement pipeline for large-scale systematic signal generation.`;
   } else if (role === "sedrica") {
-    document.getElementById("e-title").value = "Controls & State Estimation Engineer";
+    document.getElementById("e-title").value = "Controls & State Estimation Engineer • Team Manager";
     document.getElementById("e-org").value = "SeDriCa (UMIC) • IIT Bombay";
-    document.getElementById("e-loc").value = "Mumbai, India";
+    document.getElementById("e-loc").value = "IIT Bombay, Mumbai, India";
     document.getElementById("e-date").value = "2025-09-01";
     document.getElementById("e-date-end").value = "present";
-    document.getElementById("e-tags").value = "Autonomous Controls, HyperMPC, Joint EKF, RTK GNSS, LibTorch-Acados";
-    document.getElementById("e-summary").value = "Developing autonomous vehicle controls and state estimation for India's first Level 5 autonomous car.";
-    document.getElementById("e-content").value = `* **HyperMPC Loop**: Implemented a 100 Hz learned-dynamics HyperMPC controller in LibTorch-Acados C++.
-* **State Estimation**: Developed a Joint EKF fusing RTK GNSS and dual IMU telemetry for centimeter-level localization.`;
-  } else if (role === "umic-manager") {
-    document.getElementById("e-title").value = "Team Manager & Operational Lead";
-    document.getElementById("e-org").value = "Unmanned Intelligent Systems (UMIC) • IIT Bombay";
-    document.getElementById("e-loc").value = "Mumbai, India";
-    document.getElementById("e-date").value = "2025-08-01";
-    document.getElementById("e-date-end").value = "present";
-    document.getElementById("e-tags").value = "Technical Leadership, Budget Management, Autonomous Systems";
-    document.getElementById("e-summary").value = "Managing financial operations, hardware procurement, and technical workflows for a 30+ engineer autonomous vehicle team with an INR 4M+ budget.";
-    document.getElementById("e-content").value = `* **Budget & Logistics**: Directed an INR 4M+ operational budget for autonomous hardware and sensor procurement.
-* **Engineering Oversight**: Coordinated multidisciplinary hardware-in-the-loop (HIL) testing schedules.`;
-  } else if (role === "mentorship") {
-    document.getElementById("e-title").value = "Quantitative & Systems Mentor";
-    document.getElementById("e-org").value = "IIT Bombay Student Community";
-    document.getElementById("e-loc").value = "IIT Bombay";
-    document.getElementById("e-date").value = "2025-06-01";
-    document.getElementById("e-date-end").value = "present";
-    document.getElementById("e-tags").value = "Mentorship, Quantitative Finance, Scientific Computing";
-    document.getElementById("e-summary").value = "Mentoring students in algorithmic trading, stochastic calculus, and C++ systems programming.";
-    document.getElementById("e-content").value = `* Guided undergraduates through quantitative finance projects, convex optimization, and options pricing.`;
+    document.getElementById("e-tags").value = "Autonomous Controls, HyperMPC @ 100 Hz, Joint EKF, RTK GNSS, LibTorch-Acados, Team Management, Budget Management";
+    document.getElementById("e-summary").value = "Developing India's first Level 5 autonomous car in a 30+ member engineering team under Prof. Archak Mittal. Engineering 100 Hz HyperMPC on LibTorch-Acados, Joint EKF state estimation with RTK GNSS, and managing an annual operating budget of INR 4+ Million.";
+    document.getElementById("e-content").value = `Cross-functional team of 30+ students under the guidance of **Prof. Archak Mittal**, developing India's first Level 5 self-driving car, customized for Indian roads.
+
+### Research & Engineering Experience (Controls & State Estimation)
+* **F1TENTH Autonomous Racing:** Engineering a \`LibTorch\`-\`Acados\` C++ runtime to deploy learned-dynamics **HyperMPC at a 100 Hz** control loop on a 1/10-scale racecar.
+* **Adaptive Parameter Learning:** Developing a GRU-based Hyper-Param network with B-spline control encoding to learn horizon-varying tire and kinematic model parameters.
+* **Autonomous Golf Cart Localization:** Building an autonomous localization stack for reliable outdoor navigation using high-precision **RTK GNSS**.
+* **Joint Sensor Fusion (EKF):** Developing a Joint Extended Kalman Filter fusing RTK GNSS & IMU measurements to estimate vehicle 6-DOF pose, linear velocity & heading in real time.
+
+### Positions of Responsibility (Team Manager)
+* **Budget & Resource Management:** Responsible for effectively managing an annual operating budget of **INR 4+ Million**, allocating resources for optimal outcomes across sensors, compute, and hardware.
+* **Team Leadership & Recruitment:** Coordinating communication between Technical Core & Non-Technical teams; spearheaded a 2-month recruitment drive for 100+ aspirants.`;
   }
 }
 
