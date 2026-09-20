@@ -1267,7 +1267,7 @@ async function handleLogin(e) {
 
     // Secure SHA-512 hashes
     const validIdHash = "16c87e7a2ffa34fed26b46a0797a33decd9498b70f81ce945369fb99f222b2524c8cd21e34972e1ff798b952ceb50340029724130efe15ece12c2ad8a8bc7365"; // operator id
-    const validPassHash = localStorage.getItem("custom_admin_sha512") || "a3eb61c5220acdb5a4b27cab6dd5f6df3eb98de866d851f23a6e226d4f7c6ce26bb19536051289413f0065c015ee9ea43caa869cdff5714bea5f0c85eef3b8fb"; // security key
+    const validPassHash = localStorage.getItem("custom_admin_sha512") || "054b4a3910d58d20c39362c2cf48d6025e27f99258ccb3c00fd0bd61c477fd76d8389f885bd2d74a9bbe7c40cdd5f87d073f4f0701f34650ffce37023fb893d7"; // high-entropy security key
 
     if (idHash === validIdHash && passHash === validPassHash) {
       if (remember) {
